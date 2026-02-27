@@ -5,8 +5,257 @@
 
   <introduction>
     <p>
-      Coming soon.
+      <q>R</q> is an open source software program, developed by volunteers as a service to
+      the community of scientists, researchers, and data analysts who use it. R is free to
+      download and use. Lots of advice and guidance is available online to help users learn
+      R, which is good because it is a powerful and complex program, in reality a full
+      featured programming language dedicated to data.
     </p>
   </introduction>
+
+  <section xml:id="sec-r-open-source">
+    <title>Why Use R?</title>
+
+    <p>
+      If you are new to computers, programming, and/or data science welcome to an exciting
+      chapter that will open the door to the most powerful free data analytics tool ever
+      created anywhere in the universe, no joke. On the other hand, if you are experienced
+      with spreadsheets, statistical analysis, or accounting software you are probably
+      thinking that this book has now gone off the deep end, never to return to sanity and
+      all that is good and right in user interface design. Both perspectives are reasonable.
+      The <q>R</q> open source data analysis program is immensely powerful, flexible, and
+      especially <q>extensible</q> (meaning that people can create new capabilities for it
+      quite easily). At the same time, R is <q>command line</q> oriented, meaning that most
+      of the work that one needs to perform is done through carefully crafted text
+      instructions, many of which have tricky syntax (the punctuation and related rules for
+      making a command that works). In addition, R is not especially good at giving feedback
+      or error messages that help the user to repair mistakes or figure out what is wrong
+      when results look funny.
+    </p>
+
+    <p>
+      But there is a method to the madness here. One of the virtues of R as a teaching tool
+      is that it hides very little. The successful user must fully understand what the
+      <q>data situation</q> is or else the R commands will not work. With a spreadsheet, it
+      is easy to type in a lot of numbers and a formula like <c>=FORECAST()</c> and a result
+      pops into a cell like magic, whether it makes any sense or not. With R you have to
+      know your data, know what you can do with it, know how it has to be transformed, and
+      know how to check for problems. Because R is a programming language, it also forces
+      users to think about problems in terms of data objects, methods that can be applied to
+      those objects, and procedures for applying those methods. These are important metaphors
+      used in modern programming languages, and no data scientist can succeed without having
+      at least a rudimentary understanding of how software is programmed, tested, and
+      integrated into working systems. The extensibility of R means that new modules are
+      being added all the time by volunteers: R was among the first analysis programs to
+      integrate capabilities for drawing data directly from the Twitter social media platform.
+      So you can be sure that whatever the next big development is in the world of data, that
+      someone in the R community will start to develop a new <q>package</q> for R that will
+      make use of it. Finally, the lessons one learns in working with R are almost universally
+      applicable to other programs and environments. If one has mastered R, it is a relatively
+      small step to get the hang of the SAS statistical programming language and an even
+      smaller step to being able to follow SPSS syntax. (SAS and SPSS are two of the most
+      widely used commercial statistical analysis programs.) So with no need for any licensing
+      fees paid by school, student, or teacher it is possible to learn the most powerful data
+      analysis system in the universe and take those lessons with you no matter where you go.
+      It will take a bit of patience though, so please hang in there!
+    </p>
+
+  </section>
+
+  <section xml:id="sec-installing-r">
+    <title>Installing and Running R</title>
+
+    <p>
+      Let's get started. Obviously you will need a computer. If you are working on a tablet
+      device or smartphone, you may want to skip forward to the chapter on R-Studio, because
+      regular old R has not yet been reconfigured to work on tablet devices (but there is a
+      workaround for this that uses R-Studio). There are a few experiments with web-based
+      interfaces to R, but they are still in a very early stage. If your computer has the
+      Windows, Mac-OS-X, or a Linux operating system, there is a version of R waiting for
+      you at <url href="http://cran.r-project.org/">http://cran.r-project.org/</url>.
+      Download and install your own copy. If you sometimes have difficulties with installing
+      new software and you need some help, there is a wonderful little book by Thomas P.
+      Hogan called <em>Bare Bones R: A Brief Introductory Guide</em> that you might want to
+      buy or borrow from your library. There are lots of sites online that also give help
+      with installing R, although many of them are not oriented towards the inexperienced
+      user.
+    </p>
+
+    <p>
+      The rest of this chapter assumes that you have installed R and can run it on your
+      computer. Just for fun, one of the first things you can do when you have R running is
+      to click on the color wheel and customize the appearance of R. The screenshot in the
+      original book uses Syracuse orange as a background color. Notice near the bottom of
+      the R console a greater-than (<c>&gt;</c>) symbol. This is the command prompt: When R
+      is running and it is the active application on your desktop, if you type a command it
+      appears after the <c>&gt;</c> symbol. If you press the <q>enter</q> or <q>return</q>
+      key, the command is sent to R for processing. When the processing is done, a result
+      may appear just under the <c>&gt;</c>. When R is done processing, another command
+      prompt (<c>&gt;</c>) appears and R is ready for your next command.
+    </p>
+
+    <p>
+      In the screenshot, the user has typed <c>1+1</c> and pressed the enter key. The
+      formula <c>1+1</c> is used by elementary school students everywhere to insult each
+      other's math skills, but R dutifully reports the result as 2. If you are a careful
+      observer, you will notice that just before the 2 there is a <c>1</c> in brackets,
+      like this: <c>[1]</c>. That <c>[1]</c> is a line number that helps to keep track of
+      the results that R displays. Pretty pointless when only showing one line of results,
+      but R likes to be consistent, so we will see quite a lot of those numbers in brackets
+      as we dig deeper.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-r-vectors">
+    <title>Working with Vectors in R</title>
+
+    <p>
+      Remember the list of ages of family members from the About Data chapter? No? Well,
+      here it is again: 43, 42, 12, 8, 5, for dad, mom, sis, bro, and the dog, respectively.
+      We mentioned that this was a list of items, all of the same mode, namely
+      <q>integer.</q> Remember that you can tell that they are OK to be integers because
+      there are no decimal points and therefore nothing after the decimal point. We can
+      create a vector of integers in R using the <c>c()</c> command.
+    </p>
+
+    <p>
+      The first command is:
+    </p>
+
+    <program language="r" xml:id="prog-ch3-vector-echo">
+      <code>
+c(43, 42, 12, 8, 5)
+      </code>
+    </program>
+
+    <p>
+      You may notice that on the following line, R dutifully reports the vector that you
+      just typed. After the line number <c>[1]</c>, we see the list 43, 42, 12, 8, and 5.
+      R <q>echoes</q> this list back to us, because we didn't ask it to store the vector
+      anywhere. In contrast, the next command says:
+    </p>
+
+    <program language="r" xml:id="prog-ch3-assign-ages">
+      <code>
+myFamilyAges &lt;- c(43, 42, 12, 8, 5)
+      </code>
+    </program>
+
+    <p>
+      We have typed in the same list of numbers, but this time we have assigned it, using
+      the left pointing arrow, into a storage area that we have named <c>myFamilyAges</c>.
+      This time, R responds just with an empty command prompt. This is a simple but very
+      important tool. Any time you want to know what is in a data object in R, just type
+      the name of the object and R will report it back to you.
+    </p>
+
+    <p>
+      In the next command we begin to see the power of R:
+    </p>
+
+    <program language="r" xml:id="prog-ch3-sum">
+      <code>
+sum(myFamilyAges)
+      </code>
+    </program>
+
+    <p>
+      This command asks R to add together all of the numbers in <c>myFamilyAges</c>, which
+      turns out to be 110. In the next line we ask for the <q>mean</q> (what non-data people
+      call the average) of all of the ages and this turns out to be 22 years. The command
+      <c>range()</c> shows the lowest and highest ages in the list. Finally, just for fun,
+      we tried to issue the command <c>fish(myFamilyAges)</c>. Pretty much as you might
+      expect, R does not contain a <c>fish()</c> function and so we received an error message
+      to that effect. This shows another important principle for working with R: You can
+      freely try things out at any time without fear of breaking anything. If R can't
+      understand what you want to accomplish, or you haven't quite figured out how to do
+      something, R will calmly respond with an error message and will not make any other
+      changes until you give it a new command.
+    </p>
+
+    <p>
+      Let's take stock for a moment. First, you should definitely try all of the commands
+      noted above on your own computer. Second, if you try a command that is shown in these
+      pages and it does not work for some reason, you should try to figure out why. Begin by
+      checking your spelling and punctuation, because R is very persnickety about how
+      commands are typed. Remember that capitalization matters in R: <c>myFamilyAges</c> is
+      not the same as <c>myfamilyages</c>. Third, you should take a moment to experiment a
+      bit with each new set of commands that you learn. For example, just using the commands
+      discussed earlier in the chapter you could do this totally new thing:
+    </p>
+
+    <program language="r" xml:id="prog-ch3-range">
+      <code>
+myRange &lt;- range(myFamilyAges)
+      </code>
+    </program>
+
+    <p>
+      What would happen if you did that command, and then typed <c>myRange</c> (without the
+      double quotes) on the next command line to report back what is stored there? What would
+      you see? Then think about how that worked and try to imagine some other experiments
+      that you could try.
+    </p>
+
+    <p>
+      At this point, with just the few commands that you have already tried, you already know
+      the following things about R (and about data):
+    </p>
+
+    <ul>
+      <li><p>How to install R on your computer and run it.</p></li>
+      <li><p>How to type commands on the R console.</p></li>
+      <li><p>The use of the <c>c()</c> function. Remember that <q>c</q> stands for
+        concatenate, which just means to join things together. You can put a list of items
+        inside the parentheses, separated by commas.</p></li>
+      <li><p>That a vector is pretty much the most basic form of data storage in R, and that
+        it consists of a list of items of the same mode.</p></li>
+      <li><p>That a vector can be stored in a named location using the assignment arrow
+        (a left pointing arrow made of a dash and a less-than symbol, like this:
+        <c>&lt;-</c>).</p></li>
+      <li><p>That you can get a report of the data object that is in any named location just
+        by typing that name at the command line.</p></li>
+      <li><p>That you can <q>run</q> a function, such as <c>mean()</c>, on a vector of
+        numbers to transform them into something else. (The <c>mean()</c> function calculates
+        the average, which is one of the most basic numeric summaries there is.)</p></li>
+      <li><p>That <c>sum()</c>, <c>mean()</c>, and <c>range()</c> are all legal functions
+        in R whereas <c>fish()</c> is not.</p></li>
+    </ul>
+
+    <p>
+      In the next chapter we will move forward a step or two by starting to work with text
+      and by combining our list of family ages with the names of the family members and some
+      other information about them.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch03">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch03-challenge">
+      <statement>
+        <p>
+          Using logic and online resources to get help if you need it, learn how to use the
+          <c>c()</c> function to add another family member's age on the end of the
+          <c>myFamilyAges</c> vector.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch03">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://a-little-book-of-r-for-biomedical-statistics.readthedocs.org/en/latest/src/installr.html">A Little Book of R for Biomedical Statistics</url></p></li>
+        <li><p><url href="http://cran.r-project.org/">http://cran.r-project.org/</url></p></li>
+        <li><p><url href="http://en.wikibooks.org/wiki/R_Programming">R Programming Wikibook</url></p></li>
+        <li><p><url href="http://stackoverflow.com">http://stackoverflow.com</url></p></li>
+        <li><p><url href="https://stat.ethz.ch">https://stat.ethz.ch</url></p></li>
+        <li><p><url href="http://www.statmethods.net/">http://www.statmethods.net/</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>
