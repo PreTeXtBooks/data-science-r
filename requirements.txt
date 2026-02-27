@@ -2,3 +2,5 @@
 pretext == 2.36.0
 # Pelican is required for PreTeXt deployment strategy
 pelican >= 4.5.0
+# lxml is used by check_text_comparison.py for xi:include support
+lxml >= 4.9.0
