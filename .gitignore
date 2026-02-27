@@ -1,6 +1,8 @@
 # PreTeXt build output
 output/
 generated-assets/
+logs/
+.error_schema.log
 
 # R artifacts
 .Rhistory
