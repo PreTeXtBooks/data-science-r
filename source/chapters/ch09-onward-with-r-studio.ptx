@@ -5,8 +5,215 @@
 
   <introduction>
     <p>
-      Coming soon.
+      As an open source program with an active user community, R enjoys constant innovation
+      thanks to the dedicated developers who work on it. One useful innovation was the
+      development of R-Studio, a beautiful frame to hold your copy of R. This chapter walks
+      through the installation of R-Studio and introduces <q>packages,</q> the key to the
+      extensibility of R.
     </p>
   </introduction>
+
+  <section xml:id="sec-rstudio-ide">
+    <title>R-Studio as an IDE</title>
+
+    <p>
+      Joseph J. Allaire is a serial entrepreneur, software engineer, and the originator of
+      some remarkable software products. Starting in 2009, Allaire began working with a
+      small team to develop an open source program that enhances the usability and power
+      of R.
+    </p>
+
+    <p>
+      R-Studio is an Integrated Development Environment, abbreviated as IDE. Every software
+      engineer knows that if you want to get serious about building something out of code,
+      you must use an IDE. If you think of R as a piece of canvas rolled up and laying on
+      the floor, R-Studio is like an elegant picture frame. R hangs in the middle of
+      R-Studio, and like any good picture frame, enhances our appreciation of what is inside
+      it.
+    </p>
+
+    <p>
+      If we really want to <q>do</q> data science, we can't sit around typing commands every
+      day. First of all, it will become boring very fast. Second of all, whoever is paying
+      us to be a data scientist will get suspicious when he or she notices that we are
+      retyping some of the commands we typed yesterday. Third, and perhaps most important,
+      it is way too easy to make a mistake&#x2014;to create what computer scientists refer
+      to as a bug&#x2014;if you are doing every little task by hand. Using an IDE, we can
+      build reusable pieces.
+    </p>
+
+    <p>
+      The website for R-Studio is <url href="http://www.rstudio.org/">http://www.rstudio.org/</url>
+      and you can inspect the information there at any time. Make sure that you have the
+      latest version of R installed before you begin with the installation of R-Studio. If
+      you reach a page where you are asked to choose between installing R-Studio server and
+      installing R-Studio as a desktop application on your computer, choose the latter.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-writing-functions">
+    <title>Writing Your First Function: MyMode()</title>
+
+    <p>
+      Once you have installed R-Studio, you can run it immediately. Use the File menu to
+      click <q>New</q> and in the sub-menu for <q>New</q> click <q>R Script.</q> In the
+      upper left <q>pane</q> (sub-window), type the following to create your first function
+      in R:
+    </p>
+
+    <program language="r" xml:id="prog-ch9-mymode-v1">
+      <code>
+MyMode &lt;- function(myVector)
+{
+  return(myVector)
+}
+      </code>
+    </program>
+
+    <p>
+      A function is a bundle of R code that can be used over and over again without having
+      to retype it. We have called our function <c>MyMode</c>. Recall that the basic setup
+      of R does not have a statistical mode function in it. We're going to fix that problem
+      by creating our own mode function. The mode is the most frequently occurring item in
+      a vector of numbers.
+    </p>
+
+    <p>
+      In the lower left-hand pane of R-Studio you will notice that we have a regular R
+      console running. Select all of the code for <c>MyMode()</c> and click the Run button.
+      Then test it with:
+    </p>
+
+    <program language="r" xml:id="prog-ch9-tinydata">
+      <code>
+tinyData &lt;- c(1,2,1,2,3,3,3,4,5,4,5)
+MyMode(tinyData)
+      </code>
+    </program>
+
+    <p>
+      Now let's build the function up step by step. First, add the <c>unique()</c> function
+      to get a list of unique values:
+    </p>
+
+    <program language="r" xml:id="prog-ch9-mymode-v2">
+      <code>
+MyMode &lt;- function(myVector)
+{
+  uniqueValues &lt;- unique(myVector)
+  return(uniqueValues)
+}
+      </code>
+    </program>
+
+    <p>
+      Then add <c>tabulate()</c> to count occurrences, and <c>which.max()</c> to find the
+      most frequent:
+    </p>
+
+    <program language="r" xml:id="prog-ch9-mymode-v3">
+      <code>
+MyMode &lt;- function(myVector)
+{
+  uniqueValues &lt;- unique(myVector)
+  uniqueCounts &lt;- tabulate(
+    match(myVector, uniqueValues))
+  return(uniqueValues[which.max(uniqueCounts)])
+}
+      </code>
+    </program>
+
+    <p>
+      Note that instead of tabulating every possible value, we only tabulate those items
+      where there is a <q>match</q> between the list of unique values and what is in
+      <c>myVector</c>. This correctly handles gaps in the data (e.g., when no values exist
+      for some integers between the minimum and maximum).
+    </p>
+
+    <p>
+      Before we leave this activity, make sure to save your work. Click on the File menu
+      and then on Save. You can call the file <c>MyMode</c>. Note that R adds the
+      <q>R</q> extension to the filename so that it is saved as <c>MyMode.R</c>.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-packages">
+    <title>Installing and Using Packages</title>
+
+    <p>
+      Maybe someone else has already solved the same problem. In fact, for the statistical
+      mode, there is an existing package that does just about everything you could imagine
+      doing with the mode. The package is called <c>modeest</c>, a not very good
+      abbreviation for mode-estimator. To install this package look in the lower right-hand
+      pane of R-Studio. Click on the <q>Packages</q> tab and then click <q>Install
+      Packages.</q> Type <c>modeest</c> to find and install the package. Once installed,
+      activate the package by clicking the check box next to it.
+    </p>
+
+    <p>
+      Let's try out the <c>mfv()</c> function. This function returns the <q>most frequent
+      value</q> in a vector:
+    </p>
+
+    <program language="r" xml:id="prog-ch9-mfv">
+      <code>
+mfv(tinyData)
+      </code>
+    </program>
+
+    <p>
+      This is one of the great things about an open source program: you can easily look
+      under the hood to see how things work by typing the name of the function at the R
+      command line. The <c>mfv()</c> function also correctly returns a list of multiple
+      modes when one exists in the data:
+    </p>
+
+    <program language="r" xml:id="prog-ch9-multiple-modes">
+      <code>
+multiData &lt;- c(1,5,7,7,9,9,10)
+mfv(multiData)
+      </code>
+    </program>
+
+    <p>
+      To recap, this chapter provided a basic introduction to R-Studio, an integrated
+      development environment (IDE) for R. From this point forward, we will use R-Studio,
+      rather than plain old R, in order to save and be able to reuse our work. R-Studio
+      makes it easy to manage <q>packages</q> in R, and packages are the key to R's
+      extensibility.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch09">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch09-challenge">
+      <statement>
+        <p>
+          Write and test a new function called <c>MySamplingDistribution()</c> that creates
+          a sampling distribution of means from a numeric input vector. You will need to
+          integrate your knowledge of creating new functions from this chapter with your
+          knowledge of creating sampling distributions from the previous chapter in order to
+          create a working function. Make sure to give careful thought about the parameters
+          you will need to pass to your function and what kind of data object your function
+          will return.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch09">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://en.wikipedia.org/wiki/R_(programming_language)">Wikipedia: R Programming Language</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Joseph_J._Allaire">Wikipedia: Joseph J. Allaire</url></p></li>
+        <li><p><url href="http://www.statmethods.net/interface/packages.html">Quick-R: Packages</url></p></li>
+        <li><p><url href="http://www.youtube.com/watch?v=7sAmqkZ3Be8">YouTube: Introduction to R-Studio</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

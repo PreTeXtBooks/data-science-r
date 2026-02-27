@@ -5,8 +5,302 @@
 
   <introduction>
     <p>
-      Coming soon.
+      We've come a long way already: Basic skills in controlling R, some exposure to
+      R-Studio, knowledge of how to manage add-on packages, experience creating a function,
+      essential descriptive statistics, and a start on sampling distributions and inferential
+      statistics. In this chapter, we use the social media service Twitter to grab some
+      up-to-the-minute data and begin manipulating it.
     </p>
   </introduction>
+
+  <section xml:id="sec-twitter-intro">
+    <title>Why Twitter?</title>
+
+    <p>
+      Prior to this chapter we only worked with toy data sets: some made up data about a
+      fictional family and the census head counts for the 50 states plus the District of
+      Columbia. At this point we have practiced a sufficient range of skills to work with
+      some real data. There are data sets everywhere, thousands of them, many free for the
+      taking, covering a range of interesting topics from psychology experiments to film
+      actors. For sheer immediacy, though, you can't beat the Twitter social media service.
+      Twitter is a micro-blogging service that allows people all over the world to broadcast
+      brief thoughts (140 characters or less) that can then be read by their
+      <q>followers.</q>
+    </p>
+
+    <p>
+      An individual named Jeff Gentry created an add-on package for R called
+      <c>twitteR</c>. The <c>twitteR</c> package provides an extremely simple interface
+      for downloading a list of tweets directly from the Twitter service into R. Every tweet
+      contains the text of the posting as well as lots of other useful information such as
+      the time of day when a tweet was posted.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-oauth">
+    <title>A Token of Your Esteem: Using OAuth</title>
+
+    <p>
+      Before we move forward with creating some code in R-Studio, there's an important set
+      of steps we need to accomplish at the Twitter website. Twitter requires the use of
+      OAuth, an industry standard for authorization&#x2014;a way of proving to Twitter that
+      you are who you are when you search for (or post) tweets from a software application.
+      OAuth provides a method for obtaining two pieces of information&#x2014;a
+      <q>secret</q> and a <q>key.</q> Here are the steps:
+    </p>
+
+    <ol>
+      <li><p>Get a Twitter account at Twitter.com if you don't already have one.</p></li>
+      <li><p>Go to the development page at Twitter
+        (<url href="https://dev.twitter.com">https://dev.twitter.com</url>) and sign in
+        with your Twitter credentials.</p></li>
+      <li><p>Click on <q>My Applications.</q></p></li>
+      <li><p>Click on <q>Create a New Application.</q> Fill in the blanks with some sensible
+        answers. Where it asks for a <q>website</q> you can give your own home page. The
+        <q>Callback URL</q> can be left blank.</p></li>
+      <li><p>Your application should be set so that it can be used to sign in with
+        Twitter.</p></li>
+      <li><p>You will get a screen containing a whole bunch of data. The part that you will
+        really need is the <q>Consumer key</q> and the <q>Consumer Secret,</q> both of
+        which are long strings of letters and numbers.</p></li>
+      <li><p>Also take note of the Request Token URL and the Authorize URL.</p></li>
+      <li><p>Go to the Settings tab and make sure that <q>Read, Write and Access direct
+        messages</q> is set.</p></li>
+    </ol>
+
+  </section>
+
+  <section xml:id="sec-twitterR">
+    <title>Working with twitteR</title>
+
+    <p>
+      To begin working with <c>twitteR</c>, launch your copy of R-Studio. The first order
+      of business is to create a new R-Studio <q>project</q>. A project in R-Studio helps
+      to keep all of the different pieces and parts of an activity together. Click on the
+      <q>Project</q> menu in R-Studio and then click <q>New Project.</q> Choose <q>New
+      Directory</q> to start a brand new project. You might want to call the project
+      <q>twitter.</q>
+    </p>
+
+    <p>
+      In order to use <c>twitteR</c>, we need to load several packages that it depends upon:
+      <c>bitops</c>, <c>RCurl</c>, <c>RJSONIO</c>, and finally <c>twitteR</c> itself.
+      Let's create a function that takes as input the name of a package and ensures it is
+      installed and loaded:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-ensure-package">
+      <code>
+EnsurePackage &lt;- function(x)
+{
+  x &lt;- as.character(x)
+  if (!require(x, character.only=TRUE))
+  {
+    install.packages(pkgs=x,
+      repos="http://cran.r-project.org")
+    require(x, character.only=TRUE)
+  }
+}
+      </code>
+    </program>
+
+    <p>
+      The <c>require()</c> function does the same thing as <c>library()</c>, but it also
+      returns the value <c>FALSE</c> if the package you requested has not yet been
+      downloaded. The <c>!</c> character reverses the results of the logical test: when
+      <c>require()</c> returns <c>FALSE</c>, the <c>!</c> inverts it to <c>TRUE</c>, and
+      that is when the code in the curly braces runs to install the package.
+    </p>
+
+    <p>
+      Now let's make a new function, <c>PrepareTwitter</c>, that will load up all of our
+      packages for us:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-prepare-twitter">
+      <code>
+PrepareTwitter &lt;- function()
+{
+  EnsurePackage("bitops")
+  EnsurePackage("RCurl")
+  EnsurePackage("RJSONIO")
+  EnsurePackage("twitteR")
+  EnsurePackage("ROAuth")
+}
+      </code>
+    </program>
+
+    <p>
+      Make sure to save your script file. Now is also a good time to start the habit of
+      commenting. In R, the comment character is <c>#</c>. For now, just put one comment
+      line above each function you created, briefly describing it:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-comments">
+      <code>
+# EnsurePackage(x) - Installs and loads a package if necessary
+
+# PrepareTwitter() - Load packages for working with twitteR
+      </code>
+    </program>
+
+    <p>
+      Run the <c>PrepareTwitter()</c> function on the console command line to actually load
+      the packages we need:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-run-prepare">
+      <code>
+PrepareTwitter()
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-tweet-frame">
+    <title>Creating a TweetFrame Function</title>
+
+    <p>
+      Here is a function that searches Twitter and returns the results as an R data frame.
+      It uses your OAuth consumer key and secret obtained in the earlier steps:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-tweetframe">
+      <code>
+# TweetFrame() - Return a dataframe of tweets
+
+TweetFrame &lt;- function(searchTerm, maxTweets)
+{
+  tweetList &lt;- searchTwitter(searchTerm,
+    n=maxTweets)
+  return(do.call("rbind",
+    lapply(tweetList, as.data.frame)))
+}
+      </code>
+    </program>
+
+    <p>
+      Run the <c>TweetFrame()</c> function in the console. For example, to search for
+      tweets about a hashtag (choose a hashtag that will probably have a lot of recent
+      tweets):
+    </p>
+
+    <program language="r" xml:id="prog-ch10-search-tweets">
+      <code>
+tweetDF &lt;- TweetFrame("#somehashtag", 500)
+      </code>
+    </program>
+
+    <p>
+      Once you have the tweet data frame, you can use <c>attach()</c> to make the variables
+      of the data set available without using the <c>$</c> notation:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-attach">
+      <code>
+attach(tweetDF)
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-tweet-analysis">
+    <title>Analyzing Tweet Arrival Times</title>
+
+    <p>
+      One of the interesting things to analyze is when tweets arrive. The <c>created</c>
+      variable in the tweet data frame contains the time each tweet was created. To
+      calculate the differences in time between neighboring tweets, we use the
+      <c>diff()</c> function:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-diff">
+      <code>
+hist(as.integer(diff(created)))
+mean(as.integer(diff(created)))
+median(as.integer(diff(created)))
+      </code>
+    </program>
+
+    <p>
+      We also need to sort the tweets by creation time. Working from the inside to the
+      outside, we sort in the order that the tweets were created:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-sort">
+      <code>
+sortweetDF &lt;- tweetDF[order(as.integer(created)), ]
+detach(tweetDF)
+attach(sortweetDF)
+      </code>
+    </program>
+
+    <p>
+      This histogram shows that the majority of tweets in this group come within 50 seconds
+      or less of the previous tweets. This is typical of a Poisson arrival time
+      distribution. We can also count the number of arrivals that occur within certain time
+      intervals:
+    </p>
+
+    <program language="r" xml:id="prog-ch10-count-arrivals">
+      <code>
+sum((as.integer(diff(created))) &lt; 60)
+sum((as.integer(diff(created))) &lt; 30)
+sum((as.integer(diff(created))) &lt; 10)
+      </code>
+    </program>
+
+    <p>
+      Where we have a ratio, we often can think about it as a probability. For example,
+      if 145 out of 500 tweets arrived within 10 seconds of the previous tweet, there is
+      a 29% probability that the next tweet will arrive in 10 seconds or less.
+    </p>
+
+    <p>
+      Let's recap what we learned from this chapter. First, we have begun to use the project
+      features of R-Studio to establish a clean environment for each R project that we build.
+      Second, we used the source code window of R-Studio to build useful functions that we
+      will reuse in future chapters. Third, we practiced the skill of installing packages to
+      extend the capabilities of R. Fourth, we put the <c>twitteR</c> package to work to
+      obtain our own fresh data right from the web. Fifth, we started to condition that data,
+      for example by creating a sorted list of tweet arrival times. And finally, we started
+      to analyze and visualize those data, conjecturing that this sample of arrival times
+      fits the classic Poisson distribution.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch10">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch10-challenge">
+      <statement>
+        <p>
+          Modify the <c>TweetFrame()</c> function created at the beginning of this chapter
+          to sort the data frame based on the creation time of the tweets. This will require
+          taking the line of code from this chapter that has the <c>order()</c> function in
+          it and adding this to the <c>TweetFrame()</c> function with a few minor
+          modifications. Here's a hint: Create a temporary data frame inside the function
+          and don't <c>attach()</c> it while you're working with it. You'll need to use the
+          <c>$</c> notation to access the variable you want to use to order the rows.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch10">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://cran.r-project.org/web/packages/twitteR/twitteR.pdf">twitteR Package Documentation</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz">Wikipedia: Ladislaus Bortkiewicz</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Poisson_distribution">Wikipedia: Poisson Distribution</url></p></li>
+        <li><p><url href="http://hashtags.org/">hashtags.org</url></p></li>
+        <li><p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-1">Khan Academy: Poisson Process 1</url></p></li>
+        <li><p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-2">Khan Academy: Poisson Process 2</url></p></li>
+        <li><p><url href="https://support.twitter.com/articles/49309">Twitter: Hashtags Explained</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

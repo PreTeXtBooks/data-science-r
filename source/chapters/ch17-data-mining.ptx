@@ -1,12 +1,166 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <chapter xml:id="ch17-data-mining" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Hi Ho, Hi Ho - Data Mining We Go</title>
+  <title>Hi Ho, Hi Ho &#x2014; Data Mining We Go</title>
 
   <introduction>
     <p>
-      Coming soon.
+      Data mining is an area of research and practice that is focused on discovering novel
+      patterns in data. As usual, R has lots of possibilities for data mining. In this
+      chapter we will begin experimentation with essential data mining techniques by trying
+      out one of the easiest methods to understand: association rules mining. More beer and
+      diapers please!
     </p>
   </introduction>
+
+  <section xml:id="sec-datamining-overview">
+    <title>What Is Data Mining?</title>
+
+    <p>
+      Data mining is a term that refers to the use of algorithms and computers to discover
+      novel and interesting patterns within data. One famous example is the supermarket
+      that analyzed patterns of purchasing behavior and found that diapers and beer were
+      often purchased together. The supermarket manager decided to put a beer display close
+      to the diaper aisle and supposedly sold more of both products as a result.
+    </p>
+
+    <p>
+      Some people refer to this area of research as <term>machine learning</term>. Machine
+      learning focuses on creating computer algorithms that can use pre-existing inputs to
+      refine and improve their own capabilities for dealing with future inputs. Data mining
+      typically consists of four processes:
+    </p>
+
+    <ol>
+      <li><p><em>Data preparation</em>&#x2014;making sure that the data are organized in
+        the right way, filling in missing data fields, locating and repairing inaccurate
+        data, and recoding data as necessary.</p></li>
+      <li><p><em>Exploratory data analysis</em>&#x2014;getting to know the data using
+        histograms and other visualization tools, and looking for preliminary hints that
+        will guide model choice.</p></li>
+      <li><p><em>Model development</em>&#x2014;the most complex and interesting activity:
+        testing out a selection of the most appropriate data mining techniques.</p></li>
+      <li><p><em>Interpretation of results</em>&#x2014;the most important step from the
+        perspective of the data user, where an actionable conclusion is formed.</p></li>
+    </ol>
+
+  </section>
+
+  <section xml:id="sec-association-rules">
+    <title>Association Rules Mining</title>
+
+    <p>
+      The technique we will use in this chapter is called <term>association rules
+      mining</term> (also sometimes called affinity analysis). It is the strategy that was
+      used to find the diapers and beer association described earlier.
+    </p>
+
+    <p>
+      The association rules algorithm tries out many different propositions, such as <q>if
+      diapers are purchased, then beer is also purchased.</q> The algorithm uses a dataset
+      of transactions (individual shopping carts) to evaluate a long list of these rules
+      for two quantities:
+    </p>
+
+    <ul>
+      <li><p><term>Support</term>: The proportion of times that a particular pairing
+        occurs across all transactions.</p></li>
+      <li><p><term>Confidence</term>: How frequently a particular pair occurs among all
+        the times when the first item is present.</p></li>
+      <li><p><term>Lift</term>: A measure of interestingness, calculated as the ratio of
+        the rule's confidence to the baseline probability of the consequent item appearing
+        in any transaction.</p></li>
+    </ul>
+
+    <p>
+      We can get started with association rules mining very easily using the R package
+      known as <c>arules</c>:
+    </p>
+
+    <program language="r" xml:id="prog-ch17-arules">
+      <code>
+install.packages("arules")
+library(arules)
+data(Groceries)
+summary(Groceries)
+      </code>
+    </program>
+
+    <p>
+      The <c>Groceries</c> dataset built into the <c>arules</c> package contains 9,835
+      transactions with 169 items. The most frequent items include whole milk, other
+      vegetables, rolls/buns, and soda.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-apriori">
+    <title>Running the Apriori Algorithm</title>
+
+    <p>
+      The main function in the <c>arules</c> package is <c>apriori()</c>. We can pass it
+      the grocery transaction data and specify minimum support and confidence thresholds:
+    </p>
+
+    <program language="r" xml:id="prog-ch17-apriori">
+      <code>
+ruleset &lt;- apriori(Groceries,
+  parameter=list(support=0.01, confidence=0.5))
+inspect(ruleset)
+      </code>
+    </program>
+
+    <p>
+      To explore a broader set of rules, we can be more lenient in our minimum support
+      and confidence parameters, and then use the <c>arulesViz</c> package to visualize
+      the results:
+    </p>
+
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
+install.packages("arulesViz")
+library(arulesViz)
+ruleset &lt;- apriori(Groceries,
+  parameter=list(support=0.005, confidence=0.35))
+plot(ruleset)
+goodrules &lt;- ruleset[quality(ruleset)$lift > 3.5]
+inspect(goodrules)
+      </code>
+    </program>
+
+    <p>
+      The visualization plot shows support on the X-axis, confidence on the Y-axis, and
+      lift indicated by the darkness of each dot. Focusing on rules with high lift reveals
+      combinations that may correspond to recipes: herbs with root vegetables, or tropical
+      fruit with curd and yogurt.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch17">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch17-challenge">
+      <statement>
+        <p>
+          The <c>arules</c> package contains other data sets, such as the <c>Epub</c>
+          dataset with 3975 transactions from the electronic publication platform of the
+          Vienna University of Economics. Load up that data set, generate some rules,
+          visualize the rules, and choose some interesting ones for further discussion.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch17">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://en.wikipedia.org/wiki/Association_rule_learning">Wikipedia: Association Rule Learning</url></p></li>
+        <li><p><url href="http://jmlr.csail.mit.edu/papers/volume12/hahsler11a/hahsler11a.pdf">Hahsler et al.: arules paper</url></p></li>
+        <li><p><url href="http://www.statsoft.com/textbook/association-rules/">StatSoft: Association Rules</url></p></li>
+        <li><p><url href="http://rattle.togaware.com">Rattle GUI for R</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

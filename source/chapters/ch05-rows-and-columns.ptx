@@ -5,8 +5,251 @@
 
   <introduction>
     <p>
-      Coming soon.
+      One of the most basic and widely used methods of representing data is to use rows and
+      columns, where each row is a case or instance and each column is a variable and
+      attribute. Most spreadsheets arrange their data in rows and columns, although
+      spreadsheets don't usually refer to these as cases or variables. R represents rows and
+      columns in an object called a data frame.
     </p>
   </introduction>
+
+  <section xml:id="sec-rows-columns-overview">
+    <title>Rows, Columns, and the Family Data Set</title>
+
+    <p>
+      Although we live in a three dimensional world, where a box of cereal has height,
+      width, and depth, it is a sad fact of modern life that pieces of paper, chalkboards,
+      whiteboards, and computer screens are still only two dimensional. As a result, most of
+      the statisticians, accountants, computer scientists, and engineers who work with lots
+      of numbers tend to organize them in rows and columns. There's really no good reason
+      for this other than it makes it easy to fill a rectangular piece of paper with numbers.
+      Rows and columns can be organized any way that you want, but the most common way is to
+      have the rows be <q>cases</q> or <q>instances</q> and the columns be <q>attributes</q>
+      or <q>variables.</q>
+    </p>
+
+    <table xml:id="table-family-data">
+      <title>Family Data Set</title>
+      <tabular>
+        <row header="yes">
+          <cell>NAME</cell>
+          <cell>AGE</cell>
+          <cell>GENDER</cell>
+          <cell>WEIGHT</cell>
+        </row>
+        <row>
+          <cell>Dad</cell>
+          <cell>43</cell>
+          <cell>Male</cell>
+          <cell>188</cell>
+        </row>
+        <row>
+          <cell>Mom</cell>
+          <cell>42</cell>
+          <cell>Female</cell>
+          <cell>136</cell>
+        </row>
+        <row>
+          <cell>Sis</cell>
+          <cell>12</cell>
+          <cell>Female</cell>
+          <cell>83</cell>
+        </row>
+        <row>
+          <cell>Bro</cell>
+          <cell>8</cell>
+          <cell>Male</cell>
+          <cell>61</cell>
+        </row>
+        <row>
+          <cell>Dog</cell>
+          <cell>5</cell>
+          <cell>Female</cell>
+          <cell>44</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      Pretty obvious what's going on, right? The top line, in bold, is not really part of
+      the data. Instead, the top line contains the attribute or variable names. Note that
+      computer scientists tend to call them attributes while statisticians call them
+      variables. Either term is OK. Technically speaking, the variable names in the top line
+      are <q>metadata</q> or what you could think of as data about data. Imagine how much
+      more difficult it would be to understand what was going on in that table without the
+      metadata.
+    </p>
+
+    <p>
+      So if you ignore the top row, which contains the variable names, each of the remaining
+      rows is an instance or a case. The important thing is that each row refers to an actual
+      thing. In this case all of our things are living creatures in a family. You could think
+      of the Name column as <q>case labels</q> in that each one of these labels refers to one
+      and only one row in our data. Most of the time when you are working with a large
+      dataset, there is a number used for the case label, and that number is unique for each
+      case. Computer scientists sometimes refer to this column of unique numbers as a
+      <q>key.</q>
+    </p>
+
+    <p>
+      One other important note: Look how each column contains the same kind of data all the
+      way down. For example, the Age column is all numbers. There's nothing in the Age column
+      like <q>Old</q> or <q>Young.</q> This is a really valuable way of keeping things
+      organized. After all, we could not run the <c>mean()</c> function on the Age column if
+      it contained a little piece of text. Finally, see that every column has the same number
+      of entries, so that the whole forms a nice rectangle. When statisticians and other
+      people who work with databases work with a dataset, they expect this rectangular
+      arrangement.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-dataframe-r">
+    <title>Creating a Data Frame in R</title>
+
+    <p>
+      Now let's figure out how to get these rows and columns into R. In this case we will
+      build each column one by one and then join them together into a single data frame.
+      First, run this command to make the column of names:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-names">
+      <code>
+myFamilyNames &lt;- c("Dad","Mom","Sis","Bro","Dog")
+      </code>
+    </program>
+
+    <p>
+      One thing you might notice is that every name is placed within double quotes. This is
+      how you signal to R that you want it to treat something as a string of characters
+      rather than the name of a storage location. Next, create the other vectors:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-vectors">
+      <code>
+myFamilyAges &lt;- c(43, 42, 12, 8, 5)
+myFamilyGenders &lt;- c("Male","Female","Female","Male","Female")
+myFamilyWeights &lt;- c(188,136,83,61,44)
+      </code>
+    </program>
+
+    <p>
+      Now we are ready to tackle the data frame. In R, a data frame is a list of columns,
+      where each element in the list is a vector. Each vector is the same length, which is
+      how we get our nice rectangular row and column setup, and generally each vector also
+      has its own name. The command to make a data frame is:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-dataframe">
+      <code>
+myFamily &lt;- data.frame(myFamilyNames,
+  myFamilyAges, myFamilyGenders, myFamilyWeights)
+      </code>
+    </program>
+
+    <p>
+      Once you have gotten that command to work, type <c>myFamily</c> at the command line
+      to get a report back of what the data frame contains. R has put row numbers in front
+      of each row of our data. These are actual <q>indices</q> into the data frame, i.e.,
+      the row numbers that R uses to keep track of which row a particular piece of data is in.
+    </p>
+
+    <p>
+      With a small data set like this one, only five rows, it is pretty easy to take a look
+      at all of the data. But when we get to a bigger data set this won't be practical.
+      The <c>str()</c> function reveals the structure of the data object:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-str">
+      <code>
+str(myFamily)
+      </code>
+    </program>
+
+    <p>
+      The output confirms that <c>myFamily</c> is a data frame with five observations and
+      four variables. You may notice that R has converted the character vectors into
+      <q>Factors.</q> In the terminology that R uses, a Factor is a special type of label
+      that can be used to identify and organize groups of cases. When you don't want this
+      to happen you can instruct R to stop with: <c>stringsAsFactors=FALSE</c>.
+    </p>
+
+    <p>
+      Next, we will examine another very useful function called <c>summary()</c>. The
+      <c>summary()</c> function provides some overlapping information to <c>str()</c> but
+      also goes a little further, particularly with numeric variables:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-summary">
+      <code>
+summary(myFamily)
+      </code>
+    </program>
+
+    <p>
+      The output provides the following calculated quantities for numeric variables:
+    </p>
+
+    <ul>
+      <li><p><q>Min.</q> refers to the minimum or lowest value among all the cases.</p></li>
+      <li><p><q>1st Qu.</q> refers to the dividing line at the top of the first quartile.
+        Quartiles divide all the cases into four equal-sized groups when sorted by
+        value.</p></li>
+      <li><p><q>Median</q> refers to the value of the case that splits the whole group in
+        half, with half of the cases having higher values and half having lower values.</p></li>
+      <li><p><q>Mean</q> is the numeric average of all of the values.</p></li>
+      <li><p><q>3rd Qu.</q> is the third quartile, the dividing line that separates the
+        bottom 75% from the top 25% of cases.</p></li>
+      <li><p><q>Max</q> is the maximum value.</p></li>
+    </ul>
+
+    <p>
+      Just one more topic before ending this chapter: How to access the stored variables in
+      our new data frame. R stores the data frame as a list of vectors and we can use the
+      name of the data frame together with the name of a vector using the <c>$</c> to
+      connect the two labels:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-dollar">
+      <code>
+myFamily$myFamilyAges
+      </code>
+    </program>
+
+    <p>
+      When we created the <c>myFamily</c> data frame, R copied all of the information from
+      the individual vectors into a brand new storage space. So <c>myFamily$myFamilyAges</c>
+      actually refers to a completely separate (but so far identical) vector of values.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch05">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch05-challenge">
+      <statement>
+        <p>
+          Create another variable containing information about family members (for example,
+          each family member's estimated IQ; you can make up the data). Take that new
+          variable and put it in the existing <c>myFamily</c> data frame. Rerun the
+          <c>summary()</c> function on <c>myFamily</c> to get descriptive information on
+          your new variable.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch05">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://en.wikipedia.org/wiki/Central_tendency">Wikipedia: Central Tendency</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Median">Wikipedia: Median</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Relational_model">Wikipedia: Relational Model</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html">R Manual: data.frame</url></p></li>
+        <li><p><url href="http://www.khanacademy.org/math/statistics/v/mean-median-and-mode">Khan Academy: Mean, Median, and Mode</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

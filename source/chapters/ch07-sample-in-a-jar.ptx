@@ -5,8 +5,239 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Sampling distributions are the conceptual key to statistical inference. Many approaches
+      to understanding sampling distributions use examples of drawing marbles or gumballs
+      from a large jar to illustrate the influences of randomness on sampling. Using the list
+      of U.S. states illustrates how a non-normal distribution nonetheless has a normal
+      sampling distribution of means.
     </p>
   </introduction>
+
+  <section xml:id="sec-gumball-jar">
+    <title>The Gumball Jar: Introducing Sampling</title>
+
+    <p>
+      Imagine a gum ball jar full of gumballs of two different colors, red and blue. The jar
+      was filled from a source that provided 100 red gum balls and 100 blue gum balls, but
+      when these were poured into the jar they got all mixed up. If you drew eight gumballs
+      from the jar at random, what colors would you get? If things worked out perfectly,
+      which they never do, you would get four red and four blue. Of course, it rarely works
+      out this way. Instead of getting four red and four blue you might get three red and
+      five blue or any other mix you can think of. That's uncertainty for you&#x2014;the
+      forces of randomness affecting our sample of eight gumballs in unpredictable ways.
+    </p>
+
+    <p>
+      Here's an interesting idea. Pull eight gumballs from the jar, count the number of red
+      ones and then throw them back. Mix up the jar again and then draw eight more gumballs
+      and count the number of red. Keep doing this many times. If you average the number of
+      red gumballs over all of the draws, the average comes out to exactly four red gumballs
+      per draw, which is what we would expect in a jar that is half and half. If you did four
+      thousand draws instead of four, you would get pretty close to the perfect result.
+    </p>
+
+    <p>
+      This process of repeatedly drawing a subset from a <q>population</q> is called
+      <q>sampling,</q> and the end result of doing lots of sampling is a sampling
+      distribution.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-sampling-r">
+    <title>Sampling the U.S. State Data in R</title>
+
+    <p>
+      Conveniently, R has a function called <c>sample()</c>, that will draw a random sample
+      from a data set with just a single call. We can try it now with our state data:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-sample">
+      <code>
+sample(USstatePops$V1, size=16, replace=TRUE)
+      </code>
+    </program>
+
+    <p>
+      We called the <c>sample()</c> function with three arguments. The first argument was
+      the data source. The <c>size=16</c> argument asks R to draw a sample of 16 state data
+      values. The <c>replace=TRUE</c> argument specifies sampling with replacement, which
+      statisticians use often to simplify the mathematics of their proofs.
+    </p>
+
+    <p>
+      When we're working with numbers such as these state values, instead of counting
+      gumball colors, we're more interested in finding out the average, or what we now know
+      as the mean:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-mean-sample">
+      <code>
+mean(sample(USstatePops$V1, size=16, replace=TRUE))
+      </code>
+    </program>
+
+    <p>
+      Most programming languages have a variety of ways of repeating an activity. One of the
+      easiest ones to use is the <c>replicate()</c> function. To start, let's just try four
+      replications:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-replicate">
+      <code>
+replicate(4, mean(sample(USstatePops$V1,
+  size=16, replace=TRUE)), simplify=TRUE)
+      </code>
+    </program>
+
+    <p>
+      From here, it is easy to ramp up to repeating the process four hundred or four
+      thousand times:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-replicate-many">
+      <code>
+mean(replicate(400,
+  mean(sample(USstatePops$V1, size=16, replace=TRUE)),
+  simplify=TRUE))
+
+mean(replicate(4000,
+  mean(sample(USstatePops$V1, size=16, replace=TRUE)),
+  simplify=TRUE))
+      </code>
+    </program>
+
+    <p>
+      Instead of summarizing our whole sampling distribution in a single average, let's look
+      at the distribution of means using a histogram:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-hist-sample">
+      <code>
+hist(replicate(4000,
+  mean(sample(USstatePops$V1, size=16, replace=TRUE)),
+  simplify=TRUE))
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-quantiles-inference">
+    <title>Using the Sampling Distribution for Inference</title>
+
+    <p>
+      Let's save one distribution of sample means so that we have a fixed set of numbers
+      to work with:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-samplemeans">
+      <code>
+SampleMeans &lt;- replicate(10000,
+  mean(sample(USstatePops$V1, size=5, replace=TRUE)),
+  simplify=TRUE)
+      </code>
+    </program>
+
+    <p>
+      The <c>quantile()</c> function can show us the same information as the median and the
+      quartiles, and lets us control exactly where we make the cuts:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-quantile">
+      <code>
+quantile(SampleMeans, probs=c(0.25, 0.50, 0.75))
+quantile(SampleMeans, probs=c(0.025, 0.975))
+      </code>
+    </program>
+
+    <p>
+      Now let's put this knowledge to work. Here is a mystery sample of five population
+      values:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-mystery">
+      <code>
+MysterySample &lt;- c(3706690, 159358, 106405, 55519, 53883)
+mean(MysterySample)
+      </code>
+    </program>
+
+    <p>
+      The mean of our mystery sample is 816,371. The question is, is this a sample of
+      U.S. states or is it something else? Thanks to the work we've done earlier in this
+      chapter, we have an excellent basis for comparison. We have the sampling distribution
+      of means, and it is fair to say that if we get a new mean to look at, and the new mean
+      is way out in the extreme areas of the sample distribution (say, below the 2.5% mark
+      or above the 97.5% mark), then it seems much less likely that our
+      <c>MysterySample</c> is a sample of states.
+    </p>
+
+    <p>
+      In this case, we can see quite clearly that 816,371 is on the extreme low end of the
+      sampling distribution. From this we can infer, tentatively but based on good
+      statistical evidence, that our <c>MysterySample</c> is not a sample of states. And
+      this is in fact correct: <c>MysterySample</c> contains the number of people in five
+      different U.S. territories, including Puerto Rico in the Caribbean and Guam in the
+      Pacific. These territories are land masses and groups of people associated with the
+      U.S., but they are not states.
+    </p>
+
+    <p>
+      This reasoning is the basis for virtually all statistical inference. You construct a
+      comparison distribution, you mark off a zone of extreme values, and you compare any
+      new sample of data you get to the distribution to see if it falls in the extreme zone.
+      If it does, you tentatively conclude that the new sample was obtained from some other
+      source than what you used to create the comparison distribution.
+    </p>
+
+    <p>
+      There is also a shortcut to finding out the standard error that does not require
+      actually constructing an empirical distribution. The standard deviation of the original
+      raw data and the standard error are closely related:
+    </p>
+
+    <program language="r" xml:id="prog-ch7-stderr">
+      <code>
+sd(USstatePops$V1) / sqrt(5)
+      </code>
+    </program>
+
+    <p>
+      The formula takes the standard deviation of the original state data and divides it by
+      the square root of the sample size. Statisticians call this the <q>standard error of
+      the mean.</q> The bigger the sample size <m>n</m>, the smaller the standard error.
+      This leads to an important rule for working with samples: the bigger the better.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch07">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch07-challenge">
+      <statement>
+        <p>
+          Collect a sample consisting of at least 20 data points and construct a sampling
+          distribution. Calculate the standard error and use this to calculate the 2.5% and
+          97.5% distribution cut points. The data points you collect should represent
+          instances of the same phenomenon. For instance, you could collect the prices of
+          20 textbooks, or count the number of words in each of 20 paragraphs.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch07">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://en.wikipedia.org/wiki/Central_limit_theorem">Wikipedia: Central Limit Theorem</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Gerolamo_Cardano">Wikipedia: Gerolamo Cardano</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Jacob_Bernoulli">Wikipedia: Jacob Bernoulli</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Law_of_large_numbers">Wikipedia: Law of Large Numbers</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population">Wikipedia: U.S. States by Population</url></p></li>
+        <li><p><url href="http://www.khanacademy.org/math/statistics/v/central-limit-theorem">Khan Academy: Central Limit Theorem</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

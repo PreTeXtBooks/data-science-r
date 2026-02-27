@@ -5,8 +5,189 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Prior chapters focused on statistical analysis of tweet arrival times and built on
+      earlier knowledge of samples and distributions. This chapter switches gears to focus
+      on manipulating so-called <q>unstructured</q> data, which in most cases means natural
+      language texts. Tweets are again a useful source of data for this because tweets are
+      mainly short (140 characters or less) character strings.
     </p>
   </introduction>
+
+  <section xml:id="sec-strings-overview">
+    <title>Text as Data</title>
+
+    <p>
+      If you think about the Internet, and specifically about the World Wide Web for a while,
+      you will realize: 1) That there are zillions of web pages; and 2) That most of the
+      information on those web pages is <q>unstructured,</q> in the sense that it does not
+      consist of nice rows and columns of numeric data. Instead, most of the data spread out
+      across the Internet is text, digital photographs, or digital videos.
+    </p>
+
+    <p>
+      Text is one of the most common forms of human communication, hence the label that
+      researchers use sometimes: <term>natural language</term>. At the most basic level, we
+      have a great system for representing individual characters of text inside of computers
+      called <q>Unicode.</q> Unicode provides a binary representation of characters in most
+      of the world's written languages, over 110,000 characters in all. Unicode supersedes
+      ASCII, which was one of the most popular standards for representing characters from the
+      dawn of the computer age.
+    </p>
+
+    <p>
+      One of the most striking things about strings from a computer programming perspective
+      is that they seem to be changing their length all the time. You can't perform the
+      usual mathematical operations on character strings the way you can with numbers, but
+      it is very common to <q>split</q> strings into smaller strings, and to <q>add</q>
+      strings together to form longer strings.
+    </p>
+
+    <p>
+      Fortunately, R has a wide range of functions for manipulating, keeping track of,
+      searching, and analyzing string data. Let's begin by loading a new package called
+      <c>stringr</c>. Although R has quite a few string functions in its core, they tend
+      to be a bit disorganized. Hadley Wickham, a professor of statistics at Rice
+      University, created this <c>stringr</c> package to make string manipulation functions
+      easier to use:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-stringr">
+      <code>
+EnsurePackage("stringr")
+tweetDF &lt;- TweetFrame("#solar", 100)
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-string-functions">
+    <title>Basic String Operations</title>
+
+    <p>
+      The first and most basic thing to do with strings is to see how long they are. The
+      <c>stringr</c> package gives us the <c>str_length()</c> function:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-str-length">
+      <code>
+attach(tweetDF)
+textlen &lt;- str_length(text)
+head(textlen, 10)
+      </code>
+    </program>
+
+    <p>
+      We can also look for matching text within a string using <c>str_detect()</c>, which
+      returns a vector of TRUE and FALSE values. And <c>str_locate()</c> provides the
+      starting and ending positions of a match within a string. The <c>str_sub()</c>
+      function lets us extract a sub-string given a start and end position:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-str-detect">
+      <code>
+hasURL &lt;- str_detect(text, "http")
+hasrt &lt;- str_detect(text, "RT ")
+longtext &lt;- textlen > 140
+      </code>
+    </program>
+
+    <p>
+      Search and replace operations are also very common. The <c>str_replace_all()</c>
+      function from the <c>stringr</c> package finds all matches to a regular expression
+      pattern and replaces them with another string:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-str-replace">
+      <code>
+tweets &lt;- str_replace_all(text, "@[a-z,A-Z]*", "")
+      </code>
+    </program>
+
+    <p>
+      The second argument here is a <term>regular expression</term>: a powerful and compact
+      language for specifying patterns in text. The regular expression <c>@[a-z,A-Z]*</c>
+      matches the at sign followed by zero or more upper or lowercase letters. The asterisk
+      <c>*</c> is what indicates the zero or more. That regular expression will match any
+      screenname referral that appears within a tweet.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-string-tables">
+    <title>Contingency Tables for String Flags</title>
+
+    <p>
+      Once we have created logical flag variables indicating interesting features of tweets
+      (for example, <c>hasrt</c>, <c>longtext</c>, and <c>numurls</c>), we can use the
+      <c>table()</c> function to cross-tabulate them:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-table">
+      <code>
+numurls &lt;- str_count(text, "http")
+table(numurls, longtext)
+prop.table(table(numurls, longtext))
+table(numurls, hasrt, longtext)
+      </code>
+    </program>
+
+    <p>
+      We can also use logical expressions inside bracket notation to compute statistics for
+      specific subsets of tweets:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-subset-mean">
+      <code>
+mean(textlen[hasrt &amp; longtext])
+mean(textlen[!hasrt &amp; longtext])
+      </code>
+    </program>
+
+    <p>
+      Looking back over this chapter, we took a close look at some of the string
+      manipulation functions provided by the <c>stringr</c> package. These included finding
+      the length of a string, finding matching text within a string, doing search and
+      replace operations, and cross-tabulating string features. In the next chapter we will
+      tackle analyzing the actual words that appear in text documents.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch12">
+    <title>Chapter Challenges</title>
+    <exercise xml:id="ex-ch12-challenge1">
+      <statement>
+        <p>
+          Create a function that takes as input a data frame of tweets and returns as output
+          a list of all of the retweet screennames. As an extra challenge, see if you can
+          reduce that list of screennames to a unique set (i.e., no duplicates) while also
+          generating a count of the number of times that each retweet screenname appeared.
+        </p>
+      </statement>
+    </exercise>
+    <exercise xml:id="ex-ch12-challenge2">
+      <statement>
+        <p>
+          Once you have written that function, copy and modify it to create a new function
+          that extracts a unique list of hashtags from a data frame of tweets. Recall that
+          hashtags begin with the <q>#</q> character and may contain any combination of
+          upper and lowercase characters as well as digits.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch12">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://cran.r-project.org/web/packages/stringr/index.html">stringr package on CRAN</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/ASCII">Wikipedia: ASCII</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Regular_expression">Wikipedia: Regular Expression</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Unicode">Wikipedia: Unicode</url></p></li>
+        <li><p><url href="http://had.co.nz/">Hadley Wickham's website</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

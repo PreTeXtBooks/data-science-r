@@ -5,8 +5,348 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Data comes from the Latin word, <q>datum,</q> meaning a <q>thing given.</q>
+      Although the term <q>data</q> has been used since as early as the 1500s, modern usage
+      started in the 1940s and 1950s as practical electronic computers began to input,
+      process, and output data. This chapter discusses the nature of data and introduces
+      key concepts for newcomers without computer science experience.
     </p>
   </introduction>
+
+  <section xml:id="sec-bits-and-bytes">
+    <title>Bits and Bytes</title>
+
+    <p>
+      The inventor of the World Wide Web, Tim Berners-Lee, is often quoted as having said,
+      <q>Data is not information, information is not knowledge, knowledge is not
+      understanding, understanding is not wisdom.</q> This quote suggests a kind of pyramid,
+      where data are the raw materials that make up the foundation at the bottom of the pile,
+      and information, knowledge, understanding and wisdom represent higher and higher levels
+      of the pyramid. In one sense, the major goal of a data scientist is to help people to
+      turn data into information and onwards up the pyramid. Before getting started on this
+      goal, though, it is important to have a solid sense of what data actually are. (Notice
+      that this book treats the word <q>data</q> as a plural noun&#x2014;in common usage you
+      may often hear it referred to as singular instead.) If you have studied computer science
+      or mathematics, you may find the discussion in this chapter a bit redundant, so feel
+      free to skip it. Otherwise, read on for an introduction to the most basic ingredient to
+      the data scientist's efforts: data.
+    </p>
+
+    <p>
+      A substantial amount of what we know and say about data in the present day comes from
+      work by a U.S. mathematician named Claude Shannon. Shannon worked before, during, and
+      after World War II on a variety of mathematical and engineering problems related to data
+      and information. Not to go crazy with quotes, or anything, but Shannon is quoted as
+      having said, <q>The fundamental problem of communication is that of reproducing at one
+      point either exactly or approximately a message selected at another point.</q> This
+      quote helpfully captures key ideas about data that are important in this book by
+      focusing on the idea of data as a message that moves from a source to a recipient.
+      Think about the simplest possible message that you could send to another person over
+      the phone, via a text message, or even in person. Let's say that a friend had asked you
+      a question, for example whether you wanted to come to their house for dinner the next
+      day. You can answer yes or no. You can call the person on the phone, and say yes or no.
+      You might have a bad connection, though, and your friend might not be able to hear you.
+      Likewise, you could send them a text message with your answer, yes or no, and hope that
+      they have their phone turned on so that they can receive the message. Or you could tell
+      your friend face to face, hoping that she did not have her earbuds turned up so loud
+      that she couldn't hear you. In all three cases you have a one <q>bit</q> message that
+      you want to send to your friend, yes or no, with the goal of <q>reducing her
+      uncertainty</q> about whether you will appear at her house for dinner the next day.
+      Assuming that message gets through without being garbled or lost, you will have
+      successfully transmitted one bit of information from you to her. Claude Shannon
+      developed some mathematics, now often referred to as <q>Information Theory,</q> that
+      carefully quantified how bits of data transmitted accurately from a source to a
+      recipient can reduce uncertainty by providing information. A great deal of the computer
+      networking equipment and software in the world today&#x2014;and especially the huge
+      linked worldwide network we call the Internet&#x2014;is primarily concerned with this
+      one basic task of getting bits of information from a source to a destination.
+    </p>
+
+    <p>
+      Once we are comfortable with the idea of a <q>bit</q> as the most basic unit of
+      information, either <q>yes</q> or <q>no,</q> we can combine bits together to make more
+      complicated structures. First, let's switch labels just slightly. Instead of <q>no</q>
+      we will start using zero, and instead of <q>yes</q> we will start using one. So we now
+      have a single digit, albeit one that has only two possible states: zero or one (we're
+      temporarily making a rule against allowing any of the bigger digits like three or
+      seven). This is in fact the origin of the word <q>bit,</q> which is a squashed down
+      version of the phrase <q>Binary digIT.</q> A single binary digit can be 0 or 1, but
+      there is nothing stopping us from using more than one binary digit in our messages.
+      Have a look at the example in the table below:
+    </p>
+
+    <table xml:id="table-two-bit-rsvp">
+      <title>Two-bit encoding for a dinner party RSVP</title>
+      <tabular halign="center">
+        <row header="yes" bottom="medium">
+          <cell>Meaning</cell>
+          <cell>2nd Digit</cell>
+          <cell>1st Digit</cell>
+        </row>
+        <row>
+          <cell>No</cell>
+          <cell>0</cell>
+          <cell>0</cell>
+        </row>
+        <row>
+          <cell>Maybe</cell>
+          <cell>0</cell>
+          <cell>1</cell>
+        </row>
+        <row>
+          <cell>Probably</cell>
+          <cell>1</cell>
+          <cell>0</cell>
+        </row>
+        <row>
+          <cell>Definitely</cell>
+          <cell>1</cell>
+          <cell>1</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      Here we have started to use two binary digits&#x2014;two bits&#x2014;to create a
+      <q>code book</q> for four different messages that we might want to transmit to our
+      friend about her dinner party. If we were certain that we would not attend, we would
+      send her the message 0 0. If we definitely planned to attend we would send her 1 1.
+      But we have two additional possibilities, <q>Maybe</q> which is represented by 0 1,
+      and <q>Probably</q> which is represented by 1 0. It is interesting to compare our
+      original yes/no message of one bit with this new four-option message with two bits. In
+      fact, every time you add a new bit you double the number of possible messages you can
+      send. So three bits would give eight options and four bits would give 16 options. How
+      many options would there be for five bits?
+    </p>
+
+    <p>
+      When we get up to eight bits&#x2014;which provides 256 different
+      combinations&#x2014;we finally have something of a reasonably useful size to work
+      with. Eight bits is commonly referred to as a <q>byte</q>&#x2014;this term probably
+      started out as a play on words with the word bit. (Try looking up the word
+      <q>nybble</q> online!) A byte offers enough different combinations to encode all of
+      the letters of the alphabet, including capital and small letters. There is an old
+      rulebook called <q>ASCII</q>&#x2014;the American Standard Code for Information
+      Interchange&#x2014;which matches up patterns of eight bits with the letters of the
+      alphabet, punctuation, and a few other odds and ends. For example the bit pattern
+      <c>0100 0001</c> represents the capital letter A and the next higher pattern,
+      <c>0100 0010</c>, represents capital B. Try looking up an ASCII table online (for
+      example, <url href="http://www.asciitable.com/" visual="www.asciitable.com"/>) and
+      you can find all of the combinations. Note that the codes may not actually be shown
+      in binary because it is so difficult for people to read long strings of ones and
+      zeroes. Instead you may see the equivalent codes shown in hexadecimal (base 16),
+      octal (base 8), or the most familiar form that we all use everyday, base 10.
+      Although you might remember base conversions from high school math class, it would
+      be a good idea to practice this a little bit&#x2014;particularly the conversions
+      between binary, hexadecimal, and decimal (base 10). You might also enjoy Vi Hart's
+      <q>Binary Hand Dance</q> video at Khan Academy (search for this at
+      <url href="http://www.khanacademy.org" visual="www.khanacademy.org"/> or follow
+      the link at the end of the chapter). Most of the work we do in this book will be in
+      decimal, but more complex work with data often requires understanding hexadecimal
+      and being able to know how a hexadecimal number, like <c>0xA3</c>, translates into
+      a bit pattern. Try searching online for <q>binary conversion tutorial</q> and you
+      will find lots of useful sites.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-combining-bytes">
+    <title>Combining Bytes into Larger Structures</title>
+
+    <p>
+      Now that we have the idea of a byte as a small collection of bits (usually eight) that
+      can be used to store and transmit things like letters and punctuation marks, we can
+      start to build up to bigger and better things. First, it is very easy to see that we
+      can put bytes together into lists in order to make a <q>string</q> of letters, what is
+      often referred to as a <q>character string.</q> If we have a piece of text, like
+      <q>this is a piece of text</q> we can use a collection of bytes to represent it like
+      this:
+    </p>
+
+    <cd>
+011101000110100001101001011100110010000001101001011100110010
+000001100001001000000111000001110000011010010110010101100011
+011001010010000001101111011001100010000001110100011001010111
+1000011101</cd>
+
+    <p>
+      Now nobody wants to look at that, let alone encode or decode it by hand, but
+      fortunately, the computers and software we use these days takes care of the conversion
+      and storage automatically. For example, when we tell the open source data language
+      <q>R</q> to store <q>this is a piece of text</q> for us like this:
+    </p>
+
+    <program language="r" xml:id="prog-mytext">
+      <code>
+myText &lt;- "this is a piece of text"
+      </code>
+    </program>
+
+    <p>
+      ...we can be certain that inside the computer there is a long list of zeroes and ones
+      that represent the text that we just stored. By the way, in order to be able to get our
+      piece of text back later on, we have made a kind of storage label for it (the word
+      <c>myText</c> above). Anytime that we want to remember our piece of text or use it for
+      something else, we can use the label <c>myText</c> to open up the chunk of computer
+      memory where we have put that long list of binary digits that represent our text. The
+      left-pointing arrow made up out of the less-than character (<q>&lt;</q>) and the dash
+      character (<q>-</q>) gives R the command to take what is on the right hand side (the
+      quoted text) and put it into what is on the left hand side (the storage area we have
+      labeled <c>myText</c>). Some people call this the assignment arrow and it is used in
+      some computer languages to make it clear to the human who writes or reads it which
+      direction the information is flowing.
+    </p>
+
+    <p>
+      From the computer's standpoint, it is even simpler to store, remember, and manipulate
+      numbers instead of text. Remember that an eight bit byte can hold 256 combinations, so
+      just using that very small amount we could store the numbers from 0 to 255. (Of course,
+      we could have also done 1 to 256, but much of the counting and numbering that goes on
+      in computers starts with zero instead of one.) Really, though, 255 is not much to work
+      with. We couldn't count the number of houses in most towns or the number of cars in a
+      large parking garage unless we can count higher than 255. If we put together two bytes
+      to make 16 bits we can count from zero up to 65,535, but that is still not enough for
+      some of the really big numbers in the world today (for example, there are more than 200
+      million cars in the U.S. alone). Most of the time, if we want to be flexible in
+      representing an integer (a number with no decimals), we use four bytes stuck together.
+      Four bytes stuck together is a total of 32 bits, and that allows us to store an integer
+      as high as 4,294,967,295.
+    </p>
+
+    <p>
+      Things get slightly more complicated when we want to store a negative number or a
+      number that has digits after the decimal point. If you are curious, try looking up
+      <q>two's complement</q> for more information about how signed numbers are stored and
+      <q>floating point</q> for information about how numbers with digits after the decimal
+      point are stored. For our purposes in this book, the most important thing to remember
+      is that text is stored differently than numbers, and among numbers integers are stored
+      differently than floating point. Later we will find that it is sometimes necessary to
+      convert between these different representations, so it is always important to know how
+      it is represented.
+    </p>
+
+    <p>
+      So far we have mainly looked at how to store one thing at a time, like one number or
+      one letter, but when we are solving problems with data we often need to store a group
+      of related things together. The simplest place to start is with a list of things that
+      are all stored in the same way. For example, we could have a list of integers, where
+      each thing in the list is the age of a person in your family. The list might look like
+      this: 43, 42, 12, 8, 5. The first two numbers are the ages of the parents and the last
+      three numbers are the ages of the kids. Naturally, inside the computer each number is
+      stored in binary, but fortunately we don't have to type them in that way or look at
+      them that way. Because there are no decimal points, these are just plain integers and a
+      32 bit integer (4 bytes) is more than enough to store each one. This list contains
+      items that are all the same <q>type</q> or <q>mode.</q> The open source data program
+      <q>R</q> refers to a list where all of the items are of the same mode as a
+      <q>vector.</q> We can create a vector with R very easily by listing the numbers,
+      separated by commas and inside parentheses:
+    </p>
+
+    <program language="r" xml:id="prog-concat">
+      <code>
+c(43, 42, 12, 8, 5)
+      </code>
+    </program>
+
+    <p>
+      The letter <c>c</c> in front of the opening parenthesis stands for concatenate, which
+      means to join things together. Slightly obscure, but easy enough to get used to with
+      some practice. We can also store our vector in a named location (remember that a vector
+      is a list of items of the same mode/type):
+    </p>
+
+    <program language="r" xml:id="prog-family-ages">
+      <code>
+myFamilyAges &lt;- c(43, 42, 12, 8, 5)
+      </code>
+    </program>
+
+    <p>
+      We have just created our first <q>data set.</q> It is very small, for sure, only five
+      items, but also very useful for illustrating several major concepts about data.
+      Here's a recap:
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          In the heart of the computer, all data are represented in binary. One binary digit,
+          or bit, is the smallest chunk of data that we can send from one place to another.
+        </p>
+      </li>
+      <li>
+        <p>
+          Although all data are at heart binary, computers and software help to represent data
+          in more convenient forms for people to see. Three important representations are:
+          <q>character</q> for representing text, <q>integer</q> for representing numbers
+          with no digits after the decimal point, and <q>floating point</q> for numbers that
+          may have digits after the decimal point. The list of numbers in our tiny data set
+          just above are integers.
+        </p>
+      </li>
+      <li>
+        <p>
+          Numbers and text can be collected into lists, which the open source program
+          <q>R</q> calls vectors. A vector has a length, which is the number of items in it,
+          and a <q>mode</q> which is the type of data stored in the vector. The vector we
+          were just working on has a length of 5 and a mode of integer.
+        </p>
+      </li>
+      <li>
+        <p>
+          In order to be able to remember where we stored a piece of data, most computer
+          programs, including R, give us a way of labeling a chunk of computer memory. We
+          chose to give the 5-item vector up above the name <c>myFamilyAges</c>. Some people
+          might refer to this named list as a <q>variable,</q> because the value of it varies,
+          depending upon which member of the list you are examining.
+        </p>
+      </li>
+      <li>
+        <p>
+          If we gather together one or more variables into a sensible group, we can refer to
+          them together as a <q>data set.</q> Usually, it doesn't make sense to refer to
+          something with just one variable as a data set, so usually we need at least two
+          variables. Technically, though, even our very simple <c>myFamilyAges</c> counts as
+          a data set, albeit a very tiny one.
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      Later in the book we will install and run the open source <q>R</q> data program and
+      learn more about how to create data sets, summarize the information in those data sets,
+      and perform some simple calculations and transformations on those data sets.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch01">
+    <title>Chapter Challenge</title>
+
+    <exercise xml:id="ex-boolean-logic">
+      <statement>
+        <p>
+          Discover the meaning of <q>Boolean Logic</q> and the rules for <q>and</q>,
+          <q>or</q>, <q>not</q>, and <q>exclusive or</q>. Once you have studied this for a
+          while, write down on a piece of paper, without looking, all of the binary
+          operations that demonstrate these rules.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch01">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><url href="http://en.wikipedia.org/wiki/Claude_Shannon" visual="en.wikipedia.org/wiki/Claude_Shannon"/></li>
+        <li><url href="http://en.wikipedia.org/wiki/Information_theory" visual="en.wikipedia.org/wiki/Information_theory"/></li>
+        <li><url href="http://cran.r-project.org/doc/manuals/R-intro.pdf" visual="cran.r-project.org/doc/manuals/R-intro.pdf"/></li>
+        <li><url href="http://www.khanacademy.org/math/vi-hart/v/binary-hand-dance" visual="www.khanacademy.org/math/vi-hart/v/binary-hand-dance"/></li>
+        <li><url href="http://www.khanacademy.org/science/computer-science/v/introduction-to-programs-data-types-and-variables" visual="www.khanacademy.org/science/computer-science/v/introduction-to-programs-data-types-and-variables"/></li>
+        <li><url href="http://www.asciitable.com/" visual="www.asciitable.com"/></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

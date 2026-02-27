@@ -5,8 +5,265 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Many of the simplest and most practical methods for summarizing collections of numbers
+      come to us from four guys who were born in the 1800s at the start of the industrial
+      revolution. A considerable amount of the work they did was focused on solving real
+      world problems in manufacturing and agriculture by using data to describe and draw
+      inferences from what they observed.
     </p>
   </introduction>
+
+  <section xml:id="sec-four-statisticians">
+    <title>Four Founding Statisticians</title>
+
+    <p>
+      The end of the 1800s and the early 1900s were a time of astonishing progress in
+      mathematics and science. Four Englishmen who epitomized both this scientific progress
+      and these idealistic beliefs were Francis Galton, Karl Pearson, William Sealy Gosset,
+      and Ronald Fisher.
+    </p>
+
+    <p>
+      First on the scene was Francis Galton, a half-cousin to the more widely known Charles
+      Darwin, but quite the intellectual force himself. Galton was an English gentleman of
+      independent means who studied Latin, Greek, medicine, and mathematics, and who made a
+      name for himself as an African explorer. Setting eugenics aside, Galton made several
+      notable and valuable contributions to mathematics and statistics, in particular
+      illuminating two basic techniques that are widely used today: correlation and
+      regression.
+    </p>
+
+    <p>
+      For all his studying and theorizing, Galton was not an outstanding mathematician, but
+      he had a junior partner, Karl Pearson, who is often credited with founding the field
+      of mathematical statistics. Pearson refined the math behind correlation and regression
+      and did a lot else besides to contribute to our modern abilities to manage numbers.
+    </p>
+
+    <p>
+      Next to the statistical party was William Sealy Gosset, a wizard at both math and
+      chemistry. It was probably the latter expertise that led the Guinness Brewery in
+      Dublin, Ireland to hire Gosset after college. As a forward looking business, the
+      Guinness brewery was on the lookout for ways of making batches of beer more consistent
+      in quality. Gosset stepped in and developed what we now refer to as small sample
+      statistical techniques&#x2014;ways of generalizing from the results of a relatively
+      few observations. Guinness frowned upon academic publications, so Gosset had to
+      publish his results under the modest pseudonym, <q>Student.</q> If you ever hear
+      someone discussing the <q>Student's t-Test,</q> that is where the name came from.
+    </p>
+
+    <p>
+      Last but not least among the born-in-the-1800s bunch was Ronald Fisher, another
+      mathematician who also studied the natural sciences. One of Fisher's professional
+      postings was to an agricultural research farm called Rothamsted Experimental Station.
+      Here, he had access to data about variations in crop yield that led to his development
+      of an essential statistical technique known as the analysis of variance. Fisher also
+      pioneered the area of experimental design, which includes matters of factors, levels,
+      experimental groups, and control groups.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-sample-population">
+    <title>Sample vs. Population</title>
+
+    <p>
+      One of the critical distinctions woven throughout the work of these four is between
+      the <q>sample</q> of data that you have available to analyze and the larger
+      <q>population</q> of possible cases that may or do exist. When Gosset ran batches of
+      beer at the brewery, he knew that it was impractical to run every possible batch of
+      beer with every possible variation in recipe and preparation. Whatever data you have,
+      it is just a snapshot or <q>sample</q> of what might be out there. This leads us to
+      the conclusion that we can never, ever 100% trust the data we have. We must always
+      hold back and keep in mind that there is always uncertainty in data. This is the key
+      distinction between descriptive and inferential statistics.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-descriptive-statistics">
+    <title>Descriptive Statistics</title>
+
+    <p>
+      We have already encountered several descriptive statistics in previous chapters, but
+      for the sake of practice here they are again with more detailed definitions:
+    </p>
+
+    <ul>
+      <li><p>The <term>mean</term> (technically the arithmetic mean), a measure of central
+        tendency that is calculated by adding together all of the observations and dividing
+        by the number of observations.</p></li>
+      <li><p>The <term>median</term>, another measure of central tendency. You make a sorted
+        list of all of the observations in the sample, then go halfway up that list. Whatever
+        the value of the observation is at the halfway point, that is the median.</p></li>
+      <li><p>The <term>range</term>, which is a measure of <q>dispersion</q>&#x2014;how
+        spread out a bunch of numbers in a sample are&#x2014;calculated by subtracting the
+        lowest value from the highest value.</p></li>
+      <li><p>The <term>mode</term>, another measure of central tendency. The mode is the
+        value that occurs most often in a sample of data.</p></li>
+      <li><p>The <term>variance</term>, a measure of dispersion. The variance is obtained
+        from all of the numbers through a calculation that compares each number to the mean,
+        squares the deviations, and averages them.</p></li>
+      <li><p>The <term>standard deviation</term>, another measure of dispersion, and a
+        cousin to the variance. The standard deviation is simply the square root of the
+        variance, which puts us back in regular units.</p></li>
+    </ul>
+
+    <table xml:id="table-variance-calc">
+      <title>Variance Calculation for Family Ages</title>
+      <tabular>
+        <row header="yes">
+          <cell>WHO</cell>
+          <cell>AGE</cell>
+          <cell>AGE &#x2212; MEAN</cell>
+          <cell>(AGE &#x2212; MEAN)<m>^2</m></cell>
+        </row>
+        <row>
+          <cell>Dad</cell>
+          <cell>43</cell>
+          <cell>43 &#x2212; 22 = 21</cell>
+          <cell>441</cell>
+        </row>
+        <row>
+          <cell>Mom</cell>
+          <cell>42</cell>
+          <cell>42 &#x2212; 22 = 20</cell>
+          <cell>400</cell>
+        </row>
+        <row>
+          <cell>Sis</cell>
+          <cell>12</cell>
+          <cell>12 &#x2212; 22 = &#x2212;10</cell>
+          <cell>100</cell>
+        </row>
+        <row>
+          <cell>Bro</cell>
+          <cell>8</cell>
+          <cell>8 &#x2212; 22 = &#x2212;14</cell>
+          <cell>196</cell>
+        </row>
+        <row>
+          <cell>Dog</cell>
+          <cell>5</cell>
+          <cell>5 &#x2212; 22 = &#x2212;17</cell>
+          <cell>289</cell>
+        </row>
+        <row>
+          <cell></cell>
+          <cell></cell>
+          <cell>Total:</cell>
+          <cell>1426</cell>
+        </row>
+        <row>
+          <cell></cell>
+          <cell></cell>
+          <cell>Total / 4 (variance):</cell>
+          <cell>356.5</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      In this example the variance is 356.5 squared-years of deviation from the mean. The
+      standard deviation would be about 18.88 years (the square root of 356.5). Now let's
+      have R calculate some statistics for us:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-variance">
+      <code>
+var(myFamily$myFamilyAges)
+sd(myFamily$myFamilyAges)
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-us-state-pops">
+    <title>Working with the U.S. State Population Data</title>
+
+    <p>
+      Here's the next step up in looking at data. We will use a larger data set: the U.S.
+      state populations from the U.S. Census. You can obtain this data from the Census
+      website and read it into R. Once you have the data in a vector called
+      <c>USstatePops$V1</c>, here are the basic descriptive statistics:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-state-stats">
+      <code>
+mean(USstatePops$V1)
+median(USstatePops$V1)
+var(USstatePops$V1)
+sd(USstatePops$V1)
+      </code>
+    </program>
+
+    <p>
+      A histogram is a specialized type of bar graph designed to show <q>frequencies.</q>
+      Frequencies means how often a particular value or range of values occurs in a dataset.
+      You can generate one with:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-hist">
+      <code>
+hist(USstatePops$V1)
+hist(USstatePops$V1, breaks=20)
+      </code>
+    </program>
+
+    <p>
+      The histogram of the state populations shows a <q>reverse-J</q> distribution (also
+      known as a Pareto distribution). The normal distribution, introduced by Carl Friedrich
+      Gauss, has the characteristic bell shape. You can generate a normal distribution using
+      R's <c>rnorm()</c> function, which generates a random data set that fits the normal
+      distribution:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-rnorm">
+      <code>
+hist(rnorm(51, 6053834, 6823984))
+      </code>
+    </program>
+
+    <p>
+      Armed with the type/shape of a distribution, an anchoring point (the mean), and a
+      spread (the standard deviation), you have a powerful tool for making comparisons. In
+      the next chapter we will conduct some of these comparisons to see what we can infer
+      about the ways things are in general, based on just a subset of available data, or
+      what statisticians call a sample.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch06">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch06-challenge">
+      <statement>
+        <p>
+          In this chapter, we used <c>rnorm()</c> to generate random numbers that closely
+          fit a normal distribution. We also learned that the state population data was a
+          <q>Pareto</q> distribution. Do some research to find out what R function generates
+          random numbers using the Pareto distribution. Then run that function with the
+          correct parameters to generate 51 random numbers. Create a histogram of these
+          random numbers and describe the shape of the distribution.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch06">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://en.wikipedia.org/wiki/Carl_Friedrich_Gauss">Wikipedia: Carl Friedrich Gauss</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Francis_Galton">Wikipedia: Francis Galton</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Pareto_distribution">Wikipedia: Pareto Distribution</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Karl_Pearson">Wikipedia: Karl Pearson</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Ronald_Fisher">Wikipedia: Ronald Fisher</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/William_Sealy_Gosset">Wikipedia: William Sealy Gosset</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Normal_distribution">Wikipedia: Normal Distribution</url></p></li>
+        <li><p><url href="http://www.census.gov/popest/data/national/totals/2011/index.html">U.S. Census State Population Data</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

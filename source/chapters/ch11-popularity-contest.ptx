@@ -5,8 +5,129 @@
 
   <introduction>
     <p>
-      Coming soon.
+      In the previous chapter we found that arrival times of tweets on a given topic seem to
+      fit a Poisson distribution. Armed with that knowledge we can now develop a test to
+      compare two different Twitter topics to see which one is more popular (or at least
+      which one has a higher posting rate). We will use our knowledge of sampling
+      distributions to understand the logic of the test.
     </p>
   </introduction>
+
+  <section xml:id="sec-popularity-question">
+    <title>Which Topic Is More Popular?</title>
+
+    <p>
+      Which topic on Twitter is more popular, Lady Gaga or Oprah Winfrey? This may not seem
+      like an important question, but if we can make the comparison for these two topics, we
+      can make it for any two topics. Certainly in the case of presidential elections, or a
+      corruption scandal in the local news, or an international crisis, it could be a
+      worthwhile goal to be able to analyze social media in a systematic way.
+    </p>
+
+    <p>
+      Let's say we retrieved one hour's worth of Lady Gaga tweets and a similar amount of
+      Oprah Winfrey tweets and just counted them up. What if it just happened to be a slow
+      news day for Oprah? It really wouldn't be a fair comparison. A better approach would
+      build upon what we learned in the previous chapter about how arrival times fit into the
+      Poisson distribution. If the arrival curve is <q>steeper</q> for the first topic in
+      contrast to the second topic, then the first topic is more active and therefore more
+      popular.
+    </p>
+
+    <p>
+      Using R's <c>rpois()</c> function we can illustrate these kinds of differences. The
+      <c>rpois()</c> function will generate a stream of random numbers that roughly fit the
+      Poisson distribution. The first argument is how many random numbers to generate and
+      the second is the average delay between arrivals:
+    </p>
+
+    <program language="r" xml:id="prog-ch11-rpois">
+      <code>
+rpois(10, 3)
+mean(rpois(100, 3))
+var(rpois(100, 3))
+hist(rpois(1000, 3))
+hist(rpois(1000, 10))
+      </code>
+    </program>
+
+    <p>
+      It is a curious fact of Poisson distributions that the mean and the variance of the
+      ideal (theoretical) distribution are the same. In practice, for a small sample, they
+      may be different.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-poisson-rate-comparison">
+    <title>Comparing Two Poisson Rates</title>
+
+    <p>
+      Now that we understand how to visualize and compare Poisson distributions using
+      simulated data, we can apply this to real Twitter data. We will use a helper function
+      called <c>DelayProbability()</c> that takes a list of inter-arrival delay times and
+      returns the cumulative probability of an arrival within each time interval. For each
+      of the two topics we compare, we count the number of arrivals within the mean delay
+      for the combined samples and pass those counts to R's built-in <c>poisson.test()</c>
+      function:
+    </p>
+
+    <program language="r" xml:id="prog-ch11-poisson-test">
+      <code>
+poisson.test(c(333, 73), c(500, 500))
+      </code>
+    </program>
+
+    <p>
+      The output of <c>poisson.test()</c> provides several useful pieces of information.
+      The most important is the 95% confidence interval around the observed rate ratio.
+      The values of 3.53 and 5.96 represent the upper and lower limits of the 95%
+      confidence interval around the observed rate ratio of 4.56. So we can be pretty sure
+      (95% confidence) that Lady Gaga gets tweets at least 3.5 times as fast as Oprah.
+      Because the confidence interval does not include 1 (which would mean the two rates
+      are identical), we can be pretty certain that the observed rate ratio of 4.56 is not
+      a statistical fluke.
+    </p>
+
+    <p>
+      We can also use a bar chart to visualize the two Poisson cumulative probability
+      curves side by side. The <c>gplots</c> package provides a <c>barplot2()</c> function
+      that is useful for this purpose. When the two curves are very different (as in the
+      Gaga vs. Oprah case) the difference is visually obvious. When they are similar
+      (as in the Obama vs. Romney comparison) we need to rely on the confidence interval
+      to know whether the difference is statistically reliable.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch11">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch11-challenge">
+      <statement>
+        <p>
+          Write a function that takes two search strings as arguments and that returns
+          the results of a Poisson rate ratio test on the arrival rates of tweets on the
+          two topics. Your function should first run the necessary Twitter searches, then
+          sort the tweets by ascending time of arrival and calculate the two vectors of
+          time differentials. Use the mean of one of these vectors as the basis for
+          comparison and for each vector, count how many events are at or below the mean.
+          Use this information and the numbers of tweets requested to run the
+          <c>poisson.test()</c> rate comparison.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch11">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-1">Khan Academy: Poisson Process 1</url></p></li>
+        <li><p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-2">Khan Academy: Poisson Process 2</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/poisson.test.html">R Manual: poisson.test</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html">R Manual: Poisson distribution</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>

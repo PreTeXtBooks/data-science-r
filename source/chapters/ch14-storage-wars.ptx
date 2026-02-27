@@ -5,8 +5,153 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Before now we have only used small amounts of data that we typed in ourselves, or
+      somewhat larger amounts that we extracted from Twitter. The world is full of other
+      sources of data, however, and we need to examine how to get them into R, or at least
+      how to make them accessible for manipulation in R. In this chapter, we examine various
+      ways that data are stored, and how to access them.
     </p>
   </introduction>
+
+  <section xml:id="sec-data-formats">
+    <title>Data Formats: Open and Proprietary</title>
+
+    <p>
+      Over the last few years, the accelerating trend of Moore's Law has made data storage
+      almost <q>too cheap to meter.</q> Although this opens many opportunities, it also means
+      that people keep data around for a long time, and they may keep data around in many
+      different formats. The world is full of different data formats, some of which are
+      proprietary&#x2014;designed and owned by a single company such as SAS&#x2014;and
+      some of which are open, such as the lowly but infinitely useful <q>comma separated
+      variable,</q> or CSV format.
+    </p>
+
+    <p>
+      One of the basic dividing lines in data formats is whether data are human readable or
+      not. Formats that are not human readable, often called <term>binary formats</term>,
+      are very efficient in terms of how much data they can pack in per kilobyte, but are
+      also squirrelly in the sense that it is hard to see what is going on inside of the
+      format. Human readable formats are inefficient from a storage standpoint, but easy to
+      diagnose when something goes wrong.
+    </p>
+
+    <p>
+      Among the most common formats:
+    </p>
+
+    <ul>
+      <li><p><term>CSV (comma-separated values)</term>: A plain text format in which each
+        field is separated by a comma. The first row often contains column names
+        (headers).</p></li>
+      <li><p><term>Tab-delimited</term>: Like CSV, but uses a tab character as the
+        separator.</p></li>
+      <li><p><term>Excel (.xls/.xlsx)</term>: A proprietary binary format owned by
+        Microsoft that has become an informal standard for spreadsheet data.</p></li>
+      <li><p><term>OpenDocument</term>: An open format, based on XML, that is used by
+        programs like LibreOffice.</p></li>
+    </ul>
+
+  </section>
+
+  <section xml:id="sec-reading-files">
+    <title>Reading Files into R</title>
+
+    <p>
+      The first and easiest strategy for getting data into R is to use the data import
+      dialog in R-Studio. In the upper right-hand pane, the <q>Workspace</q> tab has an
+      <q>Import Dataset</q> button that opens a dialog for reading text files. R-Studio
+      tries to guess the appropriate separator and will give a preview of the data.
+    </p>
+
+    <p>
+      At the command line, the most commonly used functions for reading text data are
+      <c>read.csv()</c> for comma-delimited files and <c>read.delim()</c> for
+      tab-delimited files:
+    </p>
+
+    <program language="r" xml:id="prog-ch14-readcsv">
+      <code>
+myData &lt;- read.csv("myfile.csv", header=TRUE)
+myData &lt;- read.delim("myfile.txt", header=TRUE)
+      </code>
+    </program>
+
+    <p>
+      For Excel files, a general purpose data manipulation package called <c>gdata</c>
+      provides essential facilities for importing spreadsheet files. Begin by installing
+      and loading the package:
+    </p>
+
+    <program language="r" xml:id="prog-ch14-gdata">
+      <code>
+install.packages("gdata")
+library(gdata)
+      </code>
+    </program>
+
+    <p>
+      The <c>gdata</c> package is a kind of <q>Swiss Army Knife</q> package containing
+      many different functions for accessing and manipulating data. For example, R uses
+      the value <c>NA</c> to represent missing data. Frequently, however, it is the case
+      that data sets contain other values, such as 999, to represent missing data. The
+      <c>gdata</c> package has several functions that find and transform these values to be
+      consistent with R's strategy for handling missing data.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-database-access">
+    <title>Connecting to Databases</title>
+
+    <p>
+      Many data sources, particularly databases, exist not as a single discrete file, but
+      rather as a system that provides methods or calls to <q>query</q> data from the
+      system. The <c>RODBC</c> package provides an Open Database Connection (ODBC)
+      interface for Windows. For cross-platform database access, other packages such as
+      <c>RMySQL</c>, <c>RPostgreSQL</c>, and <c>RSQLite</c> provide direct connections to
+      specific database systems.
+    </p>
+
+    <p>
+      A comprehensive access list of methods for obtaining data from a wide variety of
+      programs and formats appears in the R Data Import/Export manual:
+      <url href="http://cran.r-project.org/doc/manuals/R-data.html">http://cran.r-project.org/doc/manuals/R-data.html</url>
+    </p>
+
+    <p>
+      As an open source program with many contributors, R offers a wide variety of methods
+      of connecting with external data sources. This is both a blessing and a curse. There
+      is a solution to almost any data access problem you can imagine with R, but there is
+      also a dizzying array of options available such that it is not always obvious what to
+      choose.
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch14">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch14-challenge">
+      <statement>
+        <p>
+          Go to <url href="http://Data.gov">Data.gov</url> or another open data portal and
+          find a data set in CSV or tab-delimited format that interests you. Download it and
+          read it into R using either <c>read.csv()</c> or <c>read.delim()</c>. Use the
+          <c>str()</c> and <c>summary()</c> functions to explore the structure of the data
+          and report what you find.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch14">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://cran.r-project.org/doc/manuals/R-data.html">R Data Import/Export Manual</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia: CSV</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/OpenDocument">Wikipedia: OpenDocument</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>
