@@ -1,0 +1,8 @@
+# PreTeXt build output
+output/
+generated-assets/
+
+# R artifacts
+.Rhistory
+.RData
+.Rproj.user/

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<publication>
+  <common>
+    <tableofcontents level="2" />
+  </common>
+
+  <source>
+    <directories external="../assets" generated="../generated-assets" />
+  </source>
+
+  <html>
+    <calculator model="none" />
+    <css style="default" />
+    <search variant="default" />
+    <baseurl href="https://pretextbooks.github.io/data-science-r/" />
+  </html>
+</publication>

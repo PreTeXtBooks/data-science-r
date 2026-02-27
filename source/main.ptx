@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<pretext xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en-US">
+  <docinfo>
+  </docinfo>
+
+  <book xml:id="data-science-r">
+    <title>Introduction to Data Science</title>
+    <subtitle>Version 3</subtitle>
+
+    <frontmatter xml:id="frontmatter">
+      <titlepage>
+        <author>
+          <personname>Jeffrey Stanton</personname>
+          <institution>Syracuse University</institution>
+        </author>
+        <author>
+          <personname>Robert W. De Graaf</personname>
+        </author>
+      </titlepage>
+
+      <colophon>
+        <copyright>
+          <year>2012&#x2013;2013</year>
+          <holder>Jeffrey Stanton</holder>
+          <shortlicense>
+            This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License.
+            To view a copy of this license, visit
+            <url href="http://creativecommons.org/licenses/by-nc-sa/3.0/" visual="creativecommons.org/licenses/by-nc-sa/3.0">CreativeCommons.org</url>.
+          </shortlicense>
+        </copyright>
+      </colophon>
+    </frontmatter>
+
+    <xi:include href="chapters/ch00-data-science-many-skills.ptx" />
+    <xi:include href="chapters/ch01-about-data.ptx" />
+    <xi:include href="chapters/ch02-identifying-data-problems.ptx" />
+    <xi:include href="chapters/ch03-getting-started-with-r.ptx" />
+    <xi:include href="chapters/ch04-follow-the-data.ptx" />
+    <xi:include href="chapters/ch05-rows-and-columns.ptx" />
+    <xi:include href="chapters/ch06-beer-farms-and-peas.ptx" />
+    <xi:include href="chapters/ch07-sample-in-a-jar.ptx" />
+    <xi:include href="chapters/ch08-big-data-big-deal.ptx" />
+    <xi:include href="chapters/ch09-onward-with-r-studio.ptx" />
+    <xi:include href="chapters/ch10-tweet-tweet.ptx" />
+    <xi:include href="chapters/ch11-popularity-contest.ptx" />
+    <xi:include href="chapters/ch12-string-theory.ptx" />
+    <xi:include href="chapters/ch13-word-perfect.ptx" />
+    <xi:include href="chapters/ch14-storage-wars.ptx" />
+    <xi:include href="chapters/ch15-map-mashup.ptx" />
+    <xi:include href="chapters/ch16-line-up-please.ptx" />
+    <xi:include href="chapters/ch17-data-mining.ptx" />
+    <xi:include href="chapters/ch18-whats-your-vector.ptx" />
+
+    <backmatter xml:id="backmatter">
+      <colophon>
+        <p>This book was authored in <pretext />.</p>
+      </colophon>
+    </backmatter>
+  </book>
+</pretext>
