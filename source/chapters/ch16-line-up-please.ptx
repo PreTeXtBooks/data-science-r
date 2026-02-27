@@ -5,8 +5,186 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Data users are often interested in questions about relationships and prediction. For
+      example, those interested in athletics might want to know how the size of the fan base
+      of a team is connected with attendance on game day. In this chapter, our Australian
+      colleague, Robert de Graaf, introduces the techniques of linear regression, a very
+      important data science tool.
     </p>
   </introduction>
+
+  <section xml:id="sec-linear-regression-intro">
+    <title>Finding Relationships Between Sets of Data</title>
+
+    <p>
+      Finding relationships between sets of data is one of the key aims of data science.
+      The question of <q>does x influence y</q> is of prime concern for data analysts&#x2014;are
+      house prices influenced by incomes, is the growth rate of crops improved by fertilizer,
+      do taller sprinters run faster?
+    </p>
+
+    <p>
+      The workhorse method used by statisticians to interpret data is <term>linear
+      modeling</term>, which is a term covering a wide variety of methods from the
+      relatively simple to very sophisticated. The basis of all these methods is the idea
+      that it is possible to fit a line to a set of data points which represents the effect
+      an <q>independent</q> variable is having on a <q>dependent</q> variable. The original
+      ideas behind linear regression were developed by Laplace, Gauss, Galton, and Pearson.
+      The biggest individual contribution was probably by Gauss, who used the procedure to
+      predict movements of the other planets in the solar system.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-afl-data">
+    <title>Football or Rugby? The Australian Rules Football Example</title>
+
+    <p>
+      We can use an example to show how to use linear regression on real data. The example
+      concerns attendances at Australian Rules Football matches at the Melbourne Cricket
+      Ground (MCG). The variable of interest is MCG attendance. Potential explanatory, or
+      independent, variables include club membership, weather on match day, date of match,
+      and so on. The data are available from OzDasl at
+      <url href="http://www.statsci.org/data/oz/afl.html">http://www.statsci.org/data/oz/afl.html</url>.
+    </p>
+
+    <p>
+      After downloading the data, read it into R as follows:
+    </p>
+
+    <program language="r" xml:id="prog-ch16-read">
+      <code>
+attend &lt;- read.delim("afl.txt", header=TRUE)
+attach(attend)
+      </code>
+    </program>
+
+    <p>
+      With the data loaded, we can examine plots of the data before undertaking a more
+      detailed analysis:
+    </p>
+
+    <program language="r" xml:id="prog-ch16-plot">
+      <code>
+plot(MCG ~ Members,
+  xlab="Combined membership of teams playing",
+  ylab="MCG Match Day Attendance")
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-linear-model">
+    <title>Building a Linear Model with lm()</title>
+
+    <p>
+      We can use R to create a linear model for MCG attendance using the combined
+      membership as the single explanatory variable:
+    </p>
+
+    <program language="r" xml:id="prog-ch16-lm1">
+      <code>
+model1 &lt;- lm(MCG ~ Members - 1)
+summary(model1)
+abline(model1)
+      </code>
+    </program>
+
+    <p>
+      Note that in the model formula, we have added a <c>-1</c> term to the
+      specification, which forces the line of best fit to pass through zero on the y axis
+      when x is zero (the y-intercept is forced to be at the origin). In the present model
+      that is essentially saying that if the two teams are so unpopular they don't have any
+      members, no one will go to see their matches. This technique is appropriate here
+      because both measures have sensible zero points, and we can logically reason that
+      zero on X implies zero on Y. In most other models, particularly for survey data that
+      may not have a sensible zero point, it would not be appropriate to force the best
+      fitting line through the origin.
+    </p>
+
+    <p>
+      The <c>summary(model1)</c> output includes the <term>r-squared value</term> (also
+      known as the coefficient of determination), which represents the proportion of the
+      variation in the dependent variable that is accounted for by the independent
+      variable(s). An r-squared value of 1.0 would mean the X variable perfectly predicts
+      Y. An r-squared of zero would indicate no predictive relationship. The r-squared of
+      0.8847 in this example means that the Combined Members variable accounts for 88.47%
+      of the MCG attendance variable&#x2014;an excellent result.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-multiple-regression">
+    <title>Adding Another Independent Variable</title>
+
+    <p>
+      Some of the teams in the AFL are from interstate (outside Victoria), and their
+      supporters would need to make a significant interstate journey to see their team play
+      at the MCG. We can create a binary coded variable to indicate whether the away team
+      is interstate:
+    </p>
+
+    <program language="r" xml:id="prog-ch16-ifelse">
+      <code>
+away.inter &lt;- ifelse(Away=="WC" |
+  Away=="Adel" |
+  Away=="Syd" |
+  Away=="Bris", 1, 0)
+      </code>
+    </program>
+
+    <p>
+      Now we can include this new variable in a two-predictor model:
+    </p>
+
+    <program language="r" xml:id="prog-ch16-lm2">
+      <code>
+model2 &lt;- lm(MCG ~ Members + away.inter - 1)
+summary(model2)
+      </code>
+    </program>
+
+    <p>
+      The r-squared value is now 0.9246, which is quite a bit higher than the 0.8847 that
+      we observed in the previous model. In this new model, the two independent variables
+      working together account for 92.46% of the dependent variable.
+    </p>
+
+    <p>
+      To determine whether each predictor is an important contributor to the prediction,
+      examine the <q>t value</q> in the model output. As a rule of thumb, if this t value
+      has an absolute value larger than about 2, you can be assured that the independent
+      variable is contributing to the prediction. In this example <c>Members</c> has a
+      t value of 21.257 and <c>away.inter</c> has a t value of <m>-4.545</m> (both are
+      well above 2 in absolute value).
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch16">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch16-challenge">
+      <statement>
+        <p>
+          We intentionally ignored some of the output of these regression models. It would
+          be quite valuable for you to understand those missing parts. In particular, we
+          ignored the <q>p-values</q> associated with the t-tests on the slope/B-weight
+          estimates and we also ignored the overall F-statistic reported at the very bottom
+          of the output. Research these concepts online.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch16">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://en.wikipedia.org/wiki/Australian_rules_football">Wikipedia: Australian Rules Football</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html">R Manual: lm()</url></p></li>
+        <li><p><url href="http://www.statsci.org/data/oz/afl.html">OzDasl: AFL Attendance Data</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>
