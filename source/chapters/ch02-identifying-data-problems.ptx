@@ -5,8 +5,155 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Data Science is different from other areas such as mathematics or statistics. Data
+      Science is an applied activity and data scientists serve the needs and solve the
+      problems of data users. Before you can solve a problem, you need to identify it and
+      this process is not always as obvious as it might seem. In this chapter, we discuss
+      the identification of data problems.
     </p>
   </introduction>
+
+  <section xml:id="sec-three-strategies">
+    <title>Three Strategies for Identifying Data Problems</title>
+
+    <p>
+      Apple farmers live in constant fear, first for their blossoms and later for their
+      fruit. A late spring frost can kill the blossoms. Hail or extreme wind in the summer
+      can damage the fruit. More generally, farming is an activity that is first and
+      foremost in the physical world, with complex natural processes and forces, like
+      weather, that are beyond the control of humankind.
+    </p>
+
+    <p>
+      In this highly physical world of unpredictable natural forces, is there any role for
+      data science? On the surface there does not seem to be. But how can we know for sure?
+      Having a nose for identifying data problems requires openness, curiosity, creativity,
+      and a willingness to ask a lot of questions. In fact, if you took away from the first
+      chapter the impression that a data scientist sits in front of a computer all day and
+      works a crazy program like R, that is a mistake. Every data scientist must (eventually)
+      become immersed in the problem domain where she is working. The data scientist may
+      never actually become a farmer, but if you are going to identify a data problem that a
+      farmer has, you have to learn to think like a farmer, to some degree.
+    </p>
+
+    <p>
+      To get this domain knowledge you can read or watch videos, but the best way is to ask
+      <q>subject matter experts</q> (in this case farmers) about what they do. The whole
+      process of asking questions deserves its own treatment, but for now there are three
+      things to think about when asking questions. First, you want the subject matter
+      experts, or SMEs, as they are sometimes called, to tell stories of what they do. Then
+      you want to ask them about anomalies: the unusual things that happen for better or for
+      worse. Finally, you want to ask about risks and uncertainty: what are the situations
+      where it is hard to tell what will happen next&#x2014;and what happens next could have
+      a profound effect on whether the situation ends badly or well. Each of these three
+      areas of questioning reflects an approach to identifying data problems that may turn up
+      something good that could be accomplished with data, information, and the right
+      decision at the right time.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-strategy-stories">
+    <title>Strategy 1: Ask About Stories</title>
+
+    <p>
+      The purpose of asking about stories is that people mainly think in stories. From
+      farmers to teachers to managers to CEOs, people know and tell stories about success
+      and failure in their particular domain. Stories are powerful ways of communicating
+      wisdom between different members of the same profession and they are ways of
+      collecting a sense of identity that sets one profession apart from another profession.
+      The only problem is that stories can be wrong.
+    </p>
+
+    <p>
+      If you can get a professional to tell the main stories that guide how she conducts her
+      work, you can then consider how to verify those stories. Without questioning the
+      veracity of the person that tells the story, you can imagine ways of measuring the
+      different aspects of how things happen in the story with an eye towards eventually
+      verifying (or sometimes debunking) the stories that guide professional work.
+    </p>
+
+    <p>
+      For example, the farmer might say that in the deep spring frost that occurred five
+      years ago, the trees in the hollow were spared frost damage while the trees around the
+      ridge of the hill had more damage. For this reason, on a cold night the farmer places
+      most of the smudgepots (containers that hold a fuel that creates a smoky fire) around
+      the ridge. The farmer strongly believes that this strategy works, but does it? It would
+      be possible to collect time-series temperature data from multiple locations within the
+      orchard on cold and warm nights, and on nights with and without smudgepots. The data
+      could be used to create a model of temperature changes in the different areas of the
+      orchard and this model could support, improve, or debunk the story.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-strategy-exceptions">
+    <title>Strategy 2: Look for Exception Cases</title>
+
+    <p>
+      A second strategy for problem identification is to look for the exception cases, both
+      good and bad. A little later in the book we will learn about how the core of classic
+      methods of statistical inference is to characterize <q>the center</q>&#x2014;the most
+      typical cases that occur&#x2014;and then examine the extreme cases that are far from
+      the center for information that could help us understand an intervention or an unusual
+      combination of circumstances. Identifying unusual cases is a powerful way of
+      understanding how things work, but it is necessary first to define the central or most
+      typical occurrences in order to have an accurate idea of what constitutes an unusual
+      case.
+    </p>
+
+    <p>
+      Coming back to our farmer friend, in advance of a thunderstorm late last summer, a
+      powerful wind came through the orchard, tearing the fruit off the trees. Most of the
+      trees lost a small amount of fruit: the dropped apples could be seen near the base of
+      the tree. One small grouping of trees seemed to lose a much larger amount of fruit,
+      however, and the drops were apparently scattered much further from the trees. Is it
+      possible that some strange wind conditions made the situation worse in this one spot?
+      Or is it just a matter of chance that a few trees in the same area all lost a bit more
+      fruit than would be typical.
+    </p>
+
+    <p>
+      A systematic count of lost fruit underneath a random sample of trees would help to
+      answer this question. The bulk of the trees would probably have each lost about the
+      same amount, but more importantly, that <q>typical</q> group would give us a yardstick
+      against which we could determine what would really count as unusual. When we found an
+      unusual set of cases that was truly beyond the limits of typical, we could rightly
+      focus our attention on these to try to understand the anomaly.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-strategy-risk">
+    <title>Strategy 3: Find Out About Risk and Uncertainty</title>
+
+    <p>
+      A third strategy for identifying data problems is to find out about risk and
+      uncertainty. If you read the previous chapter you may remember that a basic function
+      of information is to reduce uncertainty. It is often valuable to reduce uncertainty
+      because of how risk affects the things we all do. At work, at school, at home, life is
+      full of risks: making a decision or failing to do so sets off a chain of events that
+      may lead to something good or something not so good. It is difficult to say, but in
+      general we would like to narrow things down in a way that maximizes the chances of a
+      good outcome and minimizes the chance of a bad one. To do this, we need to make better
+      decisions and to make better decisions we need to reduce uncertainty. By asking
+      questions about risks and uncertainty (and decisions) a data scientist can zero in on
+      the problems that matter. You can even look at the previous two strategies&#x2014;asking
+      about the stories that comprise professional wisdom and asking about anomalies/unusual
+      cases&#x2014;in terms of the potential for reducing uncertainty and risk.
+    </p>
+
+    <p>
+      In the case of the farmer, much of the risk comes from the weather, and the
+      uncertainty revolves around which countermeasures will be cost effective under
+      prevailing conditions. Consuming lots of expensive oil in smudgepots on a night that
+      turns out to be quite warm is a waste of resources that could make the difference
+      between a profitable or an unprofitable year. So more precise and timely information
+      about local weather conditions might be a key focus area for problem solving with
+      data. What if a live stream of national weather service doppler radar could appear on
+      the farmer's smart phone? Let's build an app for that&#x2026;
+    </p>
+
+  </section>
 
 </chapter>
