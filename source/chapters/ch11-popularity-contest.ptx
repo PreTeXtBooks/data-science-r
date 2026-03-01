@@ -2,6 +2,12 @@
 
 <chapter xml:id="ch11-popularity-contest" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Popularity Contest</title>
+  <introduction>
+   <p>In the previous chapter we found that arrival times of tweets on a given topic seem to fit a Poisson
+distribution. Armed with that knowledge we can now develop a test to compare two different Twitter
+topics to see which one is more popular (or at least which one has a higher posting rate). We will use
+our knowledge of sampling distributions to understand the logic of the test.</p>
+   </introduction>
 
   <section xml:id="sec-ch11-intro">
     <title>Which Topic Is More Popular?</title>
