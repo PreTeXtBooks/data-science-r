@@ -1,193 +1,979 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <chapter xml:id="ch12-string-theory" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>String Theory</title>
 
-  <introduction>
-    <p>
-      Prior chapters focused on statistical analysis of tweet arrival times and built on
-      earlier knowledge of samples and distributions. This chapter switches gears to focus
-      on manipulating so-called <q>unstructured</q> data, which in most cases means natural
-      language texts. Tweets are again a useful source of data for this because tweets are
-      mainly short (140 characters or less) character strings.
-    </p>
-  </introduction>
-
-  <section xml:id="sec-strings-overview">
+  <section xml:id="sec-text-as-data">
     <title>Text as Data</title>
 
     <p>
-      If you think about the Internet, and specifically about the World Wide Web for a while,
-      you will realize: 1) That there are zillions of web pages; and 2) That most of the
-      information on those web pages is <q>unstructured,</q> in the sense that it does not
-      consist of nice rows and columns of numeric data. Instead, most of the data spread out
-      across the Internet is text, digital photographs, or digital videos.
+      Yoiks, that last chapter was very challenging! Lots of numbers, lots of statistical concepts, lots of graphs. Let’s take a break from all that (temporarily) and focus on a different kind of data for a while. If you think about the Internet, and specifically about the World Wide Web for a while, you will realize: 1) That there are zillions of web pages; and 2) That most of the information on those web pages is “unstructured,” in the sense that it does not consist of nice rows and columns of numeric data with measurements of time or other attributes. Instead, most of the data spread out across the Internet is text, digital photographs, or digital videos. These last two categories are interesting, but we will have to postpone consideration of them while we consider the question of text.
     </p>
 
     <p>
-      Text is one of the most common forms of human communication, hence the label that
-      researchers use sometimes: <term>natural language</term>. At the most basic level, we
-      have a great system for representing individual characters of text inside of computers
-      called <q>Unicode.</q> Unicode provides a binary representation of characters in most
-      of the world's written languages, over 110,000 characters in all. Unicode supersedes
-      ASCII, which was one of the most popular standards for representing characters from the
-      dawn of the computer age.
+      Text is, of course, one of the most common forms of human communication, hence the label that researchers use sometimes: natural language. When we say natural language text we mean words created by humans and for humans. With our cool computer technology, we have collectively built lots of ways of dealing with natural language text. At the most basic level, we have a great system for representing individual characters of text inside of computers called “Unicode.” Among other things Unicode provides for a binary representation of characters in most of the world’s written languages, over 110,000 characters in all. Unicode supersedes ASCII (the American Standard Code for Information Interchange), which was one of the most popular standards (especially in the U.S.) for representing characters from the dawn of the computer age.
     </p>
 
     <p>
-      One of the most striking things about strings from a computer programming perspective
-      is that they seem to be changing their length all the time. You can't perform the
-      usual mathematical operations on character strings the way you can with numbers, but
-      it is very common to <q>split</q> strings into smaller strings, and to <q>add</q>
-      strings together to form longer strings.
+      With the help of Unicode, most computer operating systems, and most application programs that handle text have a core strategy for representing text as lists of binary codes. Such lists are commonly referred to as “character strings” or in most cases just “strings.” One of the most striking things about strings from a computer programming perspective is that they seem to be changing their length all the time. You can’t perform the usual mathematical operations on character strings the way you can with numbers - no multiplication or division - but it is very common to “split” strings into smaller strings, and to “add” strings together to form longer strings. So while we may start out with, “the quick brown fox,” we may end up with “the quick brown” in one string and “fox” in another, or we may end up with something longer like, “the quick brown fox jumped over the lazy dog.”
     </p>
 
     <p>
-      Fortunately, R has a wide range of functions for manipulating, keeping track of,
-      searching, and analyzing string data. Let's begin by loading a new package called
-      <c>stringr</c>. Although R has quite a few string functions in its core, they tend
-      to be a bit disorganized. Hadley Wickham, a professor of statistics at Rice
-      University, created this <c>stringr</c> package to make string manipulation functions
-      easier to use:
+      Fortunately, R, like most other data handling applications, has a wide range of functions for manipulating, keeping track of, searching, and even analyzing string data. In this chapter, we will use our budding skills working with tweet data to learn the essentials of working with unstructured text data. The learning goal here is simply to become comfortable with examining and manipulating text data. We need these basic skills before we can tackle a more interesting problem.
     </p>
 
-    <program language="r" xml:id="prog-ch12-stringr">
+    <p>
+      Let’s begin by loading a new package, called “stringr”. Although R has quite a few string functions in its core, they tend to be a bit disorganized. So Hadley Wickham, a professor of statistics at Rice University, created this “stringr” package to make a set of string manipulation functions a bit easier to use and more comprehensive. You can install() and library() this package using the point and click features of R-Studio (look in the lower right hand pane under the Packages tab), or if you created the EnsurePackage() function from a couple of chapters back, you can use that:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-ensure">
       <code>
 EnsurePackage("stringr")
-tweetDF &lt;- TweetFrame("#solar", 100)
       </code>
     </program>
 
+    <p>
+      Now we can grab a new set of tweets with our custom function TweetFrame() from a couple of chapters ago (if you need the code, look in the chapter entitled “Tweet, Tweet”; we’ve also pasted the enhanced function, that sorts the tweets into arrival order, into the end of this chapter):
+    </p>
+
+    <program language="r" xml:id="prog-ch12-tweetframe">
+      <code>
+tweetDF &lt;- TweetFrame("#solar",100)
+      </code>
+    </program>
+
+    <p>
+      This command should return a data frame containing about 100 tweets, mainly having to do with solar energy. You can choose any topic you like - all of the string techniques we examine in this chapter are widely applicable to any text strings. We should get oriented by taking a look at what we retrieved. The head() function can return the first entries in any vector or list:
+    </p>
+
+    <p>
+      We provide a screen shot from R-Studio here just to preserve the formatting of this output. In the left hand margin, the number 97 represents R’s indexing of the original order in which the tweet was received. The tweets were re-sorted into arrival order by our enhanced TweetFrame() function (see the end of the chapter for code). So this is the first element in our dataframe, but internally R has numbered it as 97 out of the 100 tweets we obtained. On the first line of the output, R has place the label “text” and this is the field name of the column in the dataframe that contains the texts of the tweets. Other dataframe fields that we will not be using in this chapter include: “favorited,” “replyToSN,” and “truncated.” You may also recognize the field name “created” which contains the POSIX format time and date stamp that we used in previous chapters. Generally speaking, R has placed the example data (from tweet 97) that goes with the field name just underneath it, but the text justification can be confusing, and it makes this display very hard to read. For example, there is a really long number that starts with “1908” that is the unique numeric identifier (a kind of serial number) for this tweet. The field name “id” appears just above it, but is right justified (probably because the field is a number). The most important fact for us to note is that if we want to work with the text string that is the tweet itself, we need to use the field name “text.” Let’s see if we can get a somewhat better view if we use the head() function just on the text field. This command should provide just the first 2 entries in the “text” column of the dataframe:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-head">
+      <code>
+head(tweetDF$text,2)
+      </code>
+    </program>
+
+    <p>
+      [1] "If your energy needs increase after you install a #solar system can you upgrade? Our experts have the answer! http://t.co/ims8gDWW"
+    </p>
+
+    <p>
+      [2] "#green New solar farms in West Tennessee signal growth: Two new solar energy farms producing electricity ... http://t.co/37PKAF3N #solar"
+    </p>
+
+    <p>
+      A couple of things which will probably seem obvious, but are nonetheless important to point out: The [1] and [2] are not part of the tweet, but are the typical line numbers that R uses in its output. The actual tweet text is between the double quotes. You can see the hashtag “#solar” appears in both tweets, which makes sense because this was our search term. There is also a second hashtag in the first tweet “#green” so we will have to be on the lookout for multiple hashtags. There is also a “shortened” URL in each of these tweets. If a Twitter user pastes in the URL of a website to which they want to refer people, the Twitter software automatically shortens the URL to something that begins with “http://t.co/” in order to save space in the tweet.
+    </p>
+
+    <p>
+      An even better way to look at these data, including the text and the other fields is to use the data browser that is built into R-Studio. If you look in the upper right hand pane of R-Studio, and make sure that the Workspace tab is clicked, you should see a list of available dataframes, under the heading “Data.” One of these should be “tweetDF.” If you click on tweetDF, the data browser will open in the upper left hand pane of R-Studio and you should be able to see the first field or two of the first dozen rows. Here’s a screen shot:
+    </p>
+
+    <p>
+      This screen shot confirms what we observed in the command line output, but gives us a much more appealing and convenient way of looking through our data. Before we start to manipulate our strings, let’s attach() tweetDF so that we don’t have to keep using the $ notation to access the text field. And before that, let’s check what is already attached with the search() function:
+    </p>
+
+    <p>
+      &gt; search()
+    </p>
+
+    <p>
+      [1] ".GlobalEnv"         "sortweetDF"         "package:gplots"
+    </p>
+
+    <p>
+      [4] "package:KernSmooth" "package:grid"       "package:caTools"
+    </p>
+
+    <p>
+      We’ve truncated this list to save space, but you can see on the first line “sortweetDF” left over from our work in a previous chapter. The other entries are all function packages that we want to keep active. So let’s detach() sortweetDF and attach tweetDF:
+    </p>
+
+    <p>
+      &gt; detach(sortweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      These commands should yield no additional output. If you get any messages about “The following object(s) are masked from...” you should run search() again and look for other dataframes that should be detached before proceeding. Once you can run attach(“tweetDF”) without any warnings, you can be sure that the fields in this dataframe are ready to use without interference.
+    </p>
+
   </section>
 
-  <section xml:id="sec-string-functions">
+  <section xml:id="sec-string-ops">
     <title>Basic String Operations</title>
 
     <p>
-      The first and most basic thing to do with strings is to see how long they are. The
-      <c>stringr</c> package gives us the <c>str_length()</c> function:
+      The first and most basic thing to do with strings is to see how long they are. The stringr package gives us the str_length() function to accomplish this task:
     </p>
 
-    <program language="r" xml:id="prog-ch12-str-length">
+    <p>
+      &gt; str_length(text)
+    </p>
+
+    <p>
+      [1] 130 136 136 128  98  75 131 139  85 157 107  49  75 139 136 136
+    </p>
+
+    <p>
+      [17] 136  72  73 136 157 123 160 142 142 122 122 122 122 134  82  87
+    </p>
+
+    <p>
+      [33]  89 118  94  74 103  91 136 136 151 136 139 135  70 122 122 136
+    </p>
+
+    <p>
+      [49] 123 111  83 136 137  85 154 114 117  98 125 138 107  92 140 119
+    </p>
+
+    <p>
+      [65]  92 125  84  81 107 107  73  73 138  63 137 139 131 136 120 124
+    </p>
+
+    <p>
+      [81] 124 114  78 118 138 138 116 112 101  94 153  79  79 125 125 102
+    </p>
+
+    <p>
+      [97] 102 139 138 153
+    </p>
+
+    <p>
+      There are all of the string lengths of the texts, reported to the command line. It is interesting to find that there are a few of them (like the very last one) that are longer than 140 characters:
+    </p>
+
+    <p>
+      &gt; tail(text,1)
+    </p>
+
+    <p>
+      [1] "RT @SolarFred: Hey, #solar &amp; wind people. Tell @SpeakerBoehner and @Reuters that YOU have a green job and proud to be providing energy Independence to US"
+    </p>
+
+    <p>
+      As you can see, the tail() command works like the head() command except from the bottom up rather than the top down. So we have learned that under certain circumstances Twitter apparently does allow tweets longer than 140 characters. Perhaps the initial phrase “RT @SolarFred” does not count against the total. By the way “RT” stands for “retweet” and it indicates when the receiver of a tweet has passed along the same message to his or her followers.
+    </p>
+
+    <p>
+      We can glue the string lengths onto the respective rows in the dataframe by creating a new field/column:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-textlen">
       <code>
-attach(tweetDF)
-textlen &lt;- str_length(text)
-head(textlen, 10)
+tweetDF$textlen &lt;- str_length(text)
       </code>
     </program>
 
     <p>
-      We can also look for matching text within a string using <c>str_detect()</c>, which
-      returns a vector of TRUE and FALSE values. And <c>str_locate()</c> provides the
-      starting and ending positions of a match within a string. The <c>str_sub()</c>
-      function lets us extract a sub-string given a start and end position:
+      After running this line of text, you should use the data browser in R-studio to confirm that the tweetDF now has a new column of data labeled “textlen”. You will find the new column all the way on the rightmost side of the dataframe structure. One peculiarity of the way R treats attached data is that you will not be able to access the new field without the $ notation unless you detach() and then again attach() the data frame. One advantage of grafting this new field onto our existing dataframe is that we can use it to probe the dataframe structure:
     </p>
 
-    <program language="r" xml:id="prog-ch12-str-detect">
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      &gt; tweetDF[textlen&gt;140, "text"]
+    </p>
+
+    <p>
+      [1] "RT @andyschonberger: Exciting (and tempting) to see #EVs all over the #GLS12 show. Combine EVs w #solar generation and we have a winner! http://t.co/NVsfq4G3"
+    </p>
+
+    <p>
+      We’ve truncated the output to save space, but in the data we are using here, there were nine tweets with lengths greater than 140. Not all of them had “RT” in them, though, so the mystery remains. An important word about the final command line above, though: We’re using the square brackets notation to access the elements of tweetDF. In the first entry, “textlen&gt;140”, we’re using a conditional expression to control which rows are reported. Only those rows where our new field “textlen” contains a quantity larger than 140 will be reported to the output. In the second entry within square brackets, “text” controls which columns are reported onto the output. The square bracket notation is extremely powerful and sometimes a little unpredictable and confusing, so it is worth experimenting with. For example, how would you change that last command above to report all of the columns/fields for the matching rows? Or how would you request the “screenName” column instead of the “text” column? What would happen if you substituted the number 1 in place of “text” on that command?
+    </p>
+
+    <p>
+      The next common task in working with strings is to count the number of words as well as the number of other interesting elements within the text. Counting the words can be accomplished in several ways. One of the simplest ways is to count the separators between the words - these are generally spaces. We need to be careful not to over count, if someone has mistakenly typed two spaces between a word, so let’s make sure to take out doubles. The str_replace_all() function from stringr can be used to accomplish this:
+    </p>
+
+    <p>
+      &gt; tweetDF$modtext &lt;- str_replace_all(text,"  "," ")
+    </p>
+
+    <p>
+      &gt; tweetDF$textlen2 &lt;- str_length(tweetDF$modtext)
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      &gt; tweetDF[textlen != textlen2,]
+    </p>
+
+    <p>
+      The first line above uses the str_replace_all() function to substitute the one string in place of another as many times as the matching string appears in the input. Three arguments appear on the function above: the first is the input string, and that is tweetDF$text (although we’ve referred to it just as “text because the dataframe is attached). The second argument is the string to look for and the third argument is the string to substitute in place of the first. Note that here we are asking to substitute one space any time that two in a row are found. Almost all computer languages have a function similar to this, although many of them only supply a function that replaces the first instance of the matching string.
+    </p>
+
+    <p>
+      In the second command we have calculated a new string length variable based on the length of the strings where the substitutions have occurred. We preserved this in a new variable/field/column so that we can compare it to the original string length in the final command. Note the use of the bracket notation in R to address a certain subset of rows based on where the inequality is true. So here we are looking for a report back of all of the strings whose lengths changed. In the tweet data we are using here, the output indicated that there were seven strings that had their length reduced by the elimination of duplicate spaces.
+    </p>
+
+    <p>
+      Now we are ready to count the number of words in each tweet using the str_count() function. If you give it some thought, it should be clear that generally there is one more word than there are spaces. For instance, in the sentence, “Go for it,” there are two spaces but three words. So if we want to have an accurate count, we should add one to the total that we obtain from the str_count() function:
+    </p>
+
+    <p>
+      &gt; tweetDF$wordCount&lt;-(str_count(modtext," ") + 1)
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      &gt; mean(wordCount)
+    </p>
+
+    <p>
+      [1] 14.24
+    </p>
+
+    <p>
+      In this last command, we’ve asked R to report the mean value of the vector of word counts, and we learn that on average a tweet in our dataset has about 14 words in it.
+    </p>
+
+    <p>
+      Next, let’s do a bit of what computer scientists (and others) call “parsing.” Parsing is the process of dividing a larger unit, like a sentence, into smaller units, like words, based on some kind of rule. In many cases, parsing requires careful use of pattern matching. Most computer languages accomplish pattern matching through the use of a strategy called “regular expressions.” A regular expression is a set of symbols used to match patterns. For example, [a-z] is used to match any lowercase letter and the asterisk is used to represent a sequence of zero or more characters. So the regular expression “[a-z]*” means, “match a sequence of zero or more lowercase characters.
+    </p>
+
+    <p>
+      If we wanted to parse the retweet sequence that appears at the beginning of some of the tweets, we might use a regular expression like this: “RT @[a-z,A-Z]*: ”. Each character up tot he square bracket is a “literal” that has to match exactly. Then the “[a-z,A-Z]*” lets us match any sequence of uppercase and lowercase characters. Finally, the “: ” is another literal that matches the end of the sequence. You can experiment with it freely before you commit to using a particular expression, by asking R to echo the results to the command line, using the function str_match() like this:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-strmatch">
       <code>
-hasURL &lt;- str_detect(text, "http")
-hasrt &lt;- str_detect(text, "RT ")
-longtext &lt;- textlen > 140
+str_match(modtext,"RT @[a-z,A-Z]*: ")
       </code>
     </program>
 
     <p>
-      Search and replace operations are also very common. The <c>str_replace_all()</c>
-      function from the <c>stringr</c> package finds all matches to a regular expression
-      pattern and replaces them with another string:
+      Once you are satisfied that this expression matches the retweet phrases properly, you can commit the results to a new column/field/variable in the dataframe:
     </p>
 
-    <program language="r" xml:id="prog-ch12-str-replace">
+    <p>
+      &gt; tweetDF$rt &lt;- str_match(modtext,"RT @[a-z,A-Z]*: ")
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      Now you can review what you found by echoing the new variable “rt” to the command line or by examining it in R-studio’s data browser:
+    </p>
+
+    <p>
+      &gt; head(rt, 10)
+    </p>
+
+    <p>
+      [,1]
+    </p>
+
+    <p>
+      [1,] NA
+    </p>
+
+    <p>
+      [2,] NA
+    </p>
+
+    <p>
+      [3,] NA
+    </p>
+
+    <p>
+      [4,] NA
+    </p>
+
+    <p>
+      [5,] NA
+    </p>
+
+    <p>
+      [6,] NA
+    </p>
+
+    <p>
+      [7,] NA
+    </p>
+
+    <p>
+      [8,] "RT @SEIA: "
+    </p>
+
+    <p>
+      [9,] NA
+    </p>
+
+    <p>
+      [10,] "RT @andyschonberger: "
+    </p>
+
+    <p>
+      This may be the first time we have seen the value “NA.” In R, NA means that there is no value available, in effect that the location is empty. Statisticians also call this missing data. These NAs appear in cases where there was no match to the regular expression that we provided to the function str_match(). So there is nothing wrong here, this is an expected outcome of the fact that not all tweets were retweets. If you look carefully, though, you will see something else that is interesting.
+    </p>
+
+    <p>
+      R is trying to tell us something with the bracket notation. At the top of the list there is a notation of [,1] which signifies that R is showing us the first column of something. Then, each of the entries looks like [#,] with a row number in place of # and an empty column designator, suggesting that R is showing us the contents of a row, possibly across multiple columns. This seems a bit mysterious, but a check of the documentation for str_match() reveals that it returns a matrix as its result. This means that tweetDF$rt could potentially contain its own rectangular data object: In effect, the variable rt could itself contain than one column!
+    </p>
+
+    <p>
+      In our case, our regular expression is very simple and it contains just one chunk to match, so there is only one column of new data in tweetDF$rt that was generated form using str_match(). Yet the full capability of regular expressions allows for matching a whole sequence of chunks, not just one, and so str_match() has set up the data that it returns to prepare for the eventuality that each row of tweetDF$rt might actually have a whole list of results.
+    </p>
+
+    <p>
+      If, for some reason, we wanted to simplify the structure of tweetDF$rt so that each element was simply a single string, we could use this command:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-rt-simplify">
       <code>
-tweets &lt;- str_replace_all(text, "@[a-z,A-Z]*", "")
+tweetDF$rt &lt;- tweetDF$rt[ ,1]
       </code>
     </program>
 
     <p>
-      The second argument here is a <term>regular expression</term>: a powerful and compact
-      language for specifying patterns in text. The regular expression <c>@[a-z,A-Z]*</c>
-      matches the at sign followed by zero or more upper or lowercase letters. The asterisk
-      <c>*</c> is what indicates the zero or more. That regular expression will match any
-      screenname referral that appears within a tweet.
+      This assigns to each element of tweetDF$rt the contents of the first column of the matrix. If you run that command and reexamine tweetDF$rt with head() you will find the simplified structure: no more column designator.
+    </p>
+
+    <p>
+      For us to be able to make some use of the retweet string we just isolated, we probably should extract just the “screenname” of the individual whose tweet got retweeted. A screenname in Twitter is like a username, it provides a unique identifier for each person who wants to post tweets. An individual who is frequently retweeted by others may be more influential because their postings reach a wider audience, so it could be useful for us to have a listing of all of the screennames without the extraneous stuff. This is easy to do with str_replace(). Note that we used str_replace_all() earlier in the chapter, but we don’t need it here, because we know that we are going to replace just one instance of each string:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-rt-replace">
+      <code>
+tweetDF$rt&lt;-str_replace(rt, "RT @","")
+tweetDF$rt&lt;-str_replace(rt,": ","")
+      </code>
+    </program>
+
+    <p>
+      &gt; tail(rt, 1)
+    </p>
+
+    <p>
+      [,1]
+    </p>
+
+    <p>
+      [100,] "SolarFred"
+    </p>
+
+    <program language="r" xml:id="prog-ch12-rt-simplify2">
+      <code>
+tweetDF$rt &lt;- tweetDF$rt[ ,1]
+      </code>
+    </program>
+
+    <p>
+      In the first command, we substitute the empty string in place of the four character prefix “RT @”, while in the second command we substitute the empty string in place of the two character suffix “: “. In each case we assign the resulting string back to tweetDF$rt. You may be wondering why sometimes we create a new column or field when we calculate some new data while other times we do not. The golden rule with data columns is never to mess with the original data that was supplied. When you are working ona “derived” column, i.e., one that is calculated from other data, it may require several intermediate steps to get the data looking the way you want. In this case, rt is a derived column that we extracted from the text field of the tweet and our goal was to reduce it to the bare screenname of the individual whose post was retweeted. So these commands, which successfully overwrite rt with closer and closer versions of what we wanted, were fair game for modification.
+    </p>
+
+    <p>
+      You may also have noticed the very last command. It seems that one of our steps, probably the use of str_match() must have “matrix-ized” our data again, so we use the column trick that appeared earlier in this chapter to flatten the matrix back to a single column of string data.
+    </p>
+
+    <p>
+      This would be a good point to visualize what we have obtained. Here we introduce two new functions, one which should seem familiar and one that is quite new:
     </p>
 
   </section>
 
-  <section xml:id="sec-string-tables">
+  <section xml:id="sec-string-contingency">
     <title>Contingency Tables for String Flags</title>
 
-    <p>
-      Once we have created logical flag variables indicating interesting features of tweets
-      (for example, <c>hasrt</c>, <c>longtext</c>, and <c>numurls</c>), we can use the
-      <c>table()</c> function to cross-tabulate them:
-    </p>
-
-    <program language="r" xml:id="prog-ch12-table">
+    <program language="r" xml:id="prog-ch12-table-factor">
       <code>
-numurls &lt;- str_count(text, "http")
-table(numurls, longtext)
-prop.table(table(numurls, longtext))
-table(numurls, hasrt, longtext)
+table(as.factor(rt))
       </code>
     </program>
 
     <p>
-      We can also use logical expressions inside bracket notation to compute statistics for
-      specific subsets of tweets:
+      The as.factor() function is a type/mode coercion and just a new one in a family we have seen before. In previous chapters we used as.integer() and as.character() to perform other conversions. In R a factor is a collection of descriptive labels and corresponding unique identifying numbers. The identifying numbers are not usually visible in outputs. Factors are often used for dividing up a dataset into categories. In a survey, for instance, if you had a variable containing the gender of a participant, the variable would frequently be in the form of a factor with (at least) two distinct categories (or what statisticians call levels), male and female. Inside R, each of these categories would be represented as a number, but the corresponding label would usually be the only thing you would see as output. As an experiment, try running this command:
     </p>
 
-    <program language="r" xml:id="prog-ch12-subset-mean">
+    <program language="r" xml:id="prog-ch12-str-factor">
       <code>
-mean(textlen[hasrt &amp; longtext])
-mean(textlen[!hasrt &amp; longtext])
+str(as.factor(rt))
       </code>
     </program>
 
     <p>
-      Looking back over this chapter, we took a close look at some of the string
-      manipulation functions provided by the <c>stringr</c> package. These included finding
-      the length of a string, finding matching text within a string, doing search and
-      replace operations, and cross-tabulating string features. In the next chapter we will
-      tackle analyzing the actual words that appear in text documents.
+      This will reveal the “structure” of the data object after coercion.
+    </p>
+
+    <p>
+      Returning to the earlier table(as.factor(rt)) command, the table() function takes as input one or more factors and returns a so called contingency table. This is easy to understand for use with just one factor: The function returns a unique list of factor “levels” (unique: meaning no duplicates) along with a count of how many rows/instances there were of each level in the dataset as a whole.
+    </p>
+
+    <p>
+      The screen shot on this page shows the command and the output. There are about 15 unique screennames of Twitter users who were retweeted. The highest number of times that a screenname appeared was three, in the case of SEIA. The table() function is used more commonly to create two-way (two dimensional) contingency tables. We could demonstrate that here if we had two factors, so let’s create another factor.
+    </p>
+
+    <p>
+      Remember earlier in the chapter we noticed some tweets had texts that were longer than 140 characters. We can make a new variable, we’ll call it longtext, that will be TRUE if the original tweet was longer than 140 characters and FALSE if it was not:
+    </p>
+
+    <p>
+      &gt; tweetDF$longtext &lt;- (textlen&gt;140)
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      The first command above has an inequality expression on the right hand side. This is tested for each row and the result, either TRUE or FALSE, is assigned to the new variable longtext. Computer scientists sometimes call this a “flag” variable because it flags whether or not a certain attribute is present in the data. Now we can run the table() function on the two factors:
+    </p>
+
+    <p>
+      &gt; table(as.factor(rt),as.factor(longtext))
+    </p>
+
+    <p>
+      FALSE TRUE
+    </p>
+
+    <p>
+      EarthTechling       0    1
+    </p>
+
+    <p>
+      FeedTheGrid         2    0
+    </p>
+
+    <p>
+      FirstSolar          1    0
+    </p>
+
+    <p>
+      GreenergyNews       1    0
+    </p>
+
+    <p>
+      RayGil              0    1
+    </p>
+
+    <p>
+      SEIA                3    0
+    </p>
+
+    <p>
+      SolarFred           0    2
+    </p>
+
+    <p>
+      SolarIndustry       1    0
+    </p>
+
+    <p>
+      SolarNovus          1    0
+    </p>
+
+    <p>
+      andyschonberger     0    2
+    </p>
+
+    <p>
+      deepgreendesign     0    1
+    </p>
+
+    <p>
+      gerdvdlogt          2    0
+    </p>
+
+    <p>
+      seia                2    0
+    </p>
+
+    <p>
+      solarfred           1    0
+    </p>
+
+    <p>
+      thesolsolution      1    0
+    </p>
+
+    <p>
+      For a two-way contingency table, the first argument you supply to table() is used to build up the rows and the second argument is used to create the columns. The command and output above give us a nice compact display of which retweets are longer than 140 characters (the TRUE column) and which are not (the FALSE column). It is easy to see at a glance that there are many in each category. So, while doing a retweet may contribute to having an extra long tweet, there are also many retweets that are 140 characters or less. It seems a little cumbersome to look at the long list of retweet screennames, so we will create another flag variable that indicates whether a tweet text contains a retweet. This will just provide a more compact way of reviewing which tweets have retweets and which do not:
+    </p>
+
+    <p>
+      &gt; tweetDF$hasrt &lt;- !(is.na(rt))
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      &gt; View(tweetDF)
+    </p>
+
+    <p>
+      The first command above uses a function we have not encountered bevfore: is.na(). A whole family of functions that start with “is” exists in R (as well as in other programming languages) and these functions provide a convenient way of testing the status or contents of a data object or of a particular element of a data object. The is.na() function tests whether an element of the input variable has the value NA, which we know from earlier in the chapter is R’s way of showing a missing value (when a particular data element is empty). So the expression, is.na(rt) will return TRUE if a particular cell of tweetDF$rt contains the empty value NA, and false if it contains some real data. If you look at the name of our new variable, however, which we have called “hasrt” you may see that we want to reverse the sense of the TRUE and FALSE that is.na() returns. To do that job we use the “!” character, which computers scientists may either call “bang” or more accurately, “not.” Using “not” is more accurate because the “!” character provides the Boolean NOT function, which changes a TRUE to a FALSE and vice versa. One last little thing is that the View() command causes R-Studio to freshen the display of the dataframe in its upper left hand pane. Let’s look again at retweets and long tweet texts:
+    </p>
+
+    <p>
+      &gt; table(hasrt,longtext)
+    </p>
+
+    <p>
+      longtext
+    </p>
+
+    <p>
+      hasrt   FALSE TRUE
+    </p>
+
+    <p>
+      FALSE    76    2
+    </p>
+
+    <p>
+      TRUE     15    7
+    </p>
+
+    <p>
+      There are more than twice as many extra long texts (7) when a tweet contains a retweet than when it does not.
+    </p>
+
+    <p>
+      Let’s now follow the same general procedure for extracting the URLs from the tweet texts. As before the goal is to create a new string variable/column on the original dataframe that will contain the URLs for all of those tweets that have them. Additionally, we will create a flag variable that signifies whether or not each tweet contains a URL. Here, as before, we follow a key principle: Don’t mess with your original data. We will need to develop a new regular expression in order to locate an extract the URL string from inside of the tweet text. Actually, if you examine your tweet data in the R-Studio data browser, you may note that some of the tweets have more than one URL in them. So we will have to choose our function call carefully and be equally careful looking at the results to make sure that we have obtained what we need.
+    </p>
+
+    <p>
+      At the time when this was written, Twitter had imposed an excellent degree of consistency on URLs, such that they all seem to start with the string “http://t.co/”. Additionally, it seems that the compacted URLs all contain exactly 8 characters after that literal, composed of upper and lower case letters and digits. We can use str_match_all() to extract these URLs using the following code:
+    </p>
+
+    <program language="r" xml:id="prog-ch12-strmatchall">
+      <code>
+str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
+      </code>
+    </program>
+
+    <p>
+      We feed the tweetDF$text field as input into this function call (we don’t need to provide the tweetDF$ part because this dataframe is attached). The regular expression begins with the 12 literal characters ending with a forward slash. Then we have a regular expression pattern to match. The material within the square brackets matches any upper or lowercase letter and any digit. The numeral 8 between the curly braces at the end say to match the previous pattern exactly eight times. This yields output that looks like this:
+    </p>
+
+    <p>
+      [[6]]
+    </p>
+
+    <p>
+      [,1]
+    </p>
+
+    <p>
+      [1,] "http://t.co/w74X9jci"
+    </p>
+
+    <p>
+      [[7]]
+    </p>
+
+    <p>
+      [,1]
+    </p>
+
+    <p>
+      [1,] "http://t.co/DZBUoz5L"
+    </p>
+
+    <p>
+      [2,] "http://t.co/gmtEdcQI"
+    </p>
+
+    <p>
+      This is just an excerpt of the output, but there are a couple of important things to note. First, note that the first element is preceded by the notation [[6]]. In the past when R has listed out multiple items on the output, we have seen them with index numbers like [1] and [2]. In this case, however, that could be confusing because each element in the output could have multiple rows (as item [[7]] above clearly shows). So R is using double bracket notation to indicate the ordinal number of each chunk of data in the list, where a given chunk may itself contain multiple elements.
+    </p>
+
+    <p>
+      Confusing? Let’s go at it from a different angle. Look at the output under the [[7]] above. As we noted a few paragraphs ago, some of those tweets have multiple URLs in them. The str_match_all() function handles this by creating, for every single row in the tweet data, a data object that itself contains exactly one column but one or possibly more than one row - one row for each URL that appears in the tweet. So, just as we saw earlier in the chapter, we are getting back from a string function a complex matrix-like data object that requires careful handling if we are to make proper use of it.
+    </p>
+
+    <p>
+      The only other bit of complexity is this: What if a tweet contained no URLs at all? Your output from running the str_match_all() function probably contains a few elements that look like this:
+    </p>
+
+    <p>
+      [[30]]
+    </p>
+
+    <p>
+      character(0)
+    </p>
+
+    <p>
+      [[31]]
+    </p>
+
+    <p>
+      character(0)
+    </p>
+
+    <p>
+      So elements [[30]] and [[31]] of the data returned from str_match_all() each contain a zero length string. No rows, no columns, just character(0), the so-called null character, which in many computer programming languages is used to “terminate” a string.
+    </p>
+
+    <p>
+      Let’s go ahead and store the output from str_match_all() into a new vector on tweetDF and then see what we can do to tally up the URLs we have found:
+    </p>
+
+    <p>
+      &gt; tweetDF$urlist&lt;-str_match_all(text,+                  "http://t.co/[a-z,A-Z,0-9]{8}")
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      &gt; head(tweetDF$urlist,2)
+    </p>
+
+    <p>
+      [[1]]
+    </p>
+
+    <p>
+      [,1]
+    </p>
+
+    <p>
+      [1,] "http://t.co/ims8gDWW"
+    </p>
+
+    <p>
+      [[2]]
+    </p>
+
+    <p>
+      [,1]
+    </p>
+
+    <p>
+      [1,] "http://t.co/37PKAF3N"
+    </p>
+
+    <p>
+      Now we are ready to wrestle with the problem of how to tally up the results of our URL parsing. Unlike the situation with retweets, where there either was or was not a single retweet indication in the text, we have the possibility of zero, one or more URLs within the text of each tweet. Our new object “urlist” is a multi-dimensional object that contains a single null character, one row/column of character data, or one column with more than one row of character data. The key to summarizing this is the length() function, which will happily count up the number of elements in an object that you supply to it:
+    </p>
+
+    <p>
+      &gt; length(urlist[[1]])
+    </p>
+
+    <p>
+      [1] 1
+    </p>
+
+    <p>
+      &gt; length(urlist[[5]])
+    </p>
+
+    <p>
+      [1] 0
+    </p>
+
+    <p>
+      &gt; length(urlist[[7]])
+    </p>
+
+    <p>
+      [1] 2
+    </p>
+
+    <p>
+      Here you see that double bracket notation again, used as an index into each “chunk” of data, where the chunk itself may have some internal complexity. In the case of element [[1]] above, there is one row, and therefore one URL. For element [[5]] above, we see a zero, which means that length() is telling us that this element has no rows in it at all. Finally, for element [[7]] we see 2, meaning that this element contains two rows, and therefore two URLs.
+    </p>
+
+    <p>
+      In previous work with R, we’ve gotten used to leaving the inside of the square brackets empty when we want to work with a whole list of items, but that won’t work with the double brackets:
+    </p>
+
+    <p>
+      &gt; length(urlist[[]])
+    </p>
+
+    <p>
+      Error in urlist[[]] : invalid subscript type 'symbol'
+    </p>
+
+    <p>
+      The double brackets notation is designed to reference just a single element or component in a list, so empty double brackets does not work as a shorthand for every element in a list. So what we must do if we want to apply the length() function to each element in urlist is to loop. We could accomplish this with a for loop, as we did in the last chapter, using an index quantity such as “i” and substituting i into each expression like this: urlist[[i]]. But let’s take this opportunity to learn a new function in R, one that is generally more efficient for looping. The rapply() function is part of the “apply” family of functions,  and it stands for “recursive apply.” Recursive in this case means that the function will dive down into the complex, nested structure of urlist and repetitively run a function for us, in this case the length() function:
+    </p>
+
+    <p>
+      &gt; tweetDF$numurls&lt;-rapply(urlist,length)
+    </p>
+
+    <p>
+      &gt; detach(tweetDF)
+    </p>
+
+    <p>
+      &gt; attach(tweetDF)
+    </p>
+
+    <p>
+      &gt; head(numurls,10)
+    </p>
+
+    <p>
+      [1] 1 1 1 1 0 1 2 1 1 1
+    </p>
+
+    <p>
+      Excellent! We now have a new field on tweetDF that counts up the number of URLs. As a last step in examining our tweet data, let’s look at a contingency table that looks at the number of URLs together with the flag indicating an extra long tweet. Earlier in the chapter, we mentioned that the table() function takes factors as its input. In the command below we have supplied the numurls field to the table() function without coercing it to a factor. Fortunately, the table() function has some built in intelligence that will coerce a numeric variable into a factor. In this case because numurls only takes on the values of 0, 1, or 2, it makes good sense to allow table() to perform this coercion:
+    </p>
+
+    <p>
+      &gt; table(numurls,longtext)
+    </p>
+
+    <p>
+      longtext
+    </p>
+
+    <p>
+      numurls FALSE TRUE
+    </p>
+
+    <p>
+      0    16    3
+    </p>
+
+    <p>
+      1    72    6
+    </p>
+
+    <p>
+      2     3    0
+    </p>
+
+    <p>
+      This table might be even more informative if we looked at it as proportions, so here is a trick to view proportions instead of counts:
+    </p>
+
+    <p>
+      &gt; prop.table(table(numurls,longtext))
+    </p>
+
+    <p>
+      longtext
+    </p>
+
+    <p>
+      numurls FALSE TRUE
+    </p>
+
+    <p>
+      0  0.16 0.03
+    </p>
+
+    <p>
+      1  0.72 0.06
+    </p>
+
+    <p>
+      2  0.03 0.00
+    </p>
+
+    <p>
+      That looks familiar! Now, of course, we remember that we had exactly 100 tweets, so each of the counts could be considered a percentage with no further calculation. Still, prop.table() is a useful function to have when you would rather view your contingency tables as percentages rather than counts. We can see from these results that six percent of the tweets have one URL, but only three percent have no URLS.
+    </p>
+
+    <p>
+      So, before we close out this chapter, let’s look at a three way contingency table by putting together our two flag variables and the number of URLs:
+    </p>
+
+    <p>
+      &gt; table(numurls,hasrt,longtext)
+    </p>
+
+    <p>
+      , , longtext = FALSE
+    </p>
+
+    <p>
+      hasrt
+    </p>
+
+    <p>
+      numurls FALSE TRUE
+    </p>
+
+    <p>
+      0    15    1
+    </p>
+
+    <p>
+      1    58   14
+    </p>
+
+    <p>
+      2     3    0
+    </p>
+
+    <p>
+      , , longtext = TRUE
+    </p>
+
+    <p>
+      hasrt
+    </p>
+
+    <p>
+      numurls FALSE TRUE
+    </p>
+
+    <p>
+      0     0    3
+    </p>
+
+    <p>
+      1     2    4
+    </p>
+
+    <p>
+      2     0    0
+    </p>
+
+    <p>
+      Not sure this entirely solves the mystery, but if we look at the second two-way table above, where longtext = TRUE, it seems that extra long tweets either have a retweet (3 cases), or a single URL (2 cases) or both (4 cases).
+    </p>
+
+    <p>
+      When we said we would give statistics a little rest in this chapter, we lied just a tiny bit. Check out these results:
+    </p>
+
+    <p>
+      &gt; mean(textlen[hasrt&amp;longtext])
+    </p>
+
+    <p>
+      [1] 155
+    </p>
+
+    <p>
+      &gt; mean(textlen[!hasrt&amp;longtext])
+    </p>
+
+    <p>
+      [1] 142
+    </p>
+
+    <p>
+      In both commands we have requested the mean of the variable textlen, which contains the length of the original tweet (the one without the space stripped out). In each command we have also used the bracket notation to choose a particular subset of the cases. Inside the brackets we have a logical expression. The only cases that will be included in the calculation of the mean are those where the expression inside the brackets evaluates to TRUE. In the first command we ask for the mean tweet length for those tweets that have a retweet AND are extra long (the ampersand is the Boolean AND operator). In the second command we use the logical NOT (the “!” character) to look at only those cases that have extra long text but do not have a retweet. The results are instructive. The really long tweets, with a mean length of 155 characters, are those that have retweets. It seems that Twitter does not penalize an individual who retweets by counting the number of characters in the “RT @SCREENNAME:” string. If you have tried the web interface for Twitter you will see why this makes sense: Retweeting is accomplished with a click, and the original tweet - which after all may already be 140 characters - appears underneath the screenname of the originator of the tweet. The “RT @” string does not even appear in the text of the tweet at that point.
+    </p>
+
+    <p>
+      Looking back over this chapter, we took a close look at some of the string manipulation functions provided by the package “stringr”. These included some of the most commonly used actions such as finding the length of a string, finding matching text within a string, and doing search and replace operations on a string. We also became aware of some additional complexity in nested data structures. Although statisticians like to work with nice, well-ordered rectangular datasets, computer scientists often deal with much more complex data structures - although these are built up out of parts that we are familiar with such as lists, vectors, and matrices.
+    </p>
+
+    <p>
+      Twitter is an excellent source of string data, and although we have not yet done much in analyzing the contents of tweets or their meanings, we have looked at some of the basic features and regularities of the text portion of a tweet. In the next chapter we will become familiar with a few additional text tools and then be in a position to manipulate and analyze text data
     </p>
 
   </section>
 
   <exercises xml:id="exercises-ch12">
     <title>Chapter Challenges</title>
+
     <exercise xml:id="ex-ch12-challenge1">
       <statement>
         <p>
-          Create a function that takes as input a data frame of tweets and returns as output
-          a list of all of the retweet screennames. As an extra challenge, see if you can
-          reduce that list of screennames to a unique set (i.e., no duplicates) while also
-          generating a count of the number of times that each retweet screenname appeared.
+          Create a function that takes as input a dataframe of tweets and returns as output a list of all of the retweet screennames. As an extra challenge, see if you can reduce that list of screennames to a unique set (i.e., no duplicates) while also generating a count of the number of times that each retweet screenname appeared.
         </p>
       </statement>
     </exercise>
+
     <exercise xml:id="ex-ch12-challenge2">
       <statement>
         <p>
-          Once you have written that function, copy and modify it to create a new function
-          that extracts a unique list of hashtags from a data frame of tweets. Recall that
-          hashtags begin with the <q>#</q> character and may contain any combination of
-          upper and lowercase characters as well as digits.
+          Once you have written that function, it should be a simple matter to copy and modify it to create a new function that extracts a unique list of hashtags from a dataframe of tweets. Recall that hashtags begin with the “#” character and may contain any combination of upper and lowercase characters as well as digits. There is no length limit on hashtags, so you will have to assume that a hashtag ends when there is a space or a punctuation mark such as a comma, semicolon, or period.
         </p>
       </statement>
     </exercise>
+
   </exercises>
 
   <conclusion xml:id="conclusion-ch12">
     <title>Sources</title>
+
     <p>
       <ul>
-        <li><p><url href="http://cran.r-project.org/web/packages/stringr/index.html">stringr package on CRAN</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/ASCII">Wikipedia: ASCII</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/Regular_expression">Wikipedia: Regular Expression</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/Unicode">Wikipedia: Unicode</url></p></li>
-        <li><p><url href="http://had.co.nz/">Hadley Wickham's website</url></p></li>
+        <li><p><url href="http://cran.r-project.org/web/packages/stringr/index.html">http://cran.r-project.org/web/packages/stringr/index.html</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/ASCII">http://en.wikipedia.org/wiki/ASCII</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Regular_expression">http://en.wikipedia.org/wiki/Regular_expression</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Unicode">http://en.wikipedia.org/wiki/Unicode</url></p></li>
+        <li><p><url href="http://had.co.nz/">Hadley Wickham</url></p></li>
+        <li><p><url href="http://mashable.com/2010/08/14/twitter-140-bug/">http://mashable.com/2010/08/14/twitter-140-bug/</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-devel/library/base/html/search.html">http://stat.ethz.ch/R-manual/R-devel/library/base/html/search.html</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-devel/library/base/html/table.html">http://stat.ethz.ch/R-manual/R-devel/library/base/html/table.html</url></p></li>
       </ul>
     </p>
+
+    <p>
+      R Code for TweetFrame() Function
+    </p>
+
+    <program language="r" xml:id="prog-ch12-tweetframe-fn">
+      <code>
+# TweetFrame() - Return a dataframe based on a search of Twitter
+TweetFrame&lt;-function(searchTerm, maxTweets)
+{
+tweetList &lt;- searchTwitter(searchTerm, n=maxTweets)
+# as.data.frame() coerces each list element into a row
+# lapply() applies this to all of the elements in twtList
+# rbind() takes all of the rows and puts them together
+# do.call() gives rbind() all rows as individual elements
+tweetDF&lt;- do.call("rbind", lapply(tweetList,as.data.frame))
+# This last step sorts the tweets in arrival order
+return(tweetDF[order(as.integer(tweetDF$created)), ])
+}
+      </code>
+    </program>
+
   </conclusion>
 
 </chapter>
