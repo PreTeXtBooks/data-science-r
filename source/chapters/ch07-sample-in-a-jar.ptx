@@ -197,16 +197,45 @@ summary(SampleMeans)
       </code>
     </program>
 
-    <p>Min. 1st Qu.  Median    Mean 3rd Qu.    Max.</p>
+    <pre>Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 
-    <p>3943000 5632000 6029000 6059000 6457000 9091000</p>
+    799100 3853000 5370000 6065000 7622000 25030000</pre>
 
     <p>If you need a refresher on the median and quartiles, take a look back at Chapter 3 - Rows and Columns.</p>
 
-    <p>This summary is full of useful information. First, take a look at the max and the min. The minimum sample mean in the list was 3,943,000. Think about that for a moment. Each sample that was drawn had n=120 observations in it. How could a sample have a mean that small when we know that the true mean is nearly 3 million higher? Rhode Island must have been drawn about 100 times in that sample! The answer comes from the randomness involved in sampling. If you run a process 10,000 times you are definitely going to end up with a few weird examples. Its almost like buying a lottery ticket. The vast majority of tickets are the usual - not a winner. Once in a great while, though, there is a very unusual ticket - a winner. Sampling is the same: The extreme events are unusual, but they do happen if you run the process enough times. The same goes for the maximum: at 9,091,000 the maximum sample mean is almost 3 million higher than the true mean.</p>
-
-    <p>At 6,029,000 the median is quite close to the mean, but not exactly the same because we still have a little bit of rightward skew (the “tail” on the high side is slightly longer than it should be because of the reverse J-shape of the original distribution). For practical purposes, we will consider the mean and the median to be interchangeable in this case. The median is very useful because it divides the sample exactly in half: 50%, or exactly 5000 of the sample means are larger than 6,029,000 and the other 50% are lower. So, if we were to draw one more sample from the population it would have a fifty-fifty chance of being above the median. The quartiles help us to cut things up even more finely. The third quartile divides up the bottom 75% from the top 25%. So only 25% of the sample means are higher than 6,457,000. That means if we drew a new sample from the population that there is only a 25% chance that it will be larger than 6,457,000. Likewise, in the other direction, the first quartile tells us that there is only a 25% chance that a new sample would be less than 5,632,000.</p>
-
+<p>
+This summary is full of useful information. First, take a look at the
+max and the min. The minimum sample mean in the list was
+799,100. Think about that for a moment. How could a sample have
+a mean that small when we know that the true mean is much
+higher? Rhode Island must have been drawn several times in that
+sample! The answer comes from the randomness involved in sampling.
+If you run a process 10,000 times you are definitely going to
+end up with a few weird examples. Its almost like buying a lottery
+ticket. The vast majority of tickets are the usual - not a winner.
+Once in a great while, though, there is a very unusual ticket - a winner.
+Sampling is the same: The extreme events are unusual, but
+they do happen if you run the process enough times. The same
+goes for the maximum: at 25,030,000 the maximum sample mean is
+much higher than the true mean.
+</p>
+<p>
+At 5,370,000 the median is quite close to the mean, but not exactly
+the same because we still have a little bit of rightward skew (the
+"tail" on the high side is slightly longer than it should be because of
+the reverse J-shape of the original distribution). The median is very
+useful because it divides the sample exactly in half: 50%, or exactly
+5000 of the sample means are larger than 5,370,000 and the other
+50% are lower. So, if we were to draw one more sample from the
+population it would have a fifty-fifty chance of being above the median.
+The quartiles help us to cut things up even more finely. The
+third quartile divides up the bottom 75% from the top 25%. So only
+25% of the sample means are higher than 7,622,000. That means if
+we drew a new sample from the population that there is only a
+25% chance that it will be larger than that. Likewise, in the other
+direction, the first quartile tells us that there is only a 25% chance
+that a new sample would be less than 3,853,000.
+</p>
     <p>There is a slightly different way of getting the same information from R that will prove more flexible for us in the long run. The <c>quantile()</c> function can show us the same information as the median and the quartiles, like this:</p>
 
     <program language="r" xml:id="prog-ch7-quantile-quartiles">
@@ -215,9 +244,10 @@ quantile(SampleMeans, probs=c(0.25,0.50,0.75))
       </code>
     </program>
 
-    <p>25%     50%     75%</p>
-
-    <p>5631624 6028665 6457388</p>
+    <pre>
+25% 50% 75%
+3853167 5370314 7621871
+</pre>
 
     <p>You will notice that the values are just slightly different, by less than one tenth of one percent, than those produced by the <c>summary()</c> function. These are actually more precise, although the less precise ones from <c>summary()</c> are fine for most purposes. One reason to use <c>quantile()</c> is that it lets us control exactly where we make the cuts. To get quartiles, we cut at 25% (0.25 in the command just above), at 50%, and at 75%. But what if we wanted instead to cut at 5% and 95%? Easy to do with <c>quantile()</c>:</p>
 
@@ -227,15 +257,27 @@ quantile(SampleMeans, probs=c(0.05,0.95))
       </code>
     </program>
 
-    <p>5%     95%</p>
+    <pre>
+2.5% 97.5%
+2014580 13537085
+</pre>
 
-    <p>5085394 7111750</p>
-
-    <p>So this result shows that, if we drew a new sample, there is only a 5% chance that the mean would be lower than 5,085,394. Likewise, there is only a 5% chance that the new sample mean would be higher than 7,111,750 (because 95% of the means in the sampling distribution are lower than that value).</p>
+    <p>So this result shows that, if we drew a new sample, there is only a
+2.5% chance that the mean would be lower than 2,014,580. Likewise,
+there is only a 2.5% chance that the new sample mean would
+be higher than 13,537,085 (because 97.5% of the means in the sampling
+distribution are lower than that value).
+</p>
 
     <p>Now let’s put this knowledge to work. Here is a sample of the number of people in a certain area, where each these areas is some kind of a unit associated with the U.S.:</p>
 
-    <p>3,706,690 159,358 106,405 55,519 53,883</p>
+    <pre>
+3,706,690
+159,358
+106,405
+55,519
+53,883
+</pre>
 
     <p>We can easily get these into R and calculate the sample mean:</p>
 
@@ -252,11 +294,12 @@ mean(MysterySample)
       </code>
     </program>
 
-    <p>[1] 816371</p>
-
+<pre>
+[1] 816371
+</pre>
     <p>The mean of our mystery sample is 816,371. The question is, is this a sample of U.S. states or is it something else? Just on its own it would be hard to tell. The first observation in our sample has more people in it than Kansas, Utah, Nebraska, and several other states. We also know from looking at the distribution of raw population data from our previous example that there are many, many states that are quite small in the number of people. Thanks to the work we’ve done earlier in this chapter, however, we have an excellent basis for comparison. We have the sampling distribution of means, and it is fair to say that if we get a new mean to look at, and the new mean is way out in the extreme areas of the sample distribution, say, below the 5% mark or above the 95% mark, then it seems much less likely that our MysterySample is a sample of states.</p>
 
-    <p>In this case, we can see quite clearly that 816,371 is on the extreme low end of the sampling distribution. Recall that when we ran the <c>quantile()</c> command we found that only 5% of the sample means in the distribution were smaller than 5,085,394.</p>
+    <p>In this case, we can see quite clearly that 816,371 is on the extreme low end of the sampling distribution. Recall that when we ran the <c>quantile()</c> command we found that only 5% of the sample means in the distribution were smaller than 2,014,580.</p>
 
     <p>In fact, we could even play around with a more stringent criterion:</p>
 
@@ -265,12 +308,19 @@ mean(MysterySample)
 quantile(SampleMeans, probs=c(0.01,0.99))
       </code>
     </program>
+<pre>
+0.5% 99.5%
+1410883 16792211
+</pre>
 
-    <p>1%     99%</p>
-
-    <p>4739252 7630622</p>
-
-    <p>This <c>quantile()</c> command shows that only 1% of all the sample means are lower than 4,739,252. So our MysterySample mean of 816,371 would definitely be a very rare event, if it were truly a sample of states. From this we can infer, tentatively but based on good statistical evidence, that our MysterySample is not a sample of states. The mean of MysterySample is just too small to be very likely to be a sample of states.</p>
+    <p>This <c>quantile()</c> command shows that only 0.5% of all the sample
+means are lower than 1,410,883. So our MysterySample mean of
+816,371 would definitely be a very rare event, if it were truly a sample
+of states. From this we can infer, tentatively but based on good
+statistical evidence, that our MysterySample is not a sample of
+states. The mean of MysterySample is just too small to be very
+likely to be a sample of states.
+</p>
 
     <p>And this is in fact correct: MysterySample contains the number of people in five different U.S. territories, including Puerto Rico in the Caribbean and Guam in the Pacific. These territories are land masses and groups of people associated with the U.S., but they are not states and they are different in many ways than states. For one thing they are all islands, so they are limited in land mass. Among the U.S. states, only Hawaii is an island, and it is actually bigger than 10 of the states in the continental U.S. The important thing to take away is that the characteristics of this group of data points, notably the mean of this sample, was sufficiently different from a known distribution of means that we could make an inference that the sample was not drawn from the original population of data.</p>
 
@@ -286,19 +336,20 @@ sd(SampleMeans)
       </code>
     </program>
 
-    <p>[1] 621088.1</p>
-
+<pre>
+[1] 3037318
+</pre>
     <p>This shows us the standard deviation of the distribution of sampling means. Statisticians call this the “standard error of the mean.” This chewy phrase would have been clearer, although longer, if it had been something like this: “the standard deviation of the distribution of sample means for samples drawn from a population.” Unfortunately, statisticians are not known for giving things clear labels. Suffice to say that when we are looking at a distribution and each data point in that distribution is itself a representation of a sample (for example, a mean), then the standard deviation is referred to as the standard error.</p>
 
     <p>Second, there is a shortcut to finding out the standard error that does not require actually constructing an empirical distribution of 10,000 (or any other number) of sampling means. It turns out that the standard deviation of the original raw data and the standard error are closely related by a simple bit of algebra:</p>
 
     <program language="r" xml:id="prog-ch7-stderr-formula">
       <code>
-sd(USstatePops$V1)/sqrt(120)
+sd(USstatePops$V1)/sqrt(5)
       </code>
     </program>
 
-    <p>[1] 622941.7</p>
+    <p>[1] 3051779</p>
 
     <p>The formula in this command takes the standard deviation of the original state data and divides it by the square root of the sample size. Remember three of four pages ago when we created the SampleMeans vector by using the <c>replicate()</c> and <c>sample()</c> commands, that we used a sample size of n=120. That’s what you see in the formula above, inside of the <c>sqrt()</c> function. In R, and other software <c>sqrt()</c> is the abbreviation for “square root” and not for “squirt” as you might expect. So if you have a set of observations and you calculate their standard deviation, you can also calculate the standard error for a distribution of means (each of which has the same sample size), just by dividing by the square root of the sample size. You may notice that the number we got with the shortcut was slightly larger than the number that came from the distribution itself, but the difference is not meaningful (and only arrises because of randomness in the distribution). Another thing you may have noticed is that the larger the sample size, the smaller the standard error. This leads to an important rule for working with samples: the bigger the better.</p>
 
@@ -306,54 +357,49 @@ sd(USstatePops$V1)/sqrt(120)
 
     <program language="r" xml:id="prog-ch7-stderror">
       <code>
-StdError&lt;-sd(USstatePops$V1)/sqrt(120)
+StdError&lt;-sd(USstatePops$V1)/sqrt(5)
       </code>
     </program>
 
     <program language="r" xml:id="prog-ch7-cutpoint5">
       <code>
-CutPoint5&lt;-mean(USstatePops$V1)-(2 * StdError)
-      </code>
-    </program>
-
-    <program language="r" xml:id="prog-ch7-cutpoint95">
-      <code>
-CutPoint95&lt;-mean(USstatePops$V1)+(2 * StdError)
+CutPoint975&lt;-mean(USstatePops$V1)-(2 * StdError)
       </code>
     </program>
 
     <program language="r" xml:id="prog-ch7-cutpoint5-val">
       <code>
-CutPoint5
+CutPoint975
       </code>
     </program>
 
-    <p>[1] 4807951</p>
+    <p>[1] 12157391</p>
 
-    <program language="r" xml:id="prog-ch7-cutpoint95-val">
-      <code>
-CutPoint95
-      </code>
-    </program>
-
-    <p>[1] 7299717</p>
-
-    <p>You will notice again that these are slightly different from what we calculated with the <c>quantile()</c> function using the empirical distribution. The differences arise because of the randomness in the distribution that we constructed. We could easily reduce those discrepancies by using a larger sample size and by having more replications included in the sampling distribution.</p>
+    <p>You will notice again that these are slightly different from what we calculated with the <c>quantile()</c> function using the empirical distribution. 
+The differences arise because of the randomness in the distribution
+that we constructed. The value above is an estimate that is
+based on statistical proofs, whereas the empirical SampleMeans list
+that we constructed is just one of a nearly infinite range of such
+lists that we could create. We could easily reduce the discrepancy
+between the two methods by using a larger sample size and by having
+more replications included in the sampling distribution.
+</p>
 
     <p>To summarize, with a data set that includes 51 data points with the numbers of people in states, and a bit of work using R to construct a distribution of sampling means, we have learned the following:</p>
-
-    <p>Run a statistical process a large number of times and you get a consistent pattern of results.</p>
-
+<ol>
+<li>
+<p>Run a statistical process a large number of times and you get a consistent pattern of results.</p>
+</li><li>
     <p>Taking the means of a large number of samples and plotting them on a histogram shows that the sample means are fairly well normally distributed and that the center of the distribution is very, very close to the mean of the original raw data.</p>
-
+</li><li>
     <p>This resulting distribution of sample means can be used as a basis for comparisons. By making cut points at the extreme low and high ends of the distribution, for example 5% and 95%, we have a way of comparing any new information we get.</p>
-
+</li><li>
     <p>If we get a new sample mean, and we find that it is in the extreme zone defined by our cut points, we can tentatively conclude that the sample that made that mean is a different kind of thing than the samples that made the sampling distribution.</p>
-
+</li><li>
     <p>A shortcut and more accurate way of figuring the cut points involves calculating the “standard error” based on the standard deviation of the original raw data.</p>
-
+</li><li>
     <p>We’re not statisticians at this point, but the process of reasoning based on sampling distributions is at the heart of inferential statistics, so if you have followed the logic presented in this chapter, you have made excellent progress towards being a competent user of applied statistics.</p>
-
+</li></ol>
   </section>
 
   <exercises xml:id="exercises-ch07">
