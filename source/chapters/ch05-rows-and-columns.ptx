@@ -396,7 +396,11 @@ summary(myFamily)
     </program>
 
     <p>
-      Notice, as with <c>str()</c>, that the output is quite different depending upon
+      In order to fit on the page properly, these columns have been reorganized a bit. The
+      name of a column/variable sits up above the information that pertains to it, and each
+      block of information is independent of the others (so it is meaningless, for instance,
+      that <c>Bro: 1</c> and <c>Min.</c> happen to be on the same line of output). Notice,
+      as with <c>str()</c>, that the output is quite different depending upon
       whether we are talking about a Factor, like <c>myFamilyNames</c> or
       <c>myFamilyGenders</c>, versus a numeric variable like <c>myFamilyAges</c> and
       <c>myFamilyWeights</c>. The columns for the Factors list out a few of the Factor
@@ -414,22 +418,32 @@ summary(myFamily)
       <li><p><q>1st Qu.</q> refers to the dividing line at the top of the first quartile.
         If we took all the cases and lined them up side by side in order of age (or weight)
         we could then divide up the whole into four groups, where each group had the same
-        number of observations. The <q>first quartile</q> is the value of age (or another
-        variable) that divides the first quarter of the cases from the other three quarters.
-        Note that if we don't have a number of cases that divides evenly by four, the value
-        is an approximation.</p></li>
+        number of observations. Just like a number line, the smallest cases would be on the
+        left with the largest on the right. If we're looking at myFamilyAges, the leftmost
+        group, which contains one quarter of all the cases, would start with five on the low
+        end (the dog) and would have eight on the high end (Bro). So the <q>first
+        quartile</q> is the value of age (or another variable) that divides the first
+        quarter of the cases from the other three quarters. Note that if we don't have a
+        number of cases that divides evenly by four, the value is an
+        approximation.</p></li>
       <li><p><q>Median</q> refers to the value of the case that splits the whole group in
         half, with half of the cases having higher values and half having lower values. If
         you think about it a little bit, the median is also the dividing line that separates
         the second quartile from the third quartile.</p></li>
-      <li><p><q>Mean</q> is the numeric average of all of the values. For instance, the
-        average age in the family is reported as 22.</p></li>
-      <li><p><q>3rd Qu.</q> is the third quartile, the third and final dividing line that
-        splits up all of the cases into four equal sized parts. Statisticians like quartiles
-        because they give a quick sense of the shape of the distribution.</p></li>
-      <li><p><q>Max.</q> is the maximum value and displays the highest value among all of
-        the available cases. For example, in this data frame Dad has the highest weight:
-        188.</p></li>
+      <li><p><q>Mean,</q> as we have learned before, is the numeric average of all of the
+        values. For instance, the average age in the family is reported as 22.</p></li>
+      <li><p><q>3rd Qu.</q> is the third quartile. If you remember back to the first
+        quartile and the median, this is the third and final dividing line that splits up
+        all of the cases into four equal sized parts. You may be wondering about these
+        quartiles and what they are useful for. Statisticians like them because they give a
+        quick sense of the shape of the distribution. Everyone has the experience of sorting
+        and dividing things up — pieces of pizza, playing cards into hands, a bunch of
+        players into teams — and it is easy for most people to visualize four equal sized
+        groups and useful to know how high you need to go in age or weight (or another
+        variable) to get to the next dividing line between the groups.</p></li>
+      <li><p>Finally, <q>Max.</q> is the maximum value and as you might expect displays
+        the highest value among all of the available cases. For example, in this data frame
+        Dad has the highest weight: 188. Seems like a pretty trim guy.</p></li>
     </ul>
 
     <p>
