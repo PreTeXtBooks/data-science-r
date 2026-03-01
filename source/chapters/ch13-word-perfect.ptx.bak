@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<chapter xml:id="ch13-word-perfect" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Word Perfect</title>
+
+  <introduction>
+    <p>
+      In the previous chapter we mastered some of the most basic and important functions
+      for examining and manipulating text. Now we are in a position to analyze the actual
+      words that appear in text documents. Some of the most basic functions of the Internet,
+      such as keyword search, are accomplished by analyzing the <q>content,</q> i.e., the
+      words in a body of text.
+    </p>
+  </introduction>
+
+  <section xml:id="sec-word-cloud-intro">
+    <title>Word Clouds and the Corpus</title>
+
+    <p>
+      A <term>corpus</term>, from the Latin word meaning <q>body,</q> is a word that text
+      analysts use to refer to a body of text material, often consisting of one or more
+      documents. When thinking about a corpus of textual data, a set of documents could
+      really be anything: web pages, word processing documents on your computer, a set of
+      tweets, or government reports.
+    </p>
+
+    <p>
+      In this chapter we will use some new R packages to extend our abilities to work with
+      text and to build our own word cloud from data retrieved from Twitter. Before beginning
+      our work, we can improve the quality of the display by taking out a lot of junk that
+      won't make sense to show in the word cloud. We have authored a function called
+      <c>CleanTweets()</c> that strips out extra spaces, gets rid of all URL strings, takes
+      out the retweet header, removes hashtags, and eliminates references to other people's
+      tweet handles:
+    </p>
+
+    <program language="r" xml:id="prog-ch13-cleantweets">
+      <code>
+CleanTweets &lt;- function(tweets)
+{
+  tweets &lt;- str_replace_all(tweets, "  ", " ")
+  tweets &lt;- str_replace_all(tweets,
+    "http://t.co/[a-z,A-Z,0-9]{8}", "")
+  tweets &lt;- str_replace(tweets, "RT @[a-z,A-Z]*: ", "")
+  tweets &lt;- str_replace_all(tweets, "#[a-z,A-Z]*", "")
+  tweets &lt;- str_replace_all(tweets, "@[a-z,A-Z]*", "")
+  return(tweets)
+}
+      </code>
+    </program>
+
+    <program language="r" xml:id="prog-ch13-clean-run">
+      <code>
+cleanText &lt;- tweetDF$text
+cleanText &lt;- CleanTweets(cleanText)
+head(cleanText, 10)
+      </code>
+    </program>
+
+  </section>
+
+  <section xml:id="sec-term-doc-matrix">
+    <title>The Term-Document Matrix</title>
+
+    <p>
+      A <term>term-document matrix</term> is a rectangular array of numbers where each row
+      is a term (word) and each column is a document (in our case, a tweet). The value in
+      each cell is the count of how many times that term appears in that document. We can
+      use the R package called <c>tm</c> (short for <q>text mining</q>) to build this
+      structure for us. Begin by installing and loading the <c>tm</c> package:
+    </p>
+
+    <program language="r" xml:id="prog-ch13-tm">
+      <code>
+EnsurePackage("tm")
+tweetCorpus &lt;- Corpus(VectorSource(cleanText))
+tweetTDM &lt;- TermDocumentMatrix(tweetCorpus,
+  control=list(removePunctuation=TRUE,
+               stopwords=TRUE))
+      </code>
+    </program>
+
+    <p>
+      The first step creates a corpus object from our vector of cleaned tweet texts. The
+      <c>TermDocumentMatrix()</c> function takes the corpus and returns the matrix. Two
+      important control options are <c>removePunctuation</c> and <c>stopwords</c>. Stop
+      words are very common words such as <q>the,</q> <q>a,</q> <q>is,</q> and
+      <q>of</q> that are so common that they are not informative. Removing stop words
+      keeps the term-document matrix from being dominated by these unremarkable words.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-word-cloud-gen">
+    <title>Generating the Word Cloud</title>
+
+    <p>
+      Once we have the term-document matrix, we need to do a little preparation to get our
+      data ready for the word cloud generator. The function expects two vectors as input
+      arguments: the first a list of the terms, and the second a list of the frequencies of
+      occurrence of the terms, sorted with the most frequent terms appearing first:
+    </p>
+
+    <program language="r" xml:id="prog-ch13-wordcloud">
+      <code>
+EnsurePackage("wordcloud")
+tdMatrix &lt;- as.matrix(tweetTDM)
+sortedMatrix &lt;- sort(rowSums(tdMatrix), decreasing=TRUE)
+cloudFrame &lt;- data.frame(
+  word=names(sortedMatrix), freq=sortedMatrix)
+wordcloud(cloudFrame$word, cloudFrame$freq)
+      </code>
+    </program>
+
+    <p>
+      If you recall the Twitter search that we used to retrieve those tweets (<c>#solar</c>)
+      it makes perfect sense that <q>solar</q> is the most frequent term. The next most
+      popular term is <q>energy</q> and after that there are a variety of related words
+      such as <q>independence,</q> <q>green,</q> and <q>wind.</q>
+    </p>
+
+  </section>
+
+  <exercises xml:id="exercises-ch13">
+    <title>Chapter Challenge</title>
+    <exercise xml:id="ex-ch13-challenge">
+      <statement>
+        <p>
+          Develop a function that builds upon previous functions we have developed, such as
+          <c>TweetFrame()</c> and <c>CleanTweets()</c>, to take a search term, conduct a
+          Twitter search, clean up the resulting texts, formulate a term-document matrix,
+          and submit resulting term frequencies to the <c>wordcloud()</c> function. This
+          would be a <q>turnkey</q> package that would take a Twitter search term and
+          produce a word cloud from it.
+        </p>
+      </statement>
+    </exercise>
+  </exercises>
+
+  <conclusion xml:id="conclusion-ch13">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><p><url href="http://cran.r-project.org/web/packages/wordcloud/wordcloud.pdf">wordcloud package documentation</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Document-term_matrix">Wikipedia: Document-term matrix</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Stop_words">Wikipedia: Stop words</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Text_mining">Wikipedia: Text mining</url></p></li>
+        <li><p><url href="http://www.jasondavies.com/wordcloud/">Jason Davies Word Cloud</url></p></li>
+      </ul>
+    </p>
+  </conclusion>
+
+</chapter>
