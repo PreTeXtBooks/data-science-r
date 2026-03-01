@@ -5,6 +5,16 @@
 
   <introduction>
     <p>
+Before now we have only used small amount of data that we typed in ourselves, or somewhat larger
+amounts that we extracted from Twitter. The world is full of other sources of data, however, and we
+need to examine how to get them into R, or at least how to make them accessible for manipulation in
+R. In this chapter, we examine various ways that data are stored, and how to access them.
+</p>
+</introduction>
+
+  <section xml:id="sec-intro-stuff">
+<title>Evolution of Technology</title>
+<p>
       Most people who have watched the evolution of technology over recent decades remember a time when storage was expensive and it had to be hoarded like gold. Over the last few years, however, the accelerating trend of Moore&#x2019;s Law has made data storage almost &#x201c;too cheap to meter&#x201d; (as they used to predict about nuclear power). Although this opens many opportunities, it also means that people keep data around for a long time, since it doesn&#x2019;t make sense to delete anything, and they may keep data around in many different formats. As a result, the world is full of different data formats, some of which are proprietary - designed and owned by a single company such as SAS - and some of which are open, such as the lowly but infinitely useful &#x201c;comma separated variable,&#x201d; or CSV format.
     </p>
 
@@ -19,7 +29,7 @@
     <p>
       As an open source program with many contributors, R offers a wide variety of methods of connecting with external data sources. This is both a blessing and a curse. There is a solution to almost any data access problem you can imagine with R, but there is also a dizzying array of options available such that it is not always obvious what to choose. We&#x2019;ll tackle this problem in two different ways. In the first half of this chapter we will look at methods for importing existing datasets. These may exist on a local computer or on the Internet but the characteristic they share in common is that they are contained (usually) within one single file. The main trick here is to choose the right command to import that data into R. In the second half of the chapter, we will consider a different strategy, namely linking to a &#x201c;source&#x201d; of data that is not a file. Many data sources, particularly databases, exist not as a single discrete file, but rather as a system. The system provides methods or calls to &#x201c;query&#x201d; data from the system, but from the perspective of the user (and of R) the data never really take the form of a file.
     </p>
-  </introduction>
+  </section>
 
   <section xml:id="sec-data-formats">
     <title>Data Formats and Importing Data</title>
