@@ -454,6 +454,13 @@ hist(USstatePops$V1)
       </code>
     </program>
 
+    <figure xml:id="fig-ch06-hist-USstatePops">
+      <caption>Histogram of U.S. state populations showing frequency distribution.</caption>
+      <image source="hist-USstatePops.png" width="80%">
+        <description>A histogram titled "Histogram of USstatePops$V1" with the x-axis labeled "USstatePops$V1" ranging from 0e+00 to 4e+07, and the y-axis labeled "Frequency" ranging from 0 to 30. The tallest bar reaches nearly 30, representing states with populations under five million. The distribution is right-skewed with most states in the lowest population range.</description>
+      </image>
+    </figure>
+
     <p>
       A histogram is a specialized type of bar graph designed to show <q>frequencies.</q>
       Frequencies means how often a particular value or range of values occurs in a dataset.
@@ -501,6 +508,13 @@ hist(USstatePops$V1, breaks=20)
       </code>
     </program>
 
+    <figure xml:id="fig-ch06-hist-USstatePops-breaks20">
+      <caption>Histogram of U.S. state populations with 20 breaks showing more detailed frequency distribution.</caption>
+      <image source="hist-USstatePops-breaks20.png" width="80%">
+        <description>A histogram titled "Histogram of USstatePops$V1" with the x-axis labeled "USstatePops$V1" ranging from 0e+00 to 3e+07, and the y-axis labeled "Frequency" ranging from 0 to 15. The tallest bar reaches 15, showing states with populations under two million. The distribution reveals a reverse-J shape with more detail than the default histogram.</description>
+      </image>
+    </figure>
+
     <p>
       This gives us five bars per tick mark or about two million for each bar. So the new
       histogram above shows very much the same pattern as before: 15 states with populations
@@ -536,6 +550,13 @@ hist(USstatePops$V1, breaks=20)
       find in natural phenomena. The following histogram depicts the typical bell shape of
       the normal distribution.
     </p>
+
+    <figure xml:id="fig-ch06-hist-rnorm">
+      <caption>Histogram of randomly generated data following a normal distribution, using the same mean and standard deviation as U.S. state populations.</caption>
+      <image source="hist-rnorm-statepops.png" width="80%">
+        <description>A histogram titled "Histogram of rnorm(51, 6053834, 6823984)" with the x-axis ranging from about -1e+07 to 3e+07, and the y-axis labeled "Frequency" ranging from 0 to about 16. The distribution forms a bell curve shape centered around 5e+06 to 1e+07, illustrating the normal distribution.</description>
+      </image>
+    </figure>
 
     <p>
       If you are curious, you might be wondering how R generated the histogram above, and,

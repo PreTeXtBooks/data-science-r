@@ -127,6 +127,13 @@ simplify=TRUE))
       </code>
     </program>
 
+    <figure xml:id="fig-ch07-hist-sampling-distribution">
+      <caption>Histogram of 4000 sample means drawn from U.S. state population data, illustrating the sampling distribution.</caption>
+      <image source="hist-sampling-distribution.png" width="80%">
+        <description>A histogram showing the sampling distribution of 4000 sample means. The x-axis shows values from about 2e+06 to 1.4e+07, and the y-axis labeled "Frequency" ranges from 0 to about 1000. The distribution is approximately bell-shaped, centered near the true population mean of 6,053,834, with a slight right skew.</description>
+      </image>
+    </figure>
+
     <p>This is a great moment to take a deep breath. We’ve just covered a couple hundred years of statistical thinking in just a few pages. In fact, there are two big ideas, “the law of large numbers” and  the central limit theorem” that we have just partially demonstrated. These two ideas literally took mathematicians like Gerolamo Cardano (1501-1576) and Jacob Bernoulli (1654-1705) several centuries to figure out. If you look these ideas up, you may find a lot of bewildering mathematical details, but for our purposes, there are two really important take-away messages. First, if you run a statistical process a large number of times, it will converge on a stable result. For us, we knew what the average population was of the 50 states plus the District of Columbia. These 51 observations were our population, and we wanted to know how many smaller subsets, or samples, of size n=16 we would have to draw before we could get a good approximation of that true value. We learned that drawing one sample provided a poor result. Drawing 400 samples gave us a mean that was off by 1.5%. Drawing 4000 samples gave us a mean that was off by less than 1%. If we had kept going to 40,000 or 400,000 repetitions of our sampling process, we would have come extremely close to the actual average of 6,053,384.</p>
 
     <p>Second, when we are looking at sample means, and we take the law of large numbers into account, we find that the distribution of sampling means starts to create a bell-shaped or normal distribution, and the center of that distribution, the mean of all of those sample means gets really close to the actual population mean. It gets closer faster for larger samples, and in contrast, for smaller samples you have to draw lots and lots of them to get really close. Just for fun, lets illustrate this with a sample size that is larger than 16. Here’s a run that only repeats 100 times, but each time draws a sample of n=51 (equal in size to the population):</p>

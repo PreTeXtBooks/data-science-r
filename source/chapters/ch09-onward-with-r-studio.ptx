@@ -35,12 +35,19 @@ introduces "packages," the key to the extensibility of R.
     </p>
 
     <p>
-      Before we can get there, though, we have to have R-Studio installed on a computer. Perhaps the most challenging aspect of installing R-Studio is having to install R first, but if you’ve already done that in chapter 2, then R-Studio should be a piece of cake. Make sure that you have the latest version of R installed before you begin with the installation of R-studio. There is ample documentation on the R-studio website, <url href="http://www.rstudio.org/">http://www.rstudio.org/</url>, so if you follow the instructions there, you should have minimal difficulty. If you reach a page where you are asked to choose between installing R-studio server and installing R-studio as a desktop application on your computer, choose the latter. We will look into R-studio server a little later, but for now you want the desktop/single user version. If you run into any difficulties or you just want some additional guidance about R-studio, you may want to have a look at the book entitled, Getting Started with R-studio, by John Verzani (2011, Sebastopol, CA: O’Reilly Media). The first chapter of that book has a general orientation to R and R-studio as well as a guide to installing and updating R-studio. There is also a YouTube video that introduces R-studio here:   <url href="http://www.youtube.com/watch?v=7sAmqkZ3Be8">http://www.youtube.com/watch?v=7sAmqkZ3Be8</url>  Be aware if you search for other YouTube videos that there is a disk recovery program as well a music group that share the R-Studio name: You will get a number of these videos if you search on “R-Studio” without any other search terms.
+      Before we can get there, though, we have to have R-Studio installed on a computer. Perhaps the most challenging aspect of installing R-Studio is having to install R first, but if you’ve already done that in chapter 2, then R-Studio should be a piece of cake. Make sure that you have the latest version of R installed before you begin with the installation of R-studio. There is ample documentation on the R-studio website, <url href="http://www.rstudio.org/">http://www.rstudio.org/</url>, so if you follow the instructions there, you should have minimal difficulty. If you reach a page where you are asked to choose between installing R-studio server and installing R-studio as a desktop application on your computer, choose the latter. We will look into R-studio server a little later, but for now you want the desktop/single user version. If you run into any difficulties or you just want some additional guidance about R-studio, you may want to have a look at the book entitled, Getting Started with R-studio, by John Verzani (2011, Sebastopol, CA: O’Reilly Media). The first chapter of that book has a general orientation to R and R-studio as well as a guide to installing and updating R-studio. There is also a YouTube video that introduces R-studio here: <url href="http://www.youtube.com/watch?v=7sAmqkZ3Be8">http://www.youtube.com/watch?v=7sAmqkZ3Be8</url> Be aware if you search for other YouTube videos that there is a disk recovery program as well a music group that share the R-Studio name: You will get a number of these videos if you search on “R-Studio” without any other search terms.
     </p>
 
     <p>
       Once you have installed R-Studio, you can run it immediately in order to get started with the activities in the later parts of this chapter. Unlike other introductory materials, we will not walk through all of the different elements of the R-Studio screen. Rather, as we need each feature we will highlight the new aspect of the application. When you run R-Studio, you will see three or four sub-windows. Use the File menu to click “New” and in the sub-menu for “New” click “R Script.” This should give you a screen that looks something like this:
     </p>
+
+    <figure xml:id="fig-ch09-rstudio-main">
+      <caption>The RStudio interface showing four panes: script editor (upper left), R console (lower left), workspace (upper right), and files/packages/help (lower right).</caption>
+      <image source="rstudio-main-screen.png" width="80%">
+        <description>A screenshot of the RStudio IDE on a Mac showing the four-pane layout. The upper left pane shows the script editor with an empty Untitled1 file. The lower left shows the R console with R startup message. The upper right shows the Workspace tab with several data objects. The lower right shows the Files/Plots/Packages/Help panel.</description>
+      </image>
+    </figure>
 
   </section>
 
@@ -61,18 +68,18 @@ return(myVector)
     </program>
 
     <p>
-      You have just created your first “function” in R. A function is a bundle of R code that can be used over and over again without having to retype it. Other programming languages also have functions. Other words for function are “procedure” and “subroutine,” although these terms can have a slightly different meaning in other languages. We have called our function “MyMode.” You may remember from a couple of chapters that the basic setup of R does not have a statistical mode function in it, even though it does have functions for the two other other common central tendency statistics, mean() and median(). We’re going to fix that problem by creating our own mode function. Recall that the mode function should count up how many of each value is in a list and then return the value that occurs most frequently. That is the definition of the statistical mode: the most frequently occurring item in a vector of numbers.
+      You have just created your first “function” in R. A function is a bundle of R code that can be used over and over again without having to retype it. Other programming languages also have functions. Other words for function are “procedure” and “subroutine,” although these terms can have a slightly different meaning in other languages. We have called our function <c>MyMode()</c>. You may remember from a couple of chapters that the basic setup of R does not have a statistical mode function in it, even though it does have functions for the two other other common central tendency statistics, <c>mean()</c> and <c>median()</c>. We’re going to fix that problem by creating our own mode function. Recall that the mode function should count up how many of each value is in a list and then return the value that occurs most frequently. That is the definition of the statistical mode: the most frequently occurring item in a vector of numbers.
     </p>
 
     <p>
-      A couple of other things to note: The first is the “myVector” in parentheses on the first line of our function.  This is the “argument” or input to the function. We have seen arguments before when we called functions like mean() and median(). Next, note the curly braces that are used on the second and final lines. These curly braces hold together all of the code that goes in our function. Finally, look at the return() right near the end of our function. This return() is where we send back the result of what our function accomplished. Later on when we “call” our new function from the R console, the result that we get back will be whatever is in the parentheses in the return().
+      A couple of other things to note: The first is the “myVector” in parentheses on the first line of our function.  This is the “argument” or input to the function. We have seen arguments before when we called functions like <c>mean()</c> and <c>median()</c>. Next, note the curly braces that are used on the second and final lines. These curly braces hold together all of the code that goes in our function. Finally, look at the <c>return()</c> right near the end of our function. This <c>return()</c> is where we send back the result of what our function accomplished. Later on when we “call” our new function from the R console, the result that we get back will be whatever is in the parentheses in the <c>return()</c>.
     </p>
 
     <p>
-      Based on that explanation, can you figure out what MyMode() does in this primitive initial form? All it does is return whatever we give it in myVector, completely unchanged. By the way, this is a common way to write code, by building up bit by bit. We can test out what we have each step of the way. Let’s test out what we have accomplished so far. First, let’s make a very small vector of data to work with. In the lower left hand pane of R-studio you will notice that we have a regular R console running. You can type commands into this console, just like we did in previous chapters just using R:
+      Based on that explanation, can you figure out what <c>MyMode()</c> does in this primitive initial form? All it does is return whatever we give it in <c>myVector</c>, completely unchanged. By the way, this is a common way to write code, by building up bit by bit. We can test out what we have each step of the way. Let’s test out what we have accomplished so far. First, let’s make a very small vector of data to work with. In the lower left hand pane of R-studio you will notice that we have a regular R console running. You can type commands into this console, just like we did in previous chapters just using R:
     </p>
 
-    <program language="r">
+    <program language="r" xml:id="prog-ch9-tinydata-init">
       <code>
 tinyData &lt;- c(1,2,1,2,3,3,3,4,5,4,5)
 tinyData
@@ -83,10 +90,10 @@ tinyData
     </pre>
 
     <p>
-      Then we can try out our new MyMode() function:
+      Then we can try out our new <c>MyMode()</c> function:
     </p>
 
-    <program language="r">
+    <program language="r" xml:id="prog-ch9-mymode-error">
       <code>
 MyMode(tinyData)
       </code>
@@ -96,10 +103,10 @@ Error: could not find function &quot;MyMode&quot;
     </pre>
 
     <p>
-      Oops! R doesn’t know about our new function yet. We typed our MyMode() function into the code window, but we didn’t tell R about it. If you look in the upper left pane, you will see the code for MyMode() and just above that a few small buttons on a tool bar. One of the buttons looks like a little right pointing arrow with the word “Run” next to it. First, use your mouse to select all of the code for MyMode(), from the first M all the way to the last curly brace. Then click the Run button. You will immediately see the same code appear in the R console window just below. If you have typed everything correctly, there should be no errors or warnings. Now R knows about our MyMode() function and is ready to use it. Now we can type:
+      Oops! R doesn’t know about our new function yet. We typed our <c>MyMode()</c> function into the code window, but we didn’t tell R about it. If you look in the upper left pane, you will see the code for <c>MyMode()</c> and just above that a few small buttons on a tool bar. One of the buttons looks like a little right pointing arrow with the word “Run” next to it. First, use your mouse to select all of the code for <c>MyMode()</c>, from the first M all the way to the last curly brace. Then click the Run button. You will immediately see the same code appear in the R console window just below. If you have typed everything correctly, there should be no errors or warnings. Now R knows about our <c>MyMode()</c> function and is ready to use it. Now we can type:
     </p>
 
-    <program language="r">
+    <program language="r" xml:id="prog-ch9-mymode-v1-test">
       <code>
 MyMode(tinyData)
       </code>
@@ -109,7 +116,7 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      This did exactly what we expected: it just echoed back the contents of tinyData. You can see from this example how parameters work, too. in the command just above, we passed in tinyData as the input to the function. While the function was working, it took what was in tinyData and copied it into myVector for use inside the function. Now we are ready to add the next command to our function:
+      This did exactly what we expected: it just echoed back the contents of <c>tinyData</c>. You can see from this example how parameters work, too. In the command just above, we passed in tinyData as the input to the function. While the function was working, it took what was in <c>tinyData</c> and copied it into <c>myVector</c> for use inside the function. Now we are ready to add the next command to our function:
     </p>
 
     <program language="r" xml:id="prog-ch9-mymode-v2">
@@ -123,7 +130,7 @@ return(uniqueValues)
     </program>
 
     <p>
-      Because we made a few changes, the whole function appears again above. Later, when the code gets a little more complicated, we will just provide one or two lines to add. Let’s see what this code does. First, don’t forget to select the code and click on the Run button. Then, in the R console, try the MyMode() command again:
+      Because we made a few changes, the whole function appears again above. Later, when the code gets a little more complicated, we will just provide one or two lines to add. Let’s see what this code does. First, don’t forget to select the code and click on the Run button. Then, in the R console, try the <c>MyMode()</c> command again:
     </p>
 
     <program language="r">
@@ -136,7 +143,7 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      Pretty easy to see what the new code does, right? We called the unique() function, and that returned a list of unique values that appeared in tinyData. Basically, unique() took out all of the redundancies in the vector that we passed to it. Now let’s build a little more:
+      Pretty easy to see what the new code does, right? We called the <c>unique()</c> function, and that returned a list of unique values that appeared in <c>tinyData</c>. Basically, <c>unique()</c> took out all of the redundancies in the vector that we passed to it. Now let’s build a little more:
     </p>
 
     <program language="r" xml:id="prog-ch9-mymode-v3">
@@ -164,17 +171,51 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      Now we’re basically ready to finish our MyMode() function, but let’s make sure we understand the two pieces of data we have in uniqueValues and uniqueCounts:
+      Now we’re basically ready to finish our <c>MyMode()</c> function, but let’s make sure we understand the two pieces of data we have in <c>uniqueValues</c> and <c>uniqueCounts</c>:
     </p>
 
     <p>
       In the table below we have lined up a row of the elements of uniqueValues just above a row of the counts of how many of each of those values we have. Just for illustration purposes, in the top/label row we have also shown the “index” number. This index number is the way that we can “address” the elements in either of the variables that are shown in the rows. For instance, element number 4 (index 4) for uniqueValues contains the number four, whereas element number four for uniqueCounts contains the number two. So if we’re looking for the most frequently occurring item, we should look along the bottom row for the largest number. When we get there, we should look at the index of that cell. Whatever that index is, if we look in the same cell in uniqueValues, we will have the value that occurs most frequently in the original list. In R, it is easy to accomplish what was described in the last sentence with a single line of code:
     </p>
 
-    <p>uniqueValues[which.max(uniqueCounts)]</p>
+    <table xml:id="table-ch09-unique-counts">
+      <title>Lining up <c>uniqueValues</c> and <c>uniqueCounts</c> for <c>tinyData</c></title>
+      <tabular halign="center">
+        <row header="yes">
+          <cell>INDEX</cell>
+          <cell>1</cell>
+          <cell>2</cell>
+          <cell>3</cell>
+          <cell>4</cell>
+          <cell>5</cell>
+        </row>
+        <row>
+          <cell>uniqueValues</cell>
+          <cell>1</cell>
+          <cell>2</cell>
+          <cell>3</cell>
+          <cell>4</cell>
+          <cell>5</cell>
+        </row>
+        <row>
+          <cell>uniqueCounts</cell>
+          <cell>2</cell>
+          <cell>2</cell>
+          <cell>3</cell>
+          <cell>2</cell>
+          <cell>2</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <program language="r" xml:id="prog-ch9-whichmax">
+      <code>
+uniqueValues[which.max(uniqueCounts)]
+      </code>
+    </program>
 
     <p>
-      The which.max() function finds the index of the element of uniqueCounts that is the largest. Then we use that index to address uniqueValues with square braces. The square braces let us get at any of the elements of a vector. For example, if we asked for uniqueValues[5] we would get the number 5. If we add this one list of code to our return statement, our function will be finished:
+      The <c>which.max()</c> function finds the index of the element of <c>uniqueCounts</c> that is the largest. Then we use that index to address <c>uniqueValues</c> with square braces. The square braces let us get at any of the elements of a vector. For example, if we asked for <c>uniqueValues[5]</c> we would get the number 5. If we add this one list of code to our return statement, our function will be finished:
     </p>
 
     <program language="r" xml:id="prog-ch9-mymode-v4">
@@ -189,7 +230,7 @@ return(uniqueValues[which.max(uniqueCounts)])
     </program>
 
     <p>
-      We’re now ready to test out our function. Don’t forget to select the whole thing and run it! Otherwise R will still be remembering our old one. Let’s ask R what tinyData contains, just to remind ourselves, and then we will send tinyData to our MyMode() function:
+      We’re now ready to test out our function. Don’t forget to select the whole thing and run it! Otherwise R will still be remembering our old one. Let’s ask R what <c>tinyData</c> contains, just to remind ourselves, and then we will send <c>tinyData</c> to our <c>MyMode()</c> function:
     </p>
 
     <program language="r">
@@ -210,7 +251,7 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      Hooray! It works. Three is the most frequently occurring value in tinyData. Let’s keep testing and see what happens:
+      Hooray! It works. Three is the most frequently occurring value in <c>tinyData</c>. Let’s keep testing and see what happens:
     </p>
 
     <program language="r">
@@ -232,7 +273,7 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      It still works! We added three more fives to the end of the tinyData vector. Now tinyData  contains five fives. MyMode() properly reports the mode as five. Hmm, now let’s try to break it:
+      It still works! We added three more fives to the end of the <c>tinyData</c> vector. Now <c>tinyData</c> contains five fives. <c>MyMode()</c> properly reports the mode as five. Hmm, now let’s try to break it:
     </p>
 
     <program language="r">
@@ -253,7 +294,7 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      This is interesting: Now tinyData contains five ones and five fives. MyMode() now reports the mode as one. This turns out to be no surprise. In the documentation for which.max() it says that this function will return the first maximum it finds. So this behavior is to be expected. Actually, this is always a problem with the statistical mode: there can be more than one mode in a data set. Our MyMode() function is not smart enough to realize this, not does it give us any kind of warning that there are multiple modes in our data. It just reports the first mode that it finds.
+      This is interesting: Now <c>tinyData</c> contains five ones and five fives. <c>MyMode()</c> now reports the mode as one. This turns out to be no surprise. In the documentation for <c>which.max()</c> it says that this function will return the first maximum it finds. So this behavior is to be expected. Actually, this is always a problem with the statistical mode: there can be more than one mode in a data set. Our <c>MyMode()</c> function is not smart enough to realize this, nor does it give us any kind of warning that there are multiple modes in our data. It just reports the first mode that it finds.
     </p>
 
     <p>
@@ -279,7 +320,7 @@ tabulate(tinyData)
     </pre>
 
     <p>
-      In the first line, we stuck a bunch of nines on the end of tinyData. Remember that we had no sixes, sevens, or eights. Now when we run MyMode() it says “NA,” which is R’s way of saying that something went wrong and you are getting back an empty value. It is probably not obvious why things went whacky until we look at the last command above, tabulate(tinyData). Here we can see what happened: when it was run inside of the MyMode() function, tabulate() generated a longer list than we were expecting, because it added zeroes to cover the sixes, sevens, and eights that were not there. The maximum value, out at the end is 7, and this refers to the number of nines in tinyData. But look at what the unique() function produces:
+      In the first line, we stuck a bunch of nines on the end of tinyData. Remember that we had no sixes, sevens, or eights. Now when we run <c>MyMode()</c> it says “NA,” which is R’s way of saying that something went wrong and you are getting back an empty value. It is probably not obvious why things went whacky until we look at the last command above, <c>tabulate(tinyData)</c>. Here we can see what happened: when it was run inside of the <c>MyMode()</c> function, <c>tabulate()</c> generated a longer list than we were expecting, because it added zeroes to cover the sixes, sevens, and eights that were not there. The maximum value, out at the end is 7, and this refers to the number of nines in <c>tinyData</c>. But look at what the <c>unique()</c> function produces:
     </p>
 
     <program language="r">
@@ -292,7 +333,7 @@ unique(tinyData)
     </pre>
 
     <p>
-      There are only six elements in this list, so it doesn’t match up as it should (take another look at the table on the previous page and imagine if the bottom row stuck out further than the row just above it). We can fix this with the addition of the match() function to our code:
+      There are only six elements in this list, so it doesn’t match up as it should (take another look at the table on the previous page and imagine if the bottom row stuck out further than the row just above it). We can fix this with the addition of the <c>match()</c> function to our code:
     </p>
 
     <program language="r" xml:id="prog-ch9-mymode-v5">
@@ -325,12 +366,19 @@ MyMode(tinyData)
     </p>
 
     <p>
-      Before we leave this activity, make sure to save your work. Click anywhere in the code window and then click on the File menu and then on Save. You will be prompted to choose a location and provide a filename. You can call the file MyMode, if you like. Note that R adds the “R” extension to the filename so that it is saved as MyMode.R. You can open this file at any time and rerun the MyMode() function in order to define the function in your current working version of R.
+      Before we leave this activity, make sure to save your work. Click anywhere in the code window and then click on the File menu and then on Save. You will be prompted to choose a location and provide a filename. You can call the file MyMode, if you like. Note that R adds the “R” extension to the filename so that it is saved as MyMode.R. You can open this file at any time and rerun the <c>MyMode()</c> function in order to define the function in your current working version of R.
     </p>
 
     <p>
-      A couple of other points deserve attention. First, notice that when we created our own function, we had to do some testing and repairs to make sure it ran the way we wanted it to. This is a common situation when working on anything related to computers, including spreadsheets, macros, and pretty much anything else that requires precision and accuracy. Second, we introduced at least four new functions in this exercise, including unique(), tabulate(), match(), and which.max(). Where did these come from and how did we know? R has so many functions that it is very difficult to memorize them all. There’s almost always more than one way to do something, as well. So it can be quite confusing to create a new function, if you don’t know all of the ingredients and there’s no one way to solve a particular problem. This is where the community comes in. Search online and you will find dozens of instances where people have tried to solve similar problems to the one you are solving, and you will also find that they have posted the R code for their solutions. These code fragments are free to borrow and test. In fact, learning from other people’s examples is a great way to expand your horizons and learn new techniques.
+      A couple of other points deserve attention. First, notice that when we created our own function, we had to do some testing and repairs to make sure it ran the way we wanted it to. This is a common situation when working on anything related to computers, including spreadsheets, macros, and pretty much anything else that requires precision and accuracy. Second, we introduced at least four new functions in this exercise, including <c>unique()</c>, <c>tabulate()</c>, <c>match()</c>, and <c>which.max()</c>. Where did these come from and how did we know? R has so many functions that it is very difficult to memorize them all. There’s almost always more than one way to do something, as well. So it can be quite confusing to create a new function, if you don’t know all of the ingredients and there’s no one way to solve a particular problem. This is where the community comes in. Search online and you will find dozens of instances where people have tried to solve similar problems to the one you are solving, and you will also find that they have posted the R code for their solutions. These code fragments are free to borrow and test. In fact, learning from other people’s examples is a great way to expand your horizons and learn new techniques.
     </p>
+
+    <figure xml:id="fig-ch09-rstudio-mymode">
+      <caption>RStudio showing the completed <c>MyMode()</c> function in the script editor, the R console with test output, and the Install Packages dialog for finding the <c>modeest</c> package.</caption>
+      <image source="rstudio-mymode-function.png" width="80%">
+        <description>A screenshot of RStudio on a Mac showing MyMode.R open in the script editor with the completed function. The Install Packages dialog is open with "mode" typed and showing package suggestions including modeest. The console shows test runs of MyMode and tabulate commands.</description>
+      </image>
+    </figure>
 
   </section>
 
@@ -338,11 +386,11 @@ MyMode(tinyData)
     <title>Using R Packages</title>
 
     <p>
-      The last point leads into the next key topic. We had to do quite a bit of work to create our MyMode function, and we are still not sure that it works perfectly on every variation of data it might encounter. Maybe someone else has already solved the same problem. If they did, we might be able to find an existing “package” to add onto our copy of R to extend its functions. In fact, for the statistical mode, there is an existing package that does just about everything you could imagine doing with the mode. The package is called modeest, a not very good abbreviation for mode-estimator. To install this package look in the lower right hand pane of R-studio. There are several tabs there, and one of them is “Packages.” Click on this and you will get a list of every package that you already have available in your copy of R (it may be a short list) with checkmarks for the ones that are ready to use. It is unlikely that modeest is already on this list, so click on the button that says “Install Packages. This will give a dialog that looks like what you see on the screenshot above. Type the beginning of the package name in the appropriate area, and R-studio will start to prompt you with matching choices. Finish typing modeest or choose it off of the list. There may be a check box for “Install Dependencies,” and if so leve this checked. In some cases an R package will depend on other packages and R will install all of the necessary packages in the correct order if it can. Once you click the “Install” button in this dialog, you will see some commands running on the R console (the lower left pane). Generally, this works without a hitch and you should not see any warning messages. Once the installation is complete you will see modeest added to the list in the lower right pane (assuming you have clicked the “Packages” tab). One last step is to click the check box next to it. This runs the library() function on the package, which prepares it for further use.
+      The last point leads into the next key topic. We had to do quite a bit of work to create our MyMode function, and we are still not sure that it works perfectly on every variation of data it might encounter. Maybe someone else has already solved the same problem. If they did, we might be able to find an existing “package” to add onto our copy of R to extend its functions. In fact, for the statistical mode, there is an existing package that does just about everything you could imagine doing with the mode. The package is called modeest, a not very good abbreviation for mode-estimator. To install this package look in the lower right hand pane of R-studio. There are several tabs there, and one of them is “Packages.” Click on this and you will get a list of every package that you already have available in your copy of R (it may be a short list) with checkmarks for the ones that are ready to use. It is unlikely that modeest is already on this list, so click on the button that says “Install Packages. This will give a dialog that looks like what you see on the screenshot above. Type the beginning of the package name in the appropriate area, and R-studio will start to prompt you with matching choices. Finish typing modeest or choose it off of the list. There may be a check box for “Install Dependencies,” and if so leave this checked. In some cases an R package will depend on other packages and R will install all of the necessary packages in the correct order if it can. Once you click the “Install” button in this dialog, you will see some commands running on the R console (the lower left pane). Generally, this works without a hitch and you should not see any warning messages. Once the installation is complete you will see modeest added to the list in the lower right pane (assuming you have clicked the “Packages” tab). One last step is to click the check box next to it. This runs the <c>library()</c> function on the package, which prepares it for further use.
     </p>
 
     <p>
-      Let’s try out the mfv() function. This function returns the “most frequent value” in a vector, which is generally what we want in a mode function:
+      Let’s try out the <c>mfv()</c> function. This function returns the “most frequent value” in a vector, which is generally what we want in a mode function:
     </p>
 
     <program language="r">
@@ -355,24 +403,24 @@ mfv(tinyData)
     </pre>
 
     <p>
-      So far so good! This seems to do exactly what our MyMode() function did, though it probably uses a different method. In fact, it is easy to see what strategy the authors of this package used just by typing the name of the function at the R command line:
+      So far so good! This seems to do exactly what our <c>MyMode()</c> function did, though it probably uses a different method. In fact, it is easy to see what strategy the authors of this package used just by typing the name of the function at the R command line:
     </p>
 
     <program language="r" xml:id="prog-ch9-mfv">
       <code>
-&gt; mfv
-function (x, ...)
+mfv
+      </code>
+    </program>
+    <pre>function (x, ...)
 {
 f &lt;- factor(x)
 tf &lt;- tabulate(f)
 return(as.numeric(levels(f)[tf == max(tf)]))
 }
-&lt;environment: namespace:modeest&gt;
-      </code>
-    </program>
+&lt;environment: namespace:modeest&gt;</pre>
 
     <p>
-      This is one of the great things about an open source program: you can easily look under the hood to see how things work. Notice that this is quite different from how we built MyMode(), although it too uses the tabulate() function. The final line, that begins with the word “environment” has importance for more complex feats of programming, as it indicates which variable names mfv() can refer to when it is working. The other aspect of this function which is probably not so obvious is that it will correctly return a list of multiple modes when one exists in the data you send to it:
+      This is one of the great things about an open source program: you can easily look under the hood to see how things work. Notice that this is quite different from how we built <c>MyMode()</c>, although it too uses the <c>tabulate()</c> function. The final line, that begins with the word “environment” has importance for more complex feats of programming, as it indicates which variable names <c>mfv()</c> can refer to when it is working. The other aspect of this function which is probably not so obvious is that it will correctly return a list of multiple modes when one exists in the data you send to it:
     </p>
 
     <program language="r">
@@ -394,7 +442,7 @@ MyMode(multiData)
     </pre>
 
     <p>
-      In the first command line above, we made a small new vector that contains two modes, 7 and 9.  Each of these numbers occurs twice, while the other numbers occur only once. When we run mfv() on this vector it correctly reports both 7 and 9 as modes. When we use our function, MyMode(), it only reports the first of the two modes.
+      In the first command line above, we made a small new vector that contains two modes, 7 and 9.  Each of these numbers occurs twice, while the other numbers occur only once. When we run <c>mfv()</c> on this vector it correctly reports both 7 and 9 as modes. When we use our function, <c>MyMode()</c>, it only reports the first of the two modes.
     </p>
 
     <p>
@@ -402,7 +450,7 @@ MyMode(multiData)
     </p>
 
     <p>
-      These specialized capabilities come in the form of extra functions that are created by developers in the R community. By creating our own function, we learn that functions take “arguments” as their inputs and provide a return value. A return value is a data object, so it could be a single number (technically a vector of length one) or it could be a list of values (a vector) or even a more complex data object. We can write and reuse our own functions, which we will do quite frequently later in the book, or we can use other people’s functions by installing their packages and using the library() function to make the contents of the package available. Once we have used library() we can inspect how a function works by typing its name at the R command line. (Note that this works for many functions, but there are a few that were created in a different computer language, like C, and for those we will not be able to inspect the code as easily.)
+      These specialized capabilities come in the form of extra functions that are created by developers in the R community. By creating our own function, we learn that functions take “arguments” as their inputs and provide a return value. A return value is a data object, so it could be a single number (technically a vector of length one) or it could be a list of values (a vector) or even a more complex data object. We can write and reuse our own functions, which we will do quite frequently later in the book, or we can use other people’s functions by installing their packages and using the <c>library()</c> function to make the contents of the package available. Once we have used <c>library()</c> we can inspect how a function works by typing its name at the R command line. (Note that this works for many functions, but there are a few that were created in a different computer language, like C, and for those we will not be able to inspect the code as easily.)
     </p>
 
   </section>

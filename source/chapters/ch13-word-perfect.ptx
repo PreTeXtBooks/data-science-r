@@ -3,6 +3,13 @@
 <chapter xml:id="ch13-word-perfect" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Word Perfect</title>
 
+<introduction>
+<p>In the previous chapter we mastered some of the most basic and important functions for examining
+and manipulating text. Now we are in a position to analyze the actual words that appear in text
+documents. Some of the most basic functions of the Internet, such as keyword search, are
+accomplished by analyzing the "content" i.e., the words in a body of text.</p>
+</introduction>
+
   <section xml:id="sec-word-clouds">
     <title>Word Clouds and the Corpus</title>
 
@@ -128,6 +135,13 @@ wordcloud(cloudFrame$word,cloudFrame$freq)
     <p>In the next command above, we are accomplishing two things in one command: We are calculating the sums across each row, which gives us the total frequency of a term across all of the different tweets/documents. We are also sorting the resulting values with the highest frequencies first. The result is a named list: Each item of the list has a frequency and the name of each item is the term to which that frequency applies.</p>
 
     <p>In the second to last command above, we are extracting the names from the named list in the previous command and binding them together into a dataframe with the frequencies. This dataframe, “cloudFrame”, contains exactly the same information as the named list. “sortedMatrix,” but cloudFrame has the names in a separate column of data. This makes it easier to do the final command above, which is the call to the wordcloud() function. The wordcloud() function has lots of optional parameters for making the word cloud more colorful, controlling its shape, and controlling how frequent an item must be before it appears in the cloud, but we have used the default settings for all of these parameters for the sake of simplicity. We pass to the wordcloud() function the term list and frequency list that we bound into the dataframe and wordcloud() produces the nice graphic that you see below.</p>
+
+    <figure xml:id="fig-ch13-wordcloud-solar">
+      <caption>Word cloud generated from Twitter search results for the hashtag #solar, with word size indicating frequency of occurrence.</caption>
+      <image source="wordcloud-solar.png" width="80%">
+        <description>A word cloud generated from tweets about solar energy. The word "solar" appears largest in the center, followed by "energy" and "power" in large text. Other prominent words include "community," "independence," "masses," "people," "shared," "nationwide," "popularity," "providing," "gains," and "green," with many smaller related terms surrounding them.</description>
+      </image>
+    </figure>
 
     <p>If you recall the Twitter search that we used to retrieve those tweets (#solar) it makes perfect sense that “solar” is the most frequent term (even though we filtered out all of the hashtags. The next most popular term is “energy” and after that there are a variety of related words such as “independence,” “green,” “wind,” and “metering.”</p>
 
