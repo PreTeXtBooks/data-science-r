@@ -1684,6 +1684,121 @@
       <p>http://en.wikipedia.org/wiki/Shapefile</p>
       <p>http://www.housingmaps.com/</p>
       <p>http://www.census.gov/geo/www/cob/cbf_state.html</p>
+      <p>Line Up, Please</p>
+      <p>Data users are often interested in questions about relationships and prediction. For example, those interested in athletics might want to know how the size of the fan base of a team is connected with attendance on game day. In this chapter, our Australian colleague, Robert de Graaf, introduces the techniques of linear regression, a very important data science tool.</p>
+      <p>Finding Relationships Between Sets of Data</p>
+      <p>Finding relationships between sets of data is one of the key aims of data science. The question of does x influence y is of prime concern for data analysts—are house prices influenced by incomes, is the growth rate of crops improved by fertilizer, do taller sprinters run faster?</p>
+      <p>The workhorse method used by statisticians to interpret data is linear modeling, which is a term covering a wide variety of methods from the relatively simple to very sophisticated. The basis of all these methods is the idea that it is possible to fit a line to a set of data points which represents the effect an independent variable is having on a dependent variable. The original ideas behind linear regression were developed by Laplace, Gauss, Galton, and Pearson. The biggest individual contribution was probably by Gauss, who used the procedure to predict movements of the other planets in the solar system.</p>
+      <p>Football or Rugby? The Australian Rules Football Example</p>
+      <p>We can use an example to show how to use linear regression on real data. The example concerns attendances at Australian Rules Football matches at the Melbourne Cricket Ground (MCG). The variable of interest is MCG attendance. Potential explanatory, or independent, variables include club membership, weather on match day, date of match, and so on. The data are available from OzDasl at http://www.statsci.org/data/oz/afl.html.</p>
+      <p>After downloading the data, read it into R as follows:</p>
+      <p>attend &lt;- read.delim("afl.txt", header=TRUE)</p>
+      <p>attach(attend)</p>
+      <p>With the data loaded, we can examine plots of the data before undertaking a more detailed analysis:</p>
+      <p>plot(MCG ~ Members,</p>
+      <p>xlab="Combined membership of teams playing",</p>
+      <p>ylab="MCG Match Day Attendance")</p>
+      <p>Building a Linear Model with lm()</p>
+      <p>We can use R to create a linear model for MCG attendance using the combined membership as the single explanatory variable:</p>
+      <p>model1 &lt;- lm(MCG ~ Members - 1)</p>
+      <p>summary(model1)</p>
+      <p>abline(model1)</p>
+      <p>Note that in the model formula, we have added a -1 term to the specification, which forces the line of best fit to pass through zero on the y axis when x is zero (the y-intercept is forced to be at the origin). In the present model that is essentially saying that if the two teams are so unpopular they don't have any members, no one will go to see their matches. This technique is appropriate here because both measures have sensible zero points, and we can logically reason that zero on X implies zero on Y. In most other models, particularly for survey data that may not have a sensible zero point, it would not be appropriate to force the best fitting line through the origin.</p>
+      <p>The summary(model1) output includes the r-squared value (also known as the coefficient of determination), which represents the proportion of the variation in the dependent variable that is accounted for by the independent variable(s). An r-squared value of 1.0 would mean the X variable perfectly predicts Y. An r-squared of zero would indicate no predictive relationship. The r-squared of 0.8847 in this example means that the Combined Members variable accounts for 88.47% of the MCG attendance variable—an excellent result.</p>
+      <p>Adding Another Independent Variable</p>
+      <p>Some of the teams in the AFL are from interstate (outside Victoria), and their supporters would need to make a significant interstate journey to see their team play at the MCG. We can create a binary coded variable to indicate whether the away team is interstate:</p>
+      <p>away.inter &lt;- ifelse(Away=="WC" |</p>
+      <p>Away=="Adel" |</p>
+      <p>Away=="Syd" |</p>
+      <p>Away=="Bris", 1, 0)</p>
+      <p>Now we can include this new variable in a two-predictor model:</p>
+      <p>model2 &lt;- lm(MCG ~ Members + away.inter - 1)</p>
+      <p>summary(model2)</p>
+      <p>The r-squared value is now 0.9246, which is quite a bit higher than the 0.8847 that we observed in the previous model. In this new model, the two independent variables working together account for 92.46% of the dependent variable.</p>
+      <p>To determine whether each predictor is an important contributor to the prediction, examine the t value in the model output. As a rule of thumb, if this t value has an absolute value larger than about 2, you can be assured that the independent variable is contributing to the prediction. In this example Members has a t value of 21.257 and away.inter has a t value of -4.545 (both are well above 2 in absolute value).</p>
+      <p>Chapter Challenge</p>
+      <p>We intentionally ignored some of the output of these regression models. It would be quite valuable for you to understand those missing parts. In particular, we ignored the p-values associated with the t-tests on the slope/B-weight estimates and we also ignored the overall F-statistic reported at the very bottom of the output. Research these concepts online.</p>
+      <p>Sources</p>
+      <p>Wikipedia: Australian Rules Football R Manual: lm() OzDasl: AFL Attendance Data</p>
+      <p>Hi Ho, Hi Ho — Data Mining We Go</p>
+      <p>Data mining is an area of research and practice that is focused on discovering novel patterns in data. As usual, R has lots of possibilities for data mining. In this chapter we will begin experimentation with essential data mining techniques by trying out one of the easiest methods to understand: association rules mining. More beer and diapers please!</p>
+      <p>What Is Data Mining?</p>
+      <p>Data mining is a term that refers to the use of algorithms and computers to discover novel and interesting patterns within data. One famous example is the supermarket that analyzed patterns of purchasing behavior and found that diapers and beer were often purchased together. The supermarket manager decided to put a beer display close to the diaper aisle and supposedly sold more of both products as a result.</p>
+      <p>Some people refer to this area of research as machine learning. Machine learning focuses on creating computer algorithms that can use pre-existing inputs to refine and improve their own capabilities for dealing with future inputs. Data mining typically consists of four processes:</p>
+      <p>Data preparation—making sure that the data are organized in the right way, filling in missing data fields, locating and repairing inaccurate data, and recoding data as necessary.</p>
+      <p>Exploratory data analysis—getting to know the data using histograms and other visualization tools, and looking for preliminary hints that will guide model choice.</p>
+      <p>Model development—the most complex and interesting activity: testing out a selection of the most appropriate data mining techniques.</p>
+      <p>Interpretation of results—the most important step from the perspective of the data user, where an actionable conclusion is formed.</p>
+      <p>Association Rules Mining</p>
+      <p>The technique we will use in this chapter is called association rules mining (also sometimes called affinity analysis). It is the strategy that was used to find the diapers and beer association described earlier.</p>
+      <p>The association rules algorithm tries out many different propositions, such as if diapers are purchased, then beer is also purchased. The algorithm uses a dataset of transactions (individual shopping carts) to evaluate a long list of these rules for two quantities:</p>
+      <p>Support: The proportion of times that a particular pairing occurs across all transactions.</p>
+      <p>Confidence: How frequently a particular pair occurs among all the times when the first item is present.</p>
+      <p>Lift: A measure of interestingness, calculated as the ratio of the rule's confidence to the baseline probability of the consequent item appearing in any transaction.</p>
+      <p>We can get started with association rules mining very easily using the R package known as arules:</p>
+      <p>install.packages("arules")</p>
+      <p>library(arules)</p>
+      <p>data(Groceries)</p>
+      <p>summary(Groceries)</p>
+      <p>The Groceries dataset built into the arules package contains 9,835 transactions with 169 items. The most frequent items include whole milk, other vegetables, rolls/buns, and soda.</p>
+      <p>Running the Apriori Algorithm</p>
+      <p>The main function in the arules package is apriori(). We can pass it the grocery transaction data and specify minimum support and confidence thresholds:</p>
+      <p>ruleset &lt;- apriori(Groceries,</p>
+      <p>parameter=list(support=0.01, confidence=0.5))</p>
+      <p>inspect(ruleset)</p>
+      <p>To explore a broader set of rules, we can be more lenient in our minimum support and confidence parameters, and then use the arulesViz package to visualize the results:</p>
+      <p>install.packages("arulesViz")</p>
+      <p>library(arulesViz)</p>
+      <p>ruleset &lt;- apriori(Groceries,</p>
+      <p>parameter=list(support=0.005, confidence=0.35))</p>
+      <p>plot(ruleset)</p>
+      <p>goodrules &lt;- ruleset[quality(ruleset)$lift &gt; 3.5]</p>
+      <p>inspect(goodrules)</p>
+      <p>The visualization plot shows support on the X-axis, confidence on the Y-axis, and lift indicated by the darkness of each dot. Focusing on rules with high lift reveals combinations that may correspond to recipes: herbs with root vegetables, or tropical fruit with curd and yogurt.</p>
+      <p>Chapter Challenge</p>
+      <p>The arules package contains other data sets, such as the Epub dataset with 3975 transactions from the electronic publication platform of the Vienna University of Economics. Load up that data set, generate some rules, visualize the rules, and choose some interesting ones for further discussion.</p>
+      <p>Sources</p>
+      <p>Wikipedia: Association Rule Learning Hahsler et al.: arules paper StatSoft: Association Rules Rattle GUI for R</p>
+      <p>What's Your Vector, Victor?</p>
+      <p>In the previous chapter, we explored an unsupervised learning technique known as association rules mining. In this chapter, we will examine a set of supervised learning approaches known as support vector machines (SVMs). SVMs are flexible algorithms that excel at addressing classification problems.</p>
+      <p>Supervised vs. Unsupervised Learning</p>
+      <p>From the previous chapter you may remember that data mining techniques fall into two large categories: supervised learning techniques and unsupervised learning techniques. The association rules mining examined in the previous chapter was an unsupervised technique—there was no particular criterion that we were trying to predict; rather, we were looking for patterns that would emerge from the data naturally.</p>
+      <p>In the present chapter we will examine a supervised learning technique called support vector machines. The reason this is considered a supervised learning technique is that we train the algorithm on an initial set of data (the supervised phase) and then we test it out on a brand new set of data. If the training we accomplished worked well, then the algorithm should be able to predict the right outcome most of the time in the test data.</p>
+      <p>How Support Vector Machines Work</p>
+      <p>An SVM maps a low dimensional problem into a higher dimensional space with the goal of being able to describe geometric boundaries between different regions. A simple 2D-3D mapping example illustrates how this works:</p>
+      <p>Imagine looking at a photograph of a snow-capped mountain photographed from high above the earth such that the mountain looks like a small, white circle completely surrounded by a region of green trees. Using a pair of scissors, there is no way of cutting the photo on a straight line so that all of the white snow is on one side of the cut and all of the green trees are on the other.</p>
+      <p>Next, instead of a piece of paper, think about a realistic three-dimensional clay model of the mountain. Now all the white points occupy a cone at the peak of the mountain and all of the green points lie at the base of the mountain. Imagine inserting a sheet of cardboard through the clay model in a way that divides the snow-capped peak from the green-tree-covered base. It is much easier to do now because the white points are sticking up into the high altitude and the green points are all on the base of the mountain. A support vector machine analysis would take the original two-dimensional point data and search for a projection into three dimensions that would maximize the spacing between the two classes of points.</p>
+      <p>Classifying Spam Email with kernlab</p>
+      <p>To get started with support vector machines, we can load the kernlab package:</p>
+      <p>install.packages("kernlab")</p>
+      <p>library(kernlab)</p>
+      <p>data(spam)</p>
+      <p>str(spam)</p>
+      <p>dim(spam)</p>
+      <p>table(spam$type)</p>
+      <p>The spam dataset comes from a study of spam emails received by employees at the Hewlett-Packard company. It contains 4601 rows and 58 variables. The last variable, type, indicates whether a human expert classified each email as spam or not spam. There are 2788 non-spam messages and 1813 spam messages.</p>
+      <p>To make the analysis work we need to divide the dataset into a training set and a test set. As a rule of thumb, use two thirds of the dataset to train and the remainder to test:</p>
+      <p>randIndex &lt;- sample(1:dim(spam)[1])</p>
+      <p>cutPoint2_3 &lt;- floor(2 * dim(spam)[1] / 3)</p>
+      <p>trainData &lt;- spam[randIndex[1:cutPoint2_3],]</p>
+      <p>testData &lt;- spam[randIndex[(cutPoint2_3+1):dim(spam)[1]],]</p>
+      <p>Training and Evaluating the SVM</p>
+      <p>Now we can train an SVM on the training data. The ksvm() function in the kernlab package implements support vector machines with built-in cross-validation:</p>
+      <p>svmOutput &lt;- ksvm(type ~ ., data=trainData,</p>
+      <p>kernel="rbfdot", kpar="automatic",</p>
+      <p>C=5, cross=3, prob.model=TRUE)</p>
+      <p>svmOutput</p>
+      <p>The real acid test for our support vector model will be to use the support vectors we generated through training to predict the outcomes in a novel dataset. The following commands produce a confusion matrix:</p>
+      <p>svmPred &lt;- predict(svmOutput, testData, type="votes")</p>
+      <p>compTable &lt;- data.frame(testData[,58], svmPred[1,])</p>
+      <p>table(compTable)</p>
+      <p>Along the main diagonal of the confusion matrix we see the correctly classified cases—non-spam emails classified as non-spam, and spam emails classified as spam. On the off-diagonal, we see the erroneous classifications: cases that were not spam but were classified as spam, and spam cases that were classified as non-spam. A simple accuracy calculation sums the errors and divides by the total number of test cases. For many runs of this analysis, the total error rate is around 7–8%.</p>
+      <p>An important practical question: Which is worse, an email that gets mistakenly quarantined because it is not really spam, or a spam email that gets through to someone's inbox? It really depends on the situation, but you can see that you might want to give more consideration to minimizing one particular kind of error.</p>
+      <p>Chapter Challenge</p>
+      <p>Look up the term confusion matrix and then follow-up on some other terms such as Type I error, Type II error, sensitivity, and specificity. Think about how the support vector machine model could be modified to do better at either sensitivity or specificity.</p>
+      <p>For a super challenge, try using another dataset with the kernlab ksvm() technology. There is a dataset called promotergene that is built into the kernlab package. You could also load your own dataset and try creating an SVM model from that.</p>
+      <p>Sources</p>
+      <p>kernlab package documentation Wikipedia: Confusion matrix UCI ML Repository: Spambase kernlab: An S4 Package for Kernel Methods in R</p>
     </chapter>
   </book>
 </pretext>
