@@ -5,16 +5,41 @@
 
   <introduction>
     <p>
-      MarketWatch (a Wall Street Journal Service) recently published an article with the title, “Big Data Equals Big Business Opportunity Say Global IT and Business Professionals,” and the subtitle, “70 Percent of Organizations Now Considering, Planning or Running Big Data Projects According to New Global Survey.” The technology news has been full of similar articles for several years. Given the number of such articles it is hard to resist the idea that “big data” represents some kind of revolution that has turned the whole world of information and technology topsy-turvy. But is this really true? Does “big data” change everything?
+In 2012 the technology press contained many headlines about big data. What makes data big, and
+why is this bigness important? In this chapter, we discuss some of the real issues behind these
+questions. Armed with information from the previous chapter concerning sampling, we can give
+more thought to how the size of a data set affects what we do with the data.
+</p>
     </p>
   </introduction>
 
   <section xml:id="sec-big-data-context">
     <title>Big Data in Context</title>
-
+<p>
+      MarketWatch (a Wall Street Journal Service) recently published an article with the title, “Big Data Equals Big Business Opportunity Say Global IT and Business Professionals,” and the subtitle, “70 Percent of Organizations Now Considering, Planning or Running Big Data Projects According to New Global Survey.” The technology news has been full of similar articles for several years. Given the number of such articles it is hard to resist the idea that “big data” represents some kind of revolution that has turned the whole world of information and technology topsy-turvy. But is this really true? Does “big data” change everything?
+</p>
+<p>
+Business analyst Doug Laney suggested that three characteristics
+make "big data" different from what came before: volume, velocity,
+and variety. Volume refers to the sheer amount of data. Velocity focuses
+on how quickly data arrives as well as how quickly those
+data become "stale." Finally, Variety reflects the fact that there may
+be many different kinds of data. Together, these three characteristics
+are often referred to as the "three Vs" model of big data. Note,
+however, that even before the dawn of the computer age we’ve had
+a variety of data, some of which arrives quite quickly, and that can
+add up to quite a lot of total storage over time (think, for example,
+of the large variety and volume of data that has arrived annually at
+Library of Congress since the 1800s!). So it is difficult to tell, just
+based on someone saying that they have a high volume, high velocity,
+and high variety data problem, that big data is fundamentally a
+brand new thing.
+</p>
     <p>
-      Let’s list a few things which are certainly pretty accurate:
-    </p>
+With that said, there are certainly many changes afoot that make
+data problems qualitatively different today as compared with a
+few years ago. Let’s list a few things which are pretty accurate:
+</p>
 
     <ol>
       <li><p>The decline in the price of sensors (like barcode readers) and other technology over recent decades has made it cheaper and easier to collect a lot more data.</p></li>
