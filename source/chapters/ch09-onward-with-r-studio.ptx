@@ -23,7 +23,7 @@ introduces "packages," the key to the extensibility of R.
     </p>
 
     <p>
-      The website for R-studio is http://www.rstudio.org/ and you can inspect the information there at any time. For most of the rest of this chapter, if you want to follow along with the installation and use of R-Studio, you will need to work on a Mac, Windows, or Linux computer.
+      The website for R-studio is <url href="http://www.rstudio.org/">http://www.rstudio.org/</url> and you can inspect the information there at any time. For most of the rest of this chapter, if you want to follow along with the installation and use of R-Studio, you will need to work on a Mac, Windows, or Linux computer.
     </p>
 
     <p>
@@ -35,7 +35,7 @@ introduces "packages," the key to the extensibility of R.
     </p>
 
     <p>
-      Before we can get there, though, we have to have R-Studio installed on a computer. Perhaps the most challenging aspect of installing R-Studio is having to install R first, but if you’ve already done that in chapter 2, then R-Studio should be a piece of cake. Make sure that you have the latest version of R installed before you begin with the installation of R-studio. There is ample documentation on the R-studio website, http://www.rstudio.org/, so if you follow the instructions there, you should have minimal difficulty. If you reach a page where you are asked to choose between installing R-studio server and installing R-studio as a desktop application on your computer, choose the latter. We will look into R-studio server a little later, but for now you want the desktop/single user version. If you run into any difficulties or you just want some additional guidance about R-studio, you may want to have a look at the book entitled, Getting Started with R-studio, by John Verzani (2011, Sebastopol, CA: O’Reilly Media). The first chapter of that book has a general orientation to R and R-studio as well as a guide to installing and updating R-studio. There is also a YouTube video that introduces R-studio here:   http://www.youtube.com/watch?v=7sAmqkZ3Be8  Be aware if you search for other YouTube videos that there is a disk recovery program as well a music group that share the R-Studio name: You will get a number of these videos if you search on “R-Studio” without any other search terms.
+      Before we can get there, though, we have to have R-Studio installed on a computer. Perhaps the most challenging aspect of installing R-Studio is having to install R first, but if you’ve already done that in chapter 2, then R-Studio should be a piece of cake. Make sure that you have the latest version of R installed before you begin with the installation of R-studio. There is ample documentation on the R-studio website, <url href="http://www.rstudio.org/">http://www.rstudio.org/</url>, so if you follow the instructions there, you should have minimal difficulty. If you reach a page where you are asked to choose between installing R-studio server and installing R-studio as a desktop application on your computer, choose the latter. We will look into R-studio server a little later, but for now you want the desktop/single user version. If you run into any difficulties or you just want some additional guidance about R-studio, you may want to have a look at the book entitled, Getting Started with R-studio, by John Verzani (2011, Sebastopol, CA: O’Reilly Media). The first chapter of that book has a general orientation to R and R-studio as well as a guide to installing and updating R-studio. There is also a YouTube video that introduces R-studio here:   <url href="http://www.youtube.com/watch?v=7sAmqkZ3Be8">http://www.youtube.com/watch?v=7sAmqkZ3Be8</url>  Be aware if you search for other YouTube videos that there is a disk recovery program as well a music group that share the R-Studio name: You will get a number of these videos if you search on “R-Studio” without any other search terms.
     </p>
 
     <p>
@@ -421,12 +421,12 @@ MyMode(multiData)
   <conclusion xml:id="conclusion-ch09">
     <title>Sources</title>
 
-    <p>http://en.wikipedia.org/wiki/R_(programming_language)</p>
-    <p>http://en.wikipedia.org/wiki/Joseph_J._Allaire</p>
-    <p>http://stats.lse.ac.uk/penzer/ST419materials/CSchpt3.pdf</p>
-    <p>http://www.use-r.org/downloads/Getting_Started_with_RStudio.pdf</p>
-    <p>http://www.statmethods.net/interface/packages.html</p>
-    <p>http://www.youtube.com/watch?v=7sAmqkZ3Be8</p>
+    <p><url href="http://en.wikipedia.org/wiki/R_(programming_language)">http://en.wikipedia.org/wiki/R_(programming_language)</url></p>
+    <p><url href="http://en.wikipedia.org/wiki/Joseph_J._Allaire">http://en.wikipedia.org/wiki/Joseph_J._Allaire</url></p>
+    <p><url href="http://stats.lse.ac.uk/penzer/ST419materials/CSchpt3.pdf">http://stats.lse.ac.uk/penzer/ST419materials/CSchpt3.pdf</url></p>
+    <p><url href="http://www.use-r.org/downloads/Getting_Started_with_RStudio.pdf">http://www.use-r.org/downloads/Getting_Started_with_RStudio.pdf</url></p>
+    <p><url href="http://www.statmethods.net/interface/packages.html">http://www.statmethods.net/interface/packages.html</url></p>
+    <p><url href="http://www.youtube.com/watch?v=7sAmqkZ3Be8">http://www.youtube.com/watch?v=7sAmqkZ3Be8</url></p>
 
     <p>R Commands Used in this Chapter</p>
 

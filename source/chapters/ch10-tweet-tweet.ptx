@@ -316,21 +316,21 @@ sum((as.integer(diff(created)))&lt;10)
   <conclusion xml:id="conclusion-ch10">
     <title>Sources</title>
 
-    <p>http://cran.r-project.org/web/packages/twitteR/twitteR.pdf</p>
+    <p><url href="http://cran.r-project.org/web/packages/twitteR/twitteR.pdf">http://cran.r-project.org/web/packages/twitteR/twitteR.pdf</url></p>
 
-    <p>http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz</p>
+    <p><url href="http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz">http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz</url></p>
 
-    <p>http://en.wikipedia.org/wiki/Poisson_distribution</p>
+    <p><url href="http://en.wikipedia.org/wiki/Poisson_distribution">http://en.wikipedia.org/wiki/Poisson_distribution</url></p>
 
-    <p>http://hashtags.org/</p>
+    <p><url href="http://hashtags.org/">http://hashtags.org/</url></p>
 
-    <p>http://www.khanacademy.org/math/probability/v/poisson-process-1</p>
+    <p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-1">http://www.khanacademy.org/math/probability/v/poisson-process-1</url></p>
 
-    <p>http://www.khanacademy.org/math/probability/v/poisson-process-2</p>
+    <p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-2">http://www.khanacademy.org/math/probability/v/poisson-process-2</url></p>
 
-    <p>https://support.twitter.com/articles/49309 (hashtags explained)</p>
+    <p><url href="https://support.twitter.com/articles/49309">https://support.twitter.com/articles/49309</url> (hashtags explained)</p>
 
-    <p>http://www.rdatamining.com/examples/text-mining</p>
+    <p><url href="http://www.rdatamining.com/examples/text-mining">http://www.rdatamining.com/examples/text-mining</url></p>
 
     <p>R Script - Create Vector of Probabilities From Arrival Times</p>
 

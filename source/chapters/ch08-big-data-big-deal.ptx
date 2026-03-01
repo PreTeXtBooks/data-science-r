@@ -182,7 +182,7 @@ features valuable to data scientists. One very exciting development
 in programming languages has the odd name of "Processing." Processing
 is a programming language specifically geared toward creating
 data visualizations. Like R, Processing is an open source project,
-so it is freely available at http://processing.org/. Also like R,
+so it is freely available at <url href="http://processing.org/">http://processing.org/</url>. Also like R,
 Processing is a cross-platform program, so it will run happily on
 Mac, Windows, and Linux. There are lots of books available for
 learning Processing (unfortunately, no open source books yet) and

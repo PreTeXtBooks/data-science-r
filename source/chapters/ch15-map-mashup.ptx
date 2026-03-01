@@ -5,7 +5,7 @@
 
   <introduction>
       <p>Mashup is a term that originated in the music business decades ago related to the practice of overlaying one music recording on top of another one. The term has entered general usage to mean anything that brings together disparate influences or elements. In the application development area, mashup often refers to bringing together various sources of data to create a new product with unique value. There’s even a non-profit group called the Open Mashup Alliance that develops standards and methods for creating new mashups.</p>
-      <p>One example of a mashup is http://www.housingmaps.com/ , a web application that grabs apartment rental listings from the classified advertising service Craigslist and plots them on an interactive map that shows the location of each listing. If you have ever used Craigslist you know that it provides a very basic text-based interface and that the capability to find listings on a map would be welcome.</p>
+      <p>One example of a mashup is <url href="http://www.housingmaps.com/">http://www.housingmaps.com/</url> , a web application that grabs apartment rental listings from the classified advertising service Craigslist and plots them on an interactive map that shows the location of each listing. If you have ever used Craigslist you know that it provides a very basic text-based interface and that the capability to find listings on a map would be welcome.</p>
       <p>In this chapter we tackle a similar problem. Using some address data from government records, we call the Google geocoding API over the web to find the latitude and longitude of each address. Then we plot these latitudes and longitudes on a map of the U.S. This activities reuses skills we learned in the previous chapter for reading in data files, adds some new skills related to calling web APIs, and introduces us to a new type of data, namely the shapefiles that provide the basis for electronic maps.</p>
   </introduction>
 
@@ -130,9 +130,9 @@ tail(dhhsAddrs$strAddr,4)
 
       <p>These acronyms probably look familiar. HTTP is the Hyper Text Transfer Protocol, and it is the standard method for requesting and receiving web page data. A GET request consists of information that is included in the URL string to specify some details about the information we are hoping to get back from the request. Here is an example GET request to the Google geocoding API:</p>
 
-      <p>http://maps.googleapis.com/maps/api/geocode/json?address=1600+Pennsylvania+Avenue,+Washington,+DC&amp;sensor=false</p>
+      <p><url href="http://maps.googleapis.com/maps/api/geocode/json?address=1600+Pennsylvania+Avenue,+Washington,+DC&amp;sensor=false">http://maps.googleapis.com/maps/api/geocode/json?address=1600+Pennsylvania+Avenue,+Washington,+DC&amp;sensor=false</url></p>
 
-      <p>The first part of this should look familiar: The http://maps.googleapis.com part of the URL specifies the domain name just like a regular web page. The next part of the URL,  “/maps/api/geocode” tells Google which API we want to use. Then the “json” indicates that we would like to receive our result in “Java Script Object Notation” (JSON) which is a structured, but human readable way of sending back some data. The address appears next, and we are apparently looking for the White House at 1600 Pennsylvania Avenue in Washington, DC. Finally, sensor=false is a required parameter indicating that we are not sending our request from a mobile phone. You can type that whole URL into the address field of any web browser and you should get a sensible result back. The JSON notation is not beautiful, but you will see that it makes sense and provides the names of individual data items along with their values. Here’s a small excerpt that shows the key parts of the data object that we are trying to get our hands on:</p>
+      <p>The first part of this should look familiar: The <url href="http://maps.googleapis.com">http://maps.googleapis.com</url> part of the URL specifies the domain name just like a regular web page. The next part of the URL,  “/maps/api/geocode” tells Google which API we want to use. Then the “json” indicates that we would like to receive our result in “Java Script Object Notation” (JSON) which is a structured, but human readable way of sending back some data. The address appears next, and we are apparently looking for the White House at 1600 Pennsylvania Avenue in Washington, DC. Finally, sensor=false is a required parameter indicating that we are not sending our request from a mobile phone. You can type that whole URL into the address field of any web browser and you should get a sensible result back. The JSON notation is not beautiful, but you will see that it makes sense and provides the names of individual data items along with their values. Here’s a small excerpt that shows the key parts of the data object that we are trying to get our hands on:</p>
 
       <p>{</p>
       <p>"results" : [</p>
@@ -300,10 +300,10 @@ addPoints(eventData,col="red",cex=.5)
       <p>URLencode() - Formats a character string so it can be used in an HTTP request</p>
 
       <p>Sources</p>
-      <p>http://en.wikipedia.org/wiki/Open_Mashup_Alliance</p>
-      <p>http://en.wikipedia.org/wiki/Shapefile</p>
-      <p>http://www.housingmaps.com/</p>
-      <p>http://www.census.gov/geo/www/cob/cbf_state.html</p>
+      <p><url href="http://en.wikipedia.org/wiki/Open_Mashup_Alliance">http://en.wikipedia.org/wiki/Open_Mashup_Alliance</url></p>
+      <p><url href="http://en.wikipedia.org/wiki/Shapefile">http://en.wikipedia.org/wiki/Shapefile</url></p>
+      <p><url href="http://www.housingmaps.com/">http://www.housingmaps.com/</url></p>
+      <p><url href="http://www.census.gov/geo/www/cob/cbf_state.html">http://www.census.gov/geo/www/cob/cbf_state.html</url></p>
 
   </conclusion>
 
