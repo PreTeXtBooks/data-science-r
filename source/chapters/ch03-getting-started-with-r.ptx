@@ -78,16 +78,36 @@
       Hogan called <em>Bare Bones R: A Brief Introductory Guide</em> that you might want to
       buy or borrow from your library. There are lots of sites online that also give help
       with installing R, although many of them are not oriented towards the inexperienced
-      user.
+      user. I searched online using the term <q>help installing R</q> and I got a few good
+      hits. One site that was quite informative for installing R on Windows was at
+      <q>readthedocs.org</q>, and you can try to access it at this TinyUrl:
+      <url href="http://tinyurl.com/872ngtt">http://tinyurl.com/872ngtt</url>. For Mac
+      users there is a video by Jeremy Taylor at Vimeo.com,
+      <url href="http://vimeo.com/36697971">http://vimeo.com/36697971</url>, that outlines
+      both the initial installation on a Mac and a number of other optional steps for getting
+      started. YouTube also had four videos that provide brief tutorials for installing R.
+      Try searching for <q>install R</q> in the YouTube search box.
     </p>
+
+    <figure xml:id="fig-ch03-r-console-mac">
+      <caption>The R Console on a Mac with a custom orange background, showing the result of
+      typing <c>1+1</c>.</caption>
+      <image source="r-console-mac.png" width="70%">
+        <description>A screenshot of the R Console application on a Mac. The console has a
+        bright orange background. Near the bottom, a greater-than symbol serves as the
+        command prompt. The user has typed 1+1 and R has responded with [1] 2.</description>
+      </image>
+    </figure>
 
     <p>
       The rest of this chapter assumes that you have installed R and can run it on your
-      computer. Just for fun, one of the first things you can do when you have R running is
-      to click on the color wheel and customize the appearance of R. The screenshot in the
-      original book uses Syracuse orange as a background color. Notice near the bottom of
-      the R console a greater-than (<c>&gt;</c>) symbol. This is the command prompt: When R
-      is running and it is the active application on your desktop, if you type a command it
+      computer as shown in the screenshot above. (Note that this screenshot is from the Mac
+      version of R: if you are running Windows or Linux your R screen may appear slightly
+      different from this.) Just for fun, one of the first things you can do when you have R
+      running is to click on the color wheel and customize the appearance of R. This
+      screenshot uses Syracuse orange as a background color. Notice near the bottom of the R
+      console a greater-than (<c>&gt;</c>) symbol. This is the command prompt: When R is
+      running and it is the active application on your desktop, if you type a command it
       appears after the <c>&gt;</c> symbol. If you press the <q>enter</q> or <q>return</q>
       key, the command is sent to R for processing. When the processing is done, a result
       may appear just under the <c>&gt;</c>. When R is done processing, another command
@@ -117,10 +137,25 @@
       <q>integer.</q> Remember that you can tell that they are OK to be integers because
       there are no decimal points and therefore nothing after the decimal point. We can
       create a vector of integers in R using the <c>c()</c> command.
+      Take a look at the screenshot below.
     </p>
 
+    <figure xml:id="fig-ch03-r-console-family-ages">
+      <caption>The R Console showing several commands using the <c>myFamilyAges</c>
+      vector, including <c>sum()</c>, <c>mean()</c>, <c>range()</c>, and an error
+      from the undefined <c>fish()</c> function.</caption>
+      <image source="r-console-family-ages.png" width="70%">
+        <description>A screenshot of the R Console on a Mac with an orange background,
+        showing commands: c(43,42,12,8,5) echoed back, myFamilyAges assigned,
+        sum returning 110, mean returning 22, range returning 5 and 43, and fish
+        returning an error that the function could not be found.</description>
+      </image>
+    </figure>
+
     <p>
-      The first command is:
+      This is just about the last time that the whole screenshot from the R console will
+      appear in the book. From here on out we will just look at commands and output so we
+      don't waste so much space on the page. The first command is:
     </p>
 
     <program language="r" xml:id="prog-ch3-vector-echo">
