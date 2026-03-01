@@ -5,8 +5,297 @@
 
   <introduction>
     <p>
-      Coming soon.
+      Data science is a broad field that draws on a wide range of skills and roles. This
+      chapter introduces the field through an everyday example&#x2014;the journey of data
+      from a grocery store purchase to a manager's decision&#x2014;and then surveys the
+      skills and resources that data scientists need.
     </p>
   </introduction>
+
+  <section xml:id="sec-data-in-everyday-life">
+    <title>Data in Everyday Life</title>
+
+    <p>
+      For some, the term <q>Data Science</q> evokes images of statisticians in white lab
+      coats staring fixedly at blinking computer screens filled with scrolling numbers.
+      Nothing could be further from the truth. First of all, statisticians do not wear lab
+      coats: this fashion statement is reserved for biologists, doctors, and others who have
+      to keep their clothes clean in environments filled with unusual fluids. Second, much of
+      the data in the world is non-numeric and <q>unstructured.</q> In this context,
+      unstructured means that the data are not arranged in neat rows and columns. Think of a
+      web page full of photographs and short messages among friends: very few numbers to work
+      with there. While it is certainly true that companies, schools, and governments use
+      plenty of numeric information&#x2014;sales of products, grade point averages, and tax
+      assessments are a few examples&#x2014;there is lots of other information in the world
+      that mathematicians and statisticians look at and cringe. So, while it is always useful
+      to have great math skills, there is much to be accomplished in the world of data science
+      for those of us who are presently more comfortable working with words, lists,
+      photographs, sounds, and other kinds of information.
+    </p>
+
+    <p>
+      In addition, data science is much more than simply analyzing data. There are many people
+      who enjoy analyzing data and who could happily spend all day looking at histograms and
+      averages, but for those who prefer other activities, data science offers a range of
+      roles and requires a range of skills. Let's consider this idea by thinking about some
+      of the data involved in buying a box of cereal.
+    </p>
+
+    <p>
+      Whatever your cereal preferences&#x2014;fruity, chocolaty, fibrous, or nutty&#x2014;you
+      prepare for the purchase by writing <q>cereal</q> on your grocery list. Already your
+      planned purchase is a piece of data, albeit a pencil scribble on the back of an envelope
+      that only you can read. When you get to the grocery store, you use your data as a
+      reminder to grab that jumbo box of FruityChocoBoms off the shelf and put it in your
+      cart. At the checkout line the cashier scans the barcode on your box and the cash
+      register logs the price. Back in the warehouse, a computer tells the stock manager that
+      it is time to request another order from the distributor, as your purchase was one of
+      the last boxes in the store. You also have a coupon for your big box and the cashier
+      scans that, giving you a predetermined discount. At the end of the week, a report of all
+      the scanned manufacturer coupons gets uploaded to the cereal company so that they can
+      issue a reimbursement to the grocery store for all of the coupon discounts they have
+      handed out to customers. Finally, at the end of the month, a store manager looks at a
+      colorful collection of pie charts showing all of the different kinds of cereal that were
+      sold, and on the basis of strong sales of fruity cereals, decides to offer more varieties
+      of these on the store's limited shelf space next month.
+    </p>
+
+    <p>
+      So the small piece of information that began as a scribble on your grocery list ended up
+      in many different places, but most notably on the desk of a manager as an aid to
+      decision making. On the trip from your pencil to the manager's desk, the data went
+      through many transformations. In addition to the computers where the data may have
+      stopped by or stayed on for the long term, lots of other pieces of hardware&#x2014;such
+      as the barcode scanner&#x2014;were involved in collecting, manipulating, transmitting,
+      and storing the data. In addition, many different pieces of software were used to
+      organize, aggregate, visualize, and present the data. Finally, many different
+      <q>human systems</q> were involved in working with the data. People decided which
+      systems to buy and install, who should get access to what kinds of data, and what would
+      happen to the data after its immediate purpose was fulfilled. The personnel of the
+      grocery chain and its partners made a thousand other detailed decisions and negotiations
+      before the scenario described above could become reality.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-four-as-of-data">
+    <title>The Four A's of Data</title>
+
+    <p>
+      Obviously data scientists are not involved in all of these steps. Data scientists don't
+      design and build computers or barcode readers, for instance. So where would the data
+      scientists play the most valuable role? Generally speaking, data scientists play the most
+      active roles in the four A's of data: data architecture, data acquisition, data analysis,
+      and data archiving. Using our cereal example, let's look at them one by one. First, with
+      respect to architecture, it was important in the design of the <q>point of sale</q>
+      system (what retailers call their cash registers and related gear) to think through in
+      advance how different people would make use of the data coming through the system. The
+      system architect, for example, had a keen appreciation that both the stock manager and
+      the store manager would need to use the data scanned at the registers, albeit for
+      somewhat different purposes. A data scientist would help the system architect by
+      providing input on how the data would need to be routed and organized to support the
+      analysis, visualization, and presentation of the data to the appropriate people.
+    </p>
+
+    <p>
+      Next, acquisition focuses on how the data are collected, and, importantly, how the data
+      are represented prior to analysis and presentation. For example, each barcode represents
+      a number that, by itself, is not very descriptive of the product it represents. At what
+      point after the barcode scanner does its job should the number be associated with a text
+      description of the product or its price or its net weight or its packaging type?
+      Different barcodes are used for the same product (for example, for different sized boxes
+      of cereal). When should we make note that purchase X and purchase Y are the same product,
+      just in different packages? Representing, transforming, grouping, and linking the data
+      are all tasks that need to occur before the data can be profitably analyzed, and these
+      are all tasks in which the data scientist is actively involved.
+    </p>
+
+    <p>
+      The analysis phase is where data scientists are most heavily involved. In this context
+      we are using analysis to include summarization of the data, using portions of data
+      (samples) to make inferences about the larger context, and visualization of the data by
+      presenting it in tables, graphs, and even animations. Although there are many technical,
+      mathematical, and statistical aspects to these activities, keep in mind that the ultimate
+      audience for data analysis is always a person or people. These people are the
+      <q>data users</q> and fulfilling their needs is the primary job of a data scientist.
+      This point highlights the need for excellent communication skills in data science. The
+      most sophisticated statistical analysis ever developed will be useless unless the results
+      can be effectively communicated to the data user.
+    </p>
+
+    <p>
+      Finally, the data scientist must become involved in the archiving of the data.
+      Preservation of collected data in a form that makes it highly reusable&#x2014;what you
+      might think of as <q>data curation</q>&#x2014;is a difficult challenge because it is so
+      hard to anticipate all of the future uses of the data. For example, when the developers
+      of Twitter were working on how to store tweets, they probably never anticipated that
+      tweets would be used to pinpoint earthquakes and tsunamis, but they had enough foresight
+      to realize that <q>geocodes</q>&#x2014;data that shows the geographical location from
+      which a tweet was sent&#x2014;could be a useful element to store with the data.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-skills-for-data-scientists">
+    <title>Skills for Data Scientists</title>
+
+    <p>
+      All in all, our cereal box and grocery store example helps to highlight where data
+      scientists get involved and the skills they need. Here are some of the skills that the
+      example suggested:
+    </p>
+
+    <ul>
+      <li>
+        <p>
+          <em>Learning the application domain</em>&#x2014;The data scientist must quickly
+          learn how the data will be used in a particular context.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Communicating with data users</em>&#x2014;A data scientist must possess strong
+          skills for learning the needs and preferences of users. Translating back and forth
+          between the technical terms of computing and statistics and the vocabulary of the
+          application domain is a critical skill.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Seeing the big picture of a complex system</em>&#x2014;After developing an
+          understanding of the application domain, the data scientist must imagine how data
+          will move around among all of the relevant systems and people.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Knowing how data can be represented</em>&#x2014;Data scientists must have a
+          clear understanding about how data can be stored and linked, as well as about
+          <q>metadata</q> (data that describes how other data are arranged).
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Data transformation and analysis</em>&#x2014;When data become available for
+          the use of decision makers, data scientists must know how to transform, summarize,
+          and make inferences from the data. As noted above, being able to communicate the
+          results of analyses to users is also a critical skill here.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Visualization and presentation</em>&#x2014;Although numbers often have the
+          edge in precision and detail, a good data display (e.g., a bar chart) can often be
+          a more effective means of communicating results to data users.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Attention to quality</em>&#x2014;No matter how good a set of data may be,
+          there is no such thing as perfect data. Data scientists must know the limitations
+          of the data they work with, know how to quantify its accuracy, and be able to make
+          suggestions for improving the quality of the data in the future.
+        </p>
+      </li>
+      <li>
+        <p>
+          <em>Ethical reasoning</em>&#x2014;If data are important enough to collect, they
+          are often important enough to affect people's lives. Data scientists must understand
+          important ethical issues such as privacy, and must be able to communicate the
+          limitations of data to try to prevent misuse of data or analytical results.
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      The skills and capabilities noted above are just the tip of the iceberg, of course, but
+      notice what a wide range is represented here. While a keen understanding of numbers and
+      mathematics is important, particularly for data analysis, the data scientist also needs
+      to have excellent communication skills, be a great systems thinker, have a good eye for
+      visual displays, and be highly capable of thinking critically about how data will be
+      used to make decisions and affect people's lives. Of course there are very few people
+      who are good at all of these things, so some of the people interested in data will
+      specialize in one area, while others will become experts in another area. This
+      highlights the importance of teamwork, as well.
+    </p>
+
+    <p>
+      In this Introduction to Data Science eBook, a series of data problems of increasing
+      complexity is used to illustrate the skills and capabilities needed by data scientists.
+      The open source data analysis program known as <q>R</q> and its graphical user interface
+      companion <q>R-Studio</q> are used to work with real data examples to illustrate both
+      the challenges of data science and some of the techniques used to address those
+      challenges. To the greatest extent possible, real datasets reflecting important
+      contemporary issues are used as the basis of the discussions.
+    </p>
+
+    <p>
+      No one book can cover the wide range of activities and capabilities involved in a field
+      as diverse and broad as data science. Throughout the book references to other guides and
+      resources provide the interested reader with access to additional information. In the
+      open source spirit of <q>R</q> and <q>R Studio</q> these are, wherever possible,
+      web-based and free. In fact, one of the guides that appears most frequently in these
+      pages is <q>Wikipedia,</q> the free, online, user-sourced encyclopedia. Although some
+      teachers and librarians have legitimate complaints and concerns about Wikipedia, and it
+      is admittedly not perfect, it is a very useful learning resource. Because it is free,
+      because it covers about 50 times more topics than a printed encyclopedia, and because it
+      keeps up with fast moving topics (like data science) better than printed encyclopedias,
+      Wikipedia is very useful for getting a quick introduction to a topic. You can't become
+      an expert on a topic by only consulting Wikipedia, but you can certainly become smarter
+      by starting there.
+    </p>
+
+    <p>
+      Another very useful resource is Khan Academy. Most people think of Khan Academy as a
+      set of videos that explain math concepts to middle and high school students, but
+      thousands of adults around the world use Khan Academy as a refresher course for a range
+      of topics or as a quick introduction to a topic that they never studied before. All of
+      the lessons at Khan Academy are free, and if you log in with a Google or Facebook
+      account you can do exercises and keep track of your progress.
+    </p>
+
+    <p>
+      At the end of each chapter of this book, a list of Wikipedia sources and Khan Academy
+      lessons (and other resources too!) shows the key topics relevant to the chapter. These
+      sources provide a great place to start if you want to learn more about any of the topics
+      that chapter does not explain in detail.
+    </p>
+
+    <p>
+      Obviously if you are reading this book you probably have access to an eBook reader app.
+      You can also access this book as a PDF on the book's website. It is valuable to have
+      access to the Internet while you are reading, so that you can follow some of the many
+      links this book provides. Also, as you move into the sections in the book where open
+      source software such as the R data analysis system is used, you will sometimes need to
+      have access to a desktop or laptop computer where you can run these programs.
+    </p>
+
+    <p>
+      One last thing: The book presents topics in an order that should work well for people
+      with little or no experience in computer science or statistics. If you already have
+      knowledge, training, or experience in one or both of these areas, you should feel free
+      to skip over some of the introductory material and move right into the topics and
+      chapters that interest you most. There's something here for everyone and, after all,
+      you can't beat the price!
+    </p>
+
+  </section>
+
+  <conclusion xml:id="conclusion-ch00">
+    <title>Sources</title>
+    <p>
+      <ul>
+        <li><url href="http://en.wikipedia.org/wiki/E-Science" visual="en.wikipedia.org/wiki/E-Science"/></li>
+        <li><url href="http://en.wikipedia.org/wiki/E-Science_librarianship" visual="en.wikipedia.org/wiki/E-Science_librarianship"/></li>
+        <li><url href="http://en.wikipedia.org/wiki/Wikipedia:Size_comparisons" visual="en.wikipedia.org/wiki/Wikipedia:Size_comparisons"/></li>
+        <li><url href="http://en.wikipedia.org/wiki/Statistician" visual="en.wikipedia.org/wiki/Statistician"/></li>
+        <li><url href="http://en.wikipedia.org/wiki/Visualization_(computer_graphics)" visual="en.wikipedia.org/wiki/Visualization_(computer_graphics)"/></li>
+        <li><url href="http://www.khanacademy.org/" visual="www.khanacademy.org"/></li>
+        <li><url href="http://www.r-project.org/" visual="www.r-project.org"/></li>
+        <li><url href="http://www.readwriteweb.com/hack/2011/09/unlocking-big-data-with-r.php" visual="www.readwriteweb.com/hack/2011/09/unlocking-big-data-with-r.php"/></li>
+        <li><url href="http://rstudio.org/" visual="rstudio.org"/></li>
+      </ul>
+    </p>
+  </conclusion>
 
 </chapter>
