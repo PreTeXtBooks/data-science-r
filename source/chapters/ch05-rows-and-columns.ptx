@@ -314,18 +314,37 @@ str(myFamily)
     </p>
 
     <p>
+      Each of the four variables has a <q>mode</q> or type that is reported by R right
+      after the colon on the line that names the variable:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-mode-example">
+      <code>
+ $ myFamilyGenders: Factor w/ 2 levels
+      </code>
+    </program>
+
+    <p>
       For example, <c>myFamilyGenders</c> is shown as a <q>Factor.</q> In the terminology
-      that R uses, a Factor is a special type of label that can be used to identify and
+      that R uses, Factor refers to a special type of label that can be used to identify and
       organize groups of cases. R has organized these labels alphabetically and then listed
-      out the first few cases. For <c>myFamilyGenders</c> we see that there are two
+      out the first few cases (because our dataframe is so small it actually is showing us
+      all of the cases). For <c>myFamilyGenders</c> we see that there are two
       <q>levels,</q> meaning that there are two different options: female and male. R
       assigns a number, starting with one, to each of these levels, so every case that is
       <q>Female</q> gets assigned a 1 and every case that is <q>Male</q> gets assigned a 2
       (because Female comes before Male in the alphabet, so Female is the first Factor
-      label, so it gets a 1). So R assumes, unless you tell it otherwise, that when you type
-      in a short string like <q>Male</q> that you are referring to the label of a group, and
-      that R should prepare for the use of Male as a <q>Level</q> of a <q>Factor.</q>
-      When you don't want this to happen you can instruct R to stop with:
+      label, so it gets a 1). If you have your thinking cap on, you may be wondering why we
+      started out by typing in small strings of text, like <q>Male,</q> but then R has gone
+      ahead and converted these small pieces of text into numbers that it calls
+      <q>Factors.</q> The reason for this lies in the statistical origins of R. For years,
+      researchers have done things like calling an experimental group <q>Exp</q> and a
+      control group <q>Ctl</q> without intending to use these small strings of text for
+      anything other than labels. So R assumes, unless you tell it otherwise, that when you
+      type in a short string like <q>Male</q> that you are referring to the label of a
+      group, and that R should prepare for the use of Male as a <q>Level</q> of a
+      <q>Factor.</q> When you don't want this to happen you can instruct R to stop doing
+      this with an option on the <c>data.frame()</c> function:
       <c>stringsAsFactors=FALSE</c>. We will look with more detail at options and defaults
       a little later on.
     </p>
@@ -334,9 +353,22 @@ str(myFamily)
       Phew, that was complicated! By contrast, our two numeric variables,
       <c>myFamilyAges</c> and <c>myFamilyWeights</c>, are very simple. You can see that
       after the colon the mode is shown as <q>num</q> (which stands for numeric) and that
-      the first few values are reported. Putting it altogether, we have pretty complete
-      information about the <c>myFamily</c> data frame and we are just about ready to do
-      some more work with it.
+      the first few values are reported:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-ages-str-output">
+      <code>
+ $ myFamilyAges   : num  43 42 12 8 5
+      </code>
+    </program>
+
+    <p>
+      Putting it altogether, we have pretty complete information about the
+      <c>myFamily</c> data frame and we are just about ready to do some more work with it.
+      We have seen firsthand that R has some pretty cryptic labels for things as well as
+      some obscure strategies for converting this to that. R was designed for experts,
+      rather than novices, so we will just have to take our lumps so that one day we can be
+      experts too.
     </p>
 
     <p>
