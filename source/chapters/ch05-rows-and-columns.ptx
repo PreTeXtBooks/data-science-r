@@ -267,7 +267,9 @@ myFamily &lt;- data.frame(myFamilyNames,
     <p>
       With a small data set like this one, only five rows, it is pretty easy to take a look
       at all of the data. But when we get to a bigger data set this won't be practical.
-      The <c>str()</c> function reveals the structure of the data object:
+      We need to have other ways of summarizing
+what we have. The first method reveals the type of "structure"
+that R has used to store a data object.
     </p>
 
     <program language="r" xml:id="prog-ch5-str">
@@ -539,23 +541,44 @@ myFamily$myFamilyAges &lt;- c(myFamily$myFamilyAges, 11)
         vectors where each vector has the exact same number of elements as the others
         (making a nice rectangle).</p></li>
       <li><p>In R, the <c>data.frame()</c> function organizes a set of vectors into a
-        data frame. Data are copied from the original source vectors into new storage
+        data frame. A dataframe is a conventional, rectangular shaped
+data object where each column is a vector of uniform mode and
+having the same number of elements as the other columns in the
+dataframe. Data are copied from the original source vectors into new storage
         space. The variables/columns of the data frame can be accessed using <c>$</c> to
         connect the name of the data frame to the name of the variable/column.</p></li>
       <li><p>The <c>str()</c> and <c>summary()</c> functions can be used to reveal the
         structure and contents of a data frame. The <c>str()</c> function shows the
         structure of a data object, while <c>summary()</c> provides numerical summaries
         of numeric variables and overviews of non-numeric variables.</p></li>
-      <li><p>A factor is a labeling system often used to organize groups of cases or
-        observations. Factors always have <q>levels,</q> and these are the different
-        groups that the factor signifies.</p></li>
-      <li><p>Quartiles are a division of a sorted vector into four evenly sized groups.
-        The middle dividing line that splits the vector exactly in half is the median.
-        Min and max are often used as abbreviations for minimum and maximum and are the
-        terms used for the highest and lowest values in a vector.</p></li>
-      <li><p>The mean is the same thing that most people think of as the average. The
-        mean and the median are both measures of what statisticians call
-        <q>central tendency.</q></p></li>
+      <li><p>A factor is a labeling system often used to organize groups of
+cases or observations. In R, as well as in many other software
+programs, a factor is represented internally with a numeric ID
+number, but factors also typically have labels like <q>Male</q> and
+<q>Female</q> or <q>Experiment</q> and <q>Control.</q> Factors always have
+<q>levels,</q> and these are the different groups that the factor signifies.
+For example, if a factor variable called Gender codes all
+cases as either <q>Male</q> or <q>Female</q> then that factor has exactly
+two levels.</p></li>
+      <li><p>Quartiles are a division of a sorted vector into four evenly sized
+groups. The first quartile contains the lowest-valued elements,
+for example the lightest weights, whereas the fourth quartile contains
+the highest-valued items. Because there are four groups,
+there are three dividing lines that separate them. The middle dividing
+line that splits the vector exactly in half is the median.
+The term "first quartile" often refers to the dividing line to the
+left of the median that splits up the lower two quarters and the
+value of the first quartile is the value of the element of the vector
+that sits right at that dividing line. Third quartile is the same
+idea, but to the right of the median and splitting up the two
+higher quarters.</p></li>
+      <li><p>Min and max are often used as abbreviations for minimum and
+maximum and these are the terms used for the highest and lowest
+values in a vector. Bonus: The <q>range</q> of a set of numbers is
+the maximum minus the minimum.</p></li>
+      <li><p>The mean is the same thing that most people think of as the average.
+Bonus: The mean and the median are both measures of
+what statisticians call <q>central tendency</q></p></li>
     </ul>
 
   </section>
