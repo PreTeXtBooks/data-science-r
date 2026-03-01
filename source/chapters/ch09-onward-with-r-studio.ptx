@@ -5,13 +5,19 @@
 
   <introduction>
     <p>
-      Joseph J. Allaire is a serial entrepreneur, software engineer, and the originator of some remarkable software products including “ColdFusion,” which was later sold to the web media tools giant Macromedia and Windows Live Writer, a Microsoft blogging tool. Starting in 2009, Allaire began working with a small team to develop an open source program that enhances the usability and power of R.
+As an open source program with an active user community, R enjoys constant innovation thanks to
+the dedicated developers who work on it. One useful innovation was the development of R-Studio, a
+beautiful frame to hold your copy of R. This chapter walks through the installation of R-Studio and
+introduces "packages," the key to the extensibility of R.
     </p>
   </introduction>
 
   <section xml:id="sec-intro-rstudio">
     <title>Introduction to R-Studio</title>
 
+<p>
+      Joseph J. Allaire is a serial entrepreneur, software engineer, and the originator of some remarkable software products including “ColdFusion,” which was later sold to the web media tools giant Macromedia and Windows Live Writer, a Microsoft blogging tool. Starting in 2009, Allaire began working with a small team to develop an open source program that enhances the usability and power of R.
+</p>
     <p>
       As mentioned in previous chapters, R is an open source program, meaning that the source code that is used to create a copy of R to run on a Mac, Windows, or Linux computer is available for all to inspect and modify. As with many open source projects, there is an active community of developers who work on R, both on the basic program itself and the many pieces and parts that can be added onto the basic program. One of these add-ons is R-Studio. R-Studio is an Integrated Development Environment, abbreviated as IDE. Every software engineer knows that if you want to get serious about building something out of code, you must use an IDE. If you think of R as a piece of canvas rolled up and laying on the floor, R-Studio is like an elegant picture frame. R hangs in the middle of R studio, and like any good picture frame, enhances our appreciation of what is inside it.
     </p>
