@@ -18,19 +18,28 @@
 
     <p>
       The end of the 1800s and the early 1900s were a time of astonishing progress in
-      mathematics and science. Four Englishmen who epitomized both this scientific progress
-      and these idealistic beliefs were Francis Galton, Karl Pearson, William Sealy Gosset,
-      and Ronald Fisher.
+      mathematics and science. Given enough time, paper, and pencils, scientists and
+      mathematicians of that age imagined that just about any problem facing
+      humankind&#x2014;including the limitations of people themselves&#x2014;could be
+      measured, broken down, analyzed, and rebuilt to become more efficient. Four
+      Englishmen who epitomized both this scientific progress and these idealistic beliefs
+      were Francis Galton, Karl Pearson, William Sealy Gosset, and Ronald Fisher.
     </p>
 
     <p>
       First on the scene was Francis Galton, a half-cousin to the more widely known Charles
       Darwin, but quite the intellectual force himself. Galton was an English gentleman of
       independent means who studied Latin, Greek, medicine, and mathematics, and who made a
-      name for himself as an African explorer. Setting eugenics aside, Galton made several
-      notable and valuable contributions to mathematics and statistics, in particular
-      illuminating two basic techniques that are widely used today: correlation and
-      regression.
+      name for himself as an African explorer. He is most widely known as a proponent of
+      <q>eugenics</q> and is credited with coining the term. Eugenics is the idea that the
+      human race could be improved through selective breeding. Galton studied heredity in
+      peas, rabbits, and people and concluded that certain people should be paid to get
+      married and have children because their offspring would improve the human race. These
+      ideas were later horribly misused in the 20th century, most notably by the Nazis as a
+      justification for killing people because they belonged to supposedly inferior races.
+      Setting eugenics aside, however, Galton made several notable and valuable contributions
+      to mathematics and statistics, in particular illuminating two basic techniques that are
+      widely used today: correlation and regression.
     </p>
 
     <p>
@@ -38,28 +47,44 @@
       he had a junior partner, Karl Pearson, who is often credited with founding the field
       of mathematical statistics. Pearson refined the math behind correlation and regression
       and did a lot else besides to contribute to our modern abilities to manage numbers.
+      Like Galton, Pearson was a proponent of eugenics, but he also is credited with
+      inspiring some of Einstein's thoughts about relativity and was an early advocate of
+      women's rights.
     </p>
 
     <p>
       Next to the statistical party was William Sealy Gosset, a wizard at both math and
       chemistry. It was probably the latter expertise that led the Guinness Brewery in
-      Dublin, Ireland to hire Gosset after college. As a forward looking business, the
+      Dublin Ireland to hire Gosset after college. As a forward looking business, the
       Guinness brewery was on the lookout for ways of making batches of beer more consistent
       in quality. Gosset stepped in and developed what we now refer to as small sample
       statistical techniques&#x2014;ways of generalizing from the results of a relatively
-      few observations. Guinness frowned upon academic publications, so Gosset had to
+      few observations. Of course, brewing a batch of beer is a time consuming and expensive
+      process, so in order to draw conclusions from experimental methods applied to just a
+      few batches, Gosset had to figure out the role of chance in determining how a batch of
+      beer had turned out. Guinness frowned upon academic publications, so Gosset had to
       publish his results under the modest pseudonym, <q>Student.</q> If you ever hear
       someone discussing the <q>Student's t-Test,</q> that is where the name came from.
     </p>
 
     <p>
       Last but not least among the born-in-the-1800s bunch was Ronald Fisher, another
-      mathematician who also studied the natural sciences. One of Fisher's professional
-      postings was to an agricultural research farm called Rothamsted Experimental Station.
-      Here, he had access to data about variations in crop yield that led to his development
-      of an essential statistical technique known as the analysis of variance. Fisher also
-      pioneered the area of experimental design, which includes matters of factors, levels,
-      experimental groups, and control groups.
+      mathematician who also studied the natural sciences, in his case biology and genetics.
+      Unlike Galton, Fisher was not a gentleman of independent means, in fact, during his
+      early married life he and his wife struggled as subsistence farmers. One of Fisher's
+      professional postings was to an agricultural research farm called Rothhamsted
+      Experimental Station. Here, he had access to data about variations in crop yield that
+      led to his development of an essential statistical technique known as the analysis of
+      variance. Fisher also pioneered the area of experimental design, which includes matters
+      of factors, levels, experimental groups, and control groups that we noted in the
+      previous chapter.
+    </p>
+
+    <p>
+      Of course, these four are certainly not the only 19th and 20th century mathematicians
+      to have made substantial contributions to practical statistics, but they are notable
+      with respect to the applications of mathematics and statistics to the other sciences
+      (and <q>Beer, Farms, and Peas</q> makes a good chapter title as well).
     </p>
 
   </section>
@@ -72,10 +97,23 @@
       the <q>sample</q> of data that you have available to analyze and the larger
       <q>population</q> of possible cases that may or do exist. When Gosset ran batches of
       beer at the brewery, he knew that it was impractical to run every possible batch of
-      beer with every possible variation in recipe and preparation. Whatever data you have,
-      it is just a snapshot or <q>sample</q> of what might be out there. This leads us to
-      the conclusion that we can never, ever 100% trust the data we have. We must always
-      hold back and keep in mind that there is always uncertainty in data. This is the key
+      beer with every possible variation in recipe and preparation. Gosset knew that he had
+      to run a few batches, describe what he had found and then generalize or infer what
+      might happen in future batches. This is a fundamental aspect of working with all types
+      and amounts of data: Whatever data you have, there's always more out there. There's
+      data that you might have collected by changing the way things are done or the way
+      things are measured. There's future data that hasn't been collected yet and might never
+      be collected. There's even data that we might have gotten using the exact same
+      strategies we did use, but that would have come out subtly different just due to
+      randomness. Whatever data you have, it is just a snapshot or <q>sample</q> of what
+      might be out there. This leads us to the conclusion that we can never, ever 100% trust
+      the data we have. We must always hold back and keep in mind that there is always
+      uncertainty in data. A lot of the power and goodness in statistics comes from the
+      capabilities that people like Fisher developed to help us characterize and quantify
+      that uncertainty and for us to know when to guard against putting too much stock in
+      what a sample of data have to say. So remember that while we can always describe the
+      sample of data we have, the real trick is to infer what the data may mean when
+      generalized to the larger population of data that we don't have. This is the key
       distinction between descriptive and inferential statistics.
     </p>
 
@@ -86,27 +124,40 @@
 
     <p>
       We have already encountered several descriptive statistics in previous chapters, but
-      for the sake of practice here they are again with more detailed definitions:
+      for the sake of practice here they are again, this time with the more detailed
+      definitions:
     </p>
 
     <ul>
       <li><p>The <term>mean</term> (technically the arithmetic mean), a measure of central
         tendency that is calculated by adding together all of the observations and dividing
         by the number of observations.</p></li>
-      <li><p>The <term>median</term>, another measure of central tendency. You make a sorted
-        list of all of the observations in the sample, then go halfway up that list. Whatever
-        the value of the observation is at the halfway point, that is the median.</p></li>
+      <li><p>The <term>median</term>, another measure of central tendency, but one that
+        cannot be directly calculated. Instead, you make a sorted list of all of the
+        observations in the sample, then go halfway up that list. Whatever the value of
+        the observation is at the halfway point, that is the median.</p></li>
       <li><p>The <term>range</term>, which is a measure of <q>dispersion</q>&#x2014;how
         spread out a bunch of numbers in a sample are&#x2014;calculated by subtracting the
         lowest value from the highest value.</p></li>
+    </ul>
+
+    <p>
+      To this list we should add three more that you will run into in a variety of
+      situations:
+    </p>
+
+    <ul>
       <li><p>The <term>mode</term>, another measure of central tendency. The mode is the
-        value that occurs most often in a sample of data.</p></li>
-      <li><p>The <term>variance</term>, a measure of dispersion. The variance is obtained
-        from all of the numbers through a calculation that compares each number to the mean,
-        squares the deviations, and averages them.</p></li>
-      <li><p>The <term>standard deviation</term>, another measure of dispersion, and a
-        cousin to the variance. The standard deviation is simply the square root of the
-        variance, which puts us back in regular units.</p></li>
+        value that occurs most often in a sample of data. Like the median, the mode cannot
+        be directly calculated. You just have to count up how many of each number there are
+        and then pick the category that has the most.</p></li>
+      <li><p>The <term>variance</term>, a measure of dispersion. Like the range, the
+        variance describes how spread out a sample of numbers is. Unlike the range, though,
+        which just uses two numbers to calculate dispersion, the variance is obtained from
+        all of the numbers through a simple calculation that compares each number to the
+        mean. If you remember the ages of the family members from the previous chapter and
+        the mean age of 22, you will be able to make sense out of the following
+        table:</p></li>
     </ul>
 
     <table xml:id="table-variance-calc">
@@ -164,9 +215,31 @@
     </table>
 
     <p>
-      In this example the variance is 356.5 squared-years of deviation from the mean. The
-      standard deviation would be about 18.88 years (the square root of 356.5). Now let's
-      have R calculate some statistics for us:
+      This table shows the calculation of the variance, which begins by obtaining the
+      <q>deviations</q> from the mean and then <q>squares</q> them (multiply each times
+      itself) to take care of the negative deviations (for example, -14 from the mean for
+      Bro). We add up all of the squared deviations and then divide by the number of
+      observations to get a kind of <q>average squared deviation.</q> Note that it was not
+      a mistake to divide by 4 instead of 5&#x2014;the reasons for this will become clear
+      later in the book when we examine the concept of degrees of freedom. This result is
+      the variance, a very useful mathematical concept that appears all over the place in
+      statistics. While it is mathematically useful, it is not too nice to look at. For
+      instance, in this example we are looking at the 356.5 squared-years of deviation from
+      the mean. Who measures anything in squared years? Squared feet maybe, but that's a
+      different discussion. So, to address this weirdness, statisticians have also provided
+      us with:
+    </p>
+
+    <ul>
+      <li><p>The <term>standard deviation</term>, another measure of dispersion, and a
+        cousin to the variance. The standard deviation is simply the square root of the
+        variance, which puts us back in regular units like <q>years.</q> In the example
+        above, the standard deviation would be about 18.88 years (rounding to two decimal
+        places, which is plenty in this case).</p></li>
+    </ul>
+
+    <p>
+      Now let's have R calculate some statistics for us:
     </p>
 
     <program language="r" xml:id="prog-ch6-variance">
@@ -176,16 +249,136 @@ sd(myFamily$myFamilyAges)
       </code>
     </program>
 
+    <p>
+      Note that these commands carry on using the data used in the previous chapter,
+      including the use of the <c>$</c> to address variables within a dataframe. If you do
+      not have the data from the previous chapter you can also do this:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-variance-c">
+      <code>
+var(c(43,42,12,8,5))
+sd(c(43,42,12,8,5))
+      </code>
+    </program>
+
   </section>
 
   <section xml:id="sec-us-state-pops">
     <title>Working with the U.S. State Population Data</title>
 
     <p>
-      Here's the next step up in looking at data. We will use a larger data set: the U.S.
-      state populations from the U.S. Census. You can obtain this data from the Census
-      website and read it into R. Once you have the data in a vector called
-      <c>USstatePops$V1</c>, here are the basic descriptive statistics:
+      This is a pretty boring example, though, and not very useful for the rest of the
+      chapter, so here's the next step up in looking at data. We will use the Windows or
+      Mac clipboard to cut and paste a larger data set into R. Go to the U.S. Census
+      website where they have stored population data:
+      <url href="http://www.census.gov/popest/data/national/totals/2011/index.html">http://www.census.gov/popest/data/national/totals/2011/index.html</url>
+    </p>
+
+    <p>
+      Assuming you have a spreadsheet program available, click on the XLS link for
+      <q>Annual Estimates of the Resident Population for the United States.</q> When the
+      spreadsheet is open, select the population estimates for the fifty states. The first
+      few looked like this in the 2011 data:
+    </p>
+
+    <pre>
+.Alabama    4,779,736
+.Alaska       710,231
+.Arizona    6,392,017
+.Arkansas   2,915,918
+    </pre>
+
+    <p>
+      To make use of the next R command, make sure to choose just the numbers and not the
+      text. Before you copy the numbers, take out the commas by switching the cell type to
+      <q>General.</q> This can usually be accomplished under the Format menu, but you might
+      also have a toolbar button to do the job. Copy the numbers to the clipboard with
+      ctrl+C (Windows) or command+C (Mac). On a Windows machine use the following command:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-read-dif">
+      <code>
+read.DIF("clipboard",transpose=TRUE)
+      </code>
+    </program>
+
+    <p>
+      On a Mac, this command does the same thing:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-read-table">
+      <code>
+read.table(pipe("pbpaste"))
+      </code>
+    </program>
+
+    <p>
+      It is very annoying that there are two different commands for the two types of
+      computers, but this is an inevitable side effect of the different ways that the
+      designers at Microsoft and Apple set up the clipboard, plus the fact that R was
+      designed to work across many platforms. Anyway, you should have found that the long
+      string of population numbers appeared on the R output. The numbers are not much use
+      to us just streamed to the output, so let's assign the numbers to a new vector.
+    </p>
+
+    <p>
+      Windows, using <c>read.DIF()</c>:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-assign-dif">
+      <code>
+USstatePops &lt;- read.DIF("clipboard",transpose=TRUE)
+USstatePops
+      </code>
+    </program>
+
+    <p>
+      Or Mac, using <c>read.table()</c>:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-assign-table">
+      <code>
+USstatePops &lt;- read.table(pipe("pbpaste"))
+USstatePops
+      </code>
+    </program>
+
+    <p>
+      Only the first three observations are shown in order to save space on the page. Your
+      output R should show the whole list. Note that the only thing new here over and above
+      what we have done with R in previous chapters is the use of the <c>read.DIF()</c> or
+      <c>read.table()</c> functions to get a bigger set of data that we don't have to type
+      ourselves. Functions like <c>read.table()</c> are quite important as we move forward
+      with using R because they provide the usual way of getting data stored in external
+      files into R's storage areas for use in data analysis. If you had trouble getting this
+      to work, you can cut and paste the commands at the end of the chapter under
+      <q>If All Else Fails</q> to get the same data going in your copy of R.
+    </p>
+
+    <p>
+      Note that we have used the left pointing assignment arrow (<q>&lt;-</q>) to take the
+      results of the <c>read.DIF()</c> or <c>read.table()</c> function and place it in a
+      data object. This would be a great moment to practice your skills from the previous
+      chapter by using the <c>str()</c> and <c>summary()</c> functions on our new data
+      object called <c>USstatePops</c>. Did you notice anything interesting from the
+      results of these functions? One thing you might have noticed is that there are 51
+      observations instead of 50. Can you guess why? If not, go back and look at your
+      original data from the spreadsheet or the U.S. Census site. The other thing you may
+      have noticed is that <c>USstatePops</c> is a dataframe, and not a plain vector of
+      numbers. You can actually see this in the output above: In the second command line
+      where we request that R reveal what is stored in <c>USstatePops</c>, it responds with
+      a column topped by the designation <q>V1</q>. Because we did not give R any
+      information about the numbers it read in from the clipboard, it called them
+      <q>V1</q>, short for Variable One, by default. So anytime we want to refer to our
+      list of population numbers we actually have to use the name <c>USstatePops$V1</c>.
+      If this sounds unfamiliar, take another look at the previous <q>Rows and Columns</q>
+      chapter for more information on addressing the columns in a dataframe.
+    </p>
+
+    <p>
+      Now we're ready to have some fun with a good sized list of numbers. Here are the
+      basic descriptive statistics on the population of the states:
     </p>
 
     <program language="r" xml:id="prog-ch6-state-stats">
@@ -198,36 +391,190 @@ sd(USstatePops$V1)
     </program>
 
     <p>
-      A histogram is a specialized type of bar graph designed to show <q>frequencies.</q>
-      Frequencies means how often a particular value or range of values occurs in a dataset.
-      You can generate one with:
+      Some great summary information there, but wait, a couple things have gone awry:
+    </p>
+
+    <p>
+      The <c>mode()</c> function has returned the data type of our vector of numbers
+      instead of the statistical mode. This is weird but true: the basic R package does not
+      have a statistical mode function! This is partly due to the fact that the mode is only
+      useful in a very limited set of situations, but we will find out in later packages how
+      add-on packages can be used to get new functions in R including one that calculates
+      the statistical mode.
+    </p>
+
+    <p>
+      The variance is reported as <c>4.656676e+13</c>. This is the first time that we have
+      seen the use of scientific notation in R. If you haven't seen this notation before,
+      the way you interpret it is to imagine 4.656676 multiplied by 10,000,000,000,000
+      (also known as 10 raised to the 13th power). You can see that this is ten trillion, a
+      huge and unwieldy number, and that is why scientific notation is used. If you would
+      prefer not to type all of that into a calculator, another trick to see what number you
+      are dealing with is just to move the decimal point 13 digits to the right.
+    </p>
+
+    <p>
+      Other than these two issues, we now know that the average population of a U.S. state
+      is 6,053,834 with a standard deviation of 6,823,984. You may be wondering, though,
+      what does it mean to have a standard deviation of almost seven million? The mean and
+      standard deviation are OK, and they certainly are mighty precise, but for most of us,
+      it would make much more sense to have a picture that shows the central tendency and
+      the dispersion of a large set of numbers. So here we go. Run this command:
     </p>
 
     <program language="r" xml:id="prog-ch6-hist">
       <code>
 hist(USstatePops$V1)
+      </code>
+    </program>
+
+    <p>
+      A histogram is a specialized type of bar graph designed to show <q>frequencies.</q>
+      Frequencies means how often a particular value or range of values occurs in a dataset.
+      This histogram shows a very interesting picture. There are nearly 30 states with
+      populations under five million, another 10 states with populations under 10 million,
+      and then a very small number of states with populations greater than 10 million.
+      Having said all that, how do we glean this kind of information from the graph? First,
+      look along the Y-axis (the vertical axis on the left) for an indication of how often
+      the data occur. The tallest bar is just to the right of this and it is nearly up to
+      the 30 mark. To know what this tall bar represents, look along the X-axis (the
+      horizontal axis at the bottom) and see that there is a tick mark for every two bars.
+      We see scientific notation under each tick mark. The first tick mark is 1e+07, which
+      translates to 10,000,000. So each new bar (or an empty space where a bar would go)
+      goes up by five million in population. With these points in mind it should now be easy
+      to see that there are nearly 30 states with populations under five million.
+    </p>
+
+    <p>
+      If you think about presidential elections, or the locations of schools and businesses,
+      or how a single U.S. state might compare with other countries in the world, it is
+      interesting to know that there are two really giant states and then lots of much
+      smaller states. Once you have some practice reading histograms, all of the knowledge
+      is available at a glance.
+    </p>
+
+    <p>
+      On the other hand there is something unsatisfying about this diagram. With over forty
+      of the states clustered into the first couple of bars, there might be some more
+      details hiding in there that we would like to know about. This concern translates into
+      the number of bars shown in the histogram. There are eight shown here, so why did R
+      pick eight?
+    </p>
+
+    <p>
+      The answer is that the <c>hist()</c> function has an algorithm or recipe for deciding
+      on the number of categories/bars to use by default. The number of observations and
+      the spread of the data and the amount of empty space there would be are all taken into
+      account. Fortunately it is possible and easy to ask R to use more or fewer
+      categories/bars with the <q>breaks</q> parameter, like this:
+    </p>
+
+    <program language="r" xml:id="prog-ch6-hist-breaks">
+      <code>
 hist(USstatePops$V1, breaks=20)
       </code>
     </program>
 
     <p>
-      The histogram of the state populations shows a <q>reverse-J</q> distribution (also
-      known as a Pareto distribution). The normal distribution, introduced by Carl Friedrich
-      Gauss, has the characteristic bell shape. You can generate a normal distribution using
-      R's <c>rnorm()</c> function, which generates a random data set that fits the normal
-      distribution:
+      This gives us five bars per tick mark or about two million for each bar. So the new
+      histogram above shows very much the same pattern as before: 15 states with populations
+      under two million. The pattern that you see here is referred to as a distribution.
+      This is a distribution that starts off tall on the left and swoops downward quickly as
+      it moves to the right. You might call this a <q>reverse-J</q> distribution because it
+      looks a little like the shape a J makes, although flipped around vertically. More
+      technically this could be referred to as a geometric distribution. We don't have to
+      worry about why it is called that at this stage, but we can speculate on why the
+      distribution looks the way it does. First, you can't have a state with no people in
+      it, or worse yet negative population. It just doesn't make any sense. So a state has
+      to have at least a few people in it, and if you look through U.S. history every state
+      began as a colony or a territory that had at least a few people in it. On the other
+      hand, what does it take to grow really large in population? You need a lot of land,
+      first of all, and then a good reason for lots of people to move there or lots of
+      people to be born there. So there are lots of limits to growth: Rhode Island is too
+      small to have a bazillion people in it and Alaska, although it has tons of land, is
+      too cold for lots of people to want to move there. So all states probably started
+      small and grew, but it is really difficult to grow really huge. As a result we have a
+      distribution where most of the cases are clustered near the bottom of the scale and
+      just a few push up higher and higher. But as you go higher, there are fewer and fewer
+      states that can get that big, and by the time you are out at the end, just shy of 40
+      million people, there's only one state that has managed to get that big. By the way,
+      do you know or can you guess what that humongous state is?
+    </p>
+
+    <p>
+      There are lots of other distribution shapes. The most common one that almost everyone
+      has heard of is sometimes called the <q>bell</q> curve because it is shaped like a
+      bell. The technical name for this is the normal distribution. The term <q>normal</q>
+      was first introduced by Carl Friedrich Gauss (1777&#x2013;1855), who supposedly called
+      it that in a belief that it was the most typical distribution of data that one might
+      find in natural phenomena. The following histogram depicts the typical bell shape of
+      the normal distribution.
+    </p>
+
+    <p>
+      If you are curious, you might be wondering how R generated the histogram above, and,
+      if you are alert, you might notice that the histogram that appears above has the word
+      <q>rnorm</q> in a couple of places. Here's another of the cool features in R: it is
+      incredibly easy to generate <q>fake</q> data to work with when solving problems or
+      giving demonstrations. The data in this histogram were generated by R's
+      <c>rnorm()</c> function, which generates a random data set that fits the normal
+      distribution (more closely if you generate a lot of data, less closely if you only
+      have a little). Some further explanation of the <c>rnorm()</c> command will make
+      sense if you remember that the state population data we were using had a mean of
+      6,053,834 and a standard deviation of 6,823,984. The command used to generate this
+      histogram was:
     </p>
 
     <program language="r" xml:id="prog-ch6-rnorm">
       <code>
-hist(rnorm(51, 6053834, 6823984))
+hist(rnorm(51, 6043834, 6823984))
       </code>
     </program>
 
     <p>
-      Armed with the type/shape of a distribution, an anchoring point (the mean), and a
-      spread (the standard deviation), you have a powerful tool for making comparisons. In
-      the next chapter we will conduct some of these comparisons to see what we can infer
+      There are two very important new concepts introduced here. The first is a nested
+      function call: The <c>hist()</c> function that generates the graph <q>surrounds</q>
+      the <c>rnorm()</c> function that generates the new fake data. (Pay close attention to
+      the parentheses!) The inside function, <c>rnorm()</c>, is run by R first, with the
+      results of that sent directly and immediately into the <c>hist()</c> function.
+    </p>
+
+    <p>
+      The other important thing is the <q>arguments</q> that were <q>passed</q> to the
+      <c>rnorm()</c> function. We actually already ran into arguments a little while ago
+      with the <c>read.DIF()</c> and <c>read.table()</c> functions but we did not talk
+      about them then. <q>Argument</q> is a term used by computer scientists to refer to
+      some extra information that is sent to a function to help it know how to do its job.
+      In this case we passed three arguments to <c>rnorm()</c> that it was expecting in
+      this order: the number of observations to generate in the fake dataset, the mean of
+      the distribution, and the standard deviation of the distribution. The
+      <c>rnorm()</c> function used these three numbers to generate 51 random data points
+      that, roughly speaking, fit the normal distribution. So the data shown in the
+      histogram above are an approximation of what the distribution of state populations
+      might look like if, instead of being reverse-J-shaped (geometric distribution), they
+      were normally distributed.
+    </p>
+
+    <p>
+      The normal distribution is used extensively through applied statistics as a tool for
+      making comparisons. For example, look at the rightmost bar in the previous histogram.
+      The label just to the right of that bar is 3e+07, or 30,000,000. We already know from
+      our real state population data that there is only one actual state with a population
+      in excess of 30 million (if you didn't look it up, it is California). So if all of a
+      sudden, someone mentioned to you that he or she lived in a state, other than
+      California, that had 30 million people, you would automatically think to yourself,
+      <q>Wow, that's unusual and I'm not sure I believe it.</q> And the reason that you
+      found it hard to believe was that you had a distribution to compare it to. Not only
+      did that distribution have a characteristic shape (for example, J-shaped, or bell
+      shaped, or some other shape), it also had a center point, which was the mean, and a
+      <q>spread,</q> which in this case was the standard deviation. Armed with those three
+      pieces of information&#x2014;the type/shape of distribution, an anchoring point, and
+      a spread (also known as the amount of variability)&#x2014;you have a powerful tool
+      for making comparisons.
+    </p>
+
+    <p>
+      In the next chapter we will conduct some of these comparisons to see what we can infer
       about the ways things are in general, based on just a subset of available data, or
       what statisticians call a sample.
     </p>
@@ -241,10 +588,11 @@ hist(rnorm(51, 6053834, 6823984))
         <p>
           In this chapter, we used <c>rnorm()</c> to generate random numbers that closely
           fit a normal distribution. We also learned that the state population data was a
-          <q>Pareto</q> distribution. Do some research to find out what R function generates
-          random numbers using the Pareto distribution. Then run that function with the
-          correct parameters to generate 51 random numbers. Create a histogram of these
-          random numbers and describe the shape of the distribution.
+          <q>geometric</q> distribution. Do some research to find out what R function
+          generates random numbers using the geometric distribution. Then run that function
+          with the correct parameters to generate 51 random numbers (hint: experiment with
+          different probability values). Create a histogram of these random numbers and
+          describe the shape of the distribution.
         </p>
       </statement>
     </exercise>
@@ -256,12 +604,13 @@ hist(rnorm(51, 6053834, 6823984))
       <ul>
         <li><p><url href="http://en.wikipedia.org/wiki/Carl_Friedrich_Gauss">Wikipedia: Carl Friedrich Gauss</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Francis_Galton">Wikipedia: Francis Galton</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/Pareto_distribution">Wikipedia: Pareto Distribution</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Karl_Pearson">Wikipedia: Karl Pearson</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Ronald_Fisher">Wikipedia: Ronald Fisher</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/William_Sealy_Gosset">Wikipedia: William Sealy Gosset</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Normal_distribution">Wikipedia: Normal Distribution</url></p></li>
+        <li><p><url href="http://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html">R Manual: read.table()</url></p></li>
         <li><p><url href="http://www.census.gov/popest/data/national/totals/2011/index.html">U.S. Census State Population Data</url></p></li>
+        <li><p><url href="http://www.r-tutor.com/elementary-statistics/numerical-measures/standard-deviation">R Tutorial: Standard Deviation</url></p></li>
       </ul>
     </p>
   </conclusion>
