@@ -20,41 +20,56 @@
 
       <p>Before we read in the data we grabbed from the Census Bureau, let’s set the working directory in R-Studio so that we don’t have to type it out on the command line. Click on the Tools menu and then choose “Set Working Directory.” Use the dialog box to designate the folder where you have unzipped the shape data. After that, these commands will load the shape data into R and show us what we have:</p>
 
-      <p>&gt; usShape &lt;- importShapefile( +            "gz_2010_us_040_00_500k",readDBF=TRUE)</p>
-      <p>&gt; summary(usShape)</p>
-      <p>PolySet</p>
-      <p>Records         : 90696</p>
-      <p>Contours      : 574</p>
-      <p>Holes       : 0</p>
-      <p>Events        : NA</p>
-      <p>On boundary : NA</p>
-      <p>Ranges</p>
-      <p>X             : [-179.14734, 179.77847]</p>
-      <p>Y             : [17.884813, 71.3525606439998]</p>
-      <p>Attributes</p>
-      <p>Projection    : LL</p>
-      <p>Zone          : NULL</p>
-      <p>Extra columns   :</p>
+      <program language="r">
+        <code>
+usShape &lt;- importShapefile( +            "gz_2010_us_040_00_500k",readDBF=TRUE)
+summary(usShape)
+        </code>
+      </program>
+      <pre>
+PolySet
+Records         : 90696
+Contours      : 574
+Holes       : 0
+Events        : NA
+On boundary : NA
+Ranges
+X             : [-179.14734, 179.77847]
+Y             : [17.884813, 71.3525606439998]
+Attributes
+Projection    : LL
+Zone          : NULL
+Extra columns   :
+      </pre>
 
-      <p>&gt; plotPolys(usShape)</p>
-
+      <program language="r">
+        <code>
+plotPolys(usShape)
+        </code>
+      </program>
       <p>This last command gives us a simple plot of the 90,696 shapes that our shapefile contains. Here is the plot:</p>
 
       <p>￼This is funny looking! The ranges output from the summary() command gives us a hint as to why. The longitude of the elements in our map range from -179 to nearly 180: this covers pretty much the whole of the planet. The reason is that the map contains shapes for Hawaii and Alaska. Both states have far western longitudes, but the Aleutian peninsula in Alaska extends so far that it crosses over the longitude line where -180 and 180 meet in the Pacific Ocean. As a result, the continental U.S. is super squashed. We can specify a more limited area of the map to consider by using the xlim and ylim parameters. The following command:</p>
 
-      <p>&gt; plotPolys(usShape,+                   xlim=c(-130,-60),ylim=c(20,50))</p>
-
+      <program language="r">
+        <code>
+plotPolys(usShape,+                   xlim=c(-130,-60),ylim=c(20,50))
+        </code>
+      </program>
       <p>...gives a plot that shows the continental U.S. more in its typical proportions.</p>
 
       <p>￼So now we have some map data stored away and ready to use. The PBSmapping package gives us the capability of adding points to an existing map. For now, let’s demonstrate this with a made up point somewhere in Texas:</p>
 
-      <p>&gt; X &lt;- -100</p>
-      <p>&gt; Y &lt;- 30</p>
-      <p>&gt; EID &lt;- 1</p>
-      <p>&gt; pointData &lt;- data.frame(EID,X,Y)</p>
-      <p>&gt; eventData &lt;- as.EventData( +                          pointData,projection=NA)</p>
-      <p>&gt; addPoints(eventData,col="red",cex=.5)</p>
-
+      <program language="r">
+        <code>
+X &lt;- -100
+Y &lt;- 30
+EID &lt;- 1
+pointData &lt;- data.frame(EID,X,Y)
+eventData &lt;- as.EventData( +                          pointData,projection=NA)
+addPoints(eventData,col="red",cex=.5)
+        </code>
+      </program>
       <p>￼You have to look carefully, but in southern Texas there is now a little red dot. We began by manually creating a single point - specified by X (longitude), Y (latitude), and EID (an identification number) - and sticking it into a dataframe. Then we converted the data in that dataframe into an EventData object. This is a custom class of object specified by the PBSmapping package. The final command above adds the EventData to the plot.</p>
 
       <p>The idea of EventData is a little confusing, but if you remember that this package was developed by biologists at the Pacific Biology Station to map sightings of fish and other natural phenomena it makes more sense. In their lingo, an event was some observation of interest that occurred at a particular day, time, and location. The “event id” or EID &lt;- 1 that we stuck in the data frame was just saying that this was the first point in our list that we wanted to plot. For us it is not an event so much as a location of something we wanted to see on the map.</p>
@@ -68,30 +83,48 @@
 
       <p>Next, we need a source of points to add to our map. This could be anything that we’re interested in: the locations of restaurants, crime scenes, colleges, etc. In Google a search for filetype:xls or filetype;csv with appropriate additional search terms can provide interesting data sources. You may also have mailing lists of customers or clients. The most important thing is that we will need street address, city, and state in order to geocode the addresses. For this example, we searched for “housing street address list filetype:csv” and this turned up a data set of small businesses that have contracts with the U.S. Department of Health and Human services. Let’s read this in using read.csv():</p>
 
-      <p>&gt; dhhsAddrs &lt;- read.csv("DHHS_Contracts.csv")</p>
-      <p>&gt; str(dhhsAddrs)</p>
-      <p>'data.frame':	599 obs. of  10 variables:</p>
-      <p>$ Contract.Number           : Factor w/ 285 levels "26301D0054","500000049",..: 125 125 125 279 164 247 19 242 275 70 ...</p>
-      <p>$ Contractor.Name           : Factor w/ 245 levels "2020 COMPANY LIMITED LIABILITY COMPANY",..: 1 1 1 2 2 3 4 6 5 7 ...</p>
-      <p>$ Contractor.Address        : Factor w/ 244 levels "1 CHASE SQUARE 10TH FLR, ROCHESTER, NY ",..: 116 116 116 117 117 136 230 194 64 164 ...</p>
-      <p>$ Description.Of.Requirement: Factor w/ 468 levels "9TH SOW - DEFINTIZE THE LETTER CONTRACT",..: 55 55 55 292 172 354 308 157 221 340 ...</p>
-      <p>$ Dollars.Obligated         : Factor w/ 586 levels " $1,000,000.00 ",..: 342 561 335 314 294 2 250 275 421 21 ...</p>
-      <p>$ NAICS.Code                : Factor w/ 55 levels "323119","334310",..: 26 26 26 25 10 38 33 29 27 35 ...</p>
-      <p>$ Ultimate.Completion.Date  : Factor w/ 206 levels "1-Aug-2011","1-Feb-2013",..: 149 149 149 10 175 161 124 37 150 91 ...</p>
-      <p>$ Contract.Specialist       : Factor w/ 95 levels "ALAN  FREDERICKS",..: 14 14 60 54 16 90 55 25 58 57 ...</p>
-      <p>$ Contract.Specialist.Email : Factor w/ 102 levels "410-786-8622",..: 16 16 64 59 40 98 60 29 62 62 ...</p>
-      <p>$ X               : logi  NA NA NA NA NA NA ...</p>
+      <program language="r">
+        <code>
+dhhsAddrs &lt;- read.csv("DHHS_Contracts.csv")
+str(dhhsAddrs)
+        </code>
+      </program>
+      <pre>
+'data.frame':	599 obs. of  10 variables:
+$ Contract.Number           : Factor w/ 285 levels "26301D0054","500000049",..: 125 125 125 279 164 247 19 242 275 70 ...
+$ Contractor.Name           : Factor w/ 245 levels "2020 COMPANY LIMITED LIABILITY COMPANY",..: 1 1 1 2 2 3 4 6 5 7 ...
+$ Contractor.Address        : Factor w/ 244 levels "1 CHASE SQUARE 10TH FLR, ROCHESTER, NY ",..: 116 116 116 117 117 136 230 194 64 164 ...
+$ Description.Of.Requirement: Factor w/ 468 levels "9TH SOW - DEFINTIZE THE LETTER CONTRACT",..: 55 55 55 292 172 354 308 157 221 340 ...
+$ Dollars.Obligated         : Factor w/ 586 levels " $1,000,000.00 ",..: 342 561 335 314 294 2 250 275 421 21 ...
+$ NAICS.Code                : Factor w/ 55 levels "323119","334310",..: 26 26 26 25 10 38 33 29 27 35 ...
+$ Ultimate.Completion.Date  : Factor w/ 206 levels "1-Aug-2011","1-Feb-2013",..: 149 149 149 10 175 161 124 37 150 91 ...
+$ Contract.Specialist       : Factor w/ 95 levels "ALAN  FREDERICKS",..: 14 14 60 54 16 90 55 25 58 57 ...
+$ Contract.Specialist.Email : Factor w/ 102 levels "410-786-8622",..: 16 16 64 59 40 98 60 29 62 62 ...
+$ X               : logi  NA NA NA NA NA NA ...
+      </pre>
 
       <p>There’s that crazy 60s song again! Anyhow, we read in a comma separated data set with 599 rows and 10 variables. The most important field we have there is Contractor.Address. This contains the street addresses that we need to geocode. We note, however, that the data type for these is Factor rather than character string. So we need to convert that:</p>
 
-      <p>&gt; dhhsAddrs$strAddr &lt;- +        as.character(dhhsAddrs$Contractor.Address)</p>
-      <p>&gt; mode(dhhsAddrs$strAddr)</p>
-      <p>[1] "character"</p>
-      <p>&gt; tail(dhhsAddrs$strAddr,4)</p>
-      <p>[1] "1717 W BROADWAY, MADISON, WI "</p>
-      <p>[2] "1717 W BROADWAY, MADISON, WI "</p>
-      <p>[3] "1717 W BROADWAY, MADISON, WI "</p>
-      <p>[4] "789 HOWARD AVE, NEW HAVEN, CT, "</p>
+      <program language="r">
+        <code>
+dhhsAddrs$strAddr &lt;- +        as.character(dhhsAddrs$Contractor.Address)
+mode(dhhsAddrs$strAddr)
+        </code>
+      </program>
+      <pre>
+[1] "character"
+      </pre>
+      <program language="r">
+        <code>
+tail(dhhsAddrs$strAddr,4)
+        </code>
+      </program>
+      <pre>
+[1] "1717 W BROADWAY, MADISON, WI "
+[2] "1717 W BROADWAY, MADISON, WI "
+[3] "1717 W BROADWAY, MADISON, WI "
+[4] "789 HOWARD AVE, NEW HAVEN, CT, "
+      </pre>
 
       <p>This looks pretty good: Our new column, called dhhsAddrs, is character string data, converted from the factor labels of the original Contractor.Address column. Now we need to geocode these. We will use the Google geocoding application programming interface (API) which is pretty easy to use, does not require an account or application ID, and allows about 2500 address conversions per day. The API can be accessed over the web, using what is called an HTTP GET request.</p>
 
@@ -133,8 +166,14 @@ return(URLencode(url))
 
       <p>There are three simple steps here. The first line initializes the beginning part of the URL into a string called root. Then we use paste() to glue together the separate parts of the strong (note the sep=”” so we don’t get spaces between the parts). This creates a string that looks almost like the one in the White House example two pages ago. The final step converts the string to a legal URL using a utility function called URLencode() that RCurl provides. Let’s try it:</p>
 
-      <p>&gt; MakeGeoURL( + "1600 Pennsylvania Avenue, Washington, DC")</p>
-      <p>[1] "http://maps.google.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue,%20Washington,%20DC&amp;sensor=false"</p>
+      <program language="r">
+        <code>
+MakeGeoURL( + "1600 Pennsylvania Avenue, Washington, DC")
+        </code>
+      </program>
+      <pre>
+[1] "http://maps.google.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue,%20Washington,%20DC&amp;sensor=false"
+      </pre>
 
       <p>Looks good! Just slightly different than the original example (%20 instead of the plus character) but hopefully that won’t make a difference. Remember that you can type this function at the command line or you can create it in the script editing window in the upper left hand pane of R-Studio. The latter is the better way to go and if you click the “Source on Save” checkmark, R-Studio will make sure to update R’s stored version of your function every time you save the script file.</p>
 
@@ -164,9 +203,15 @@ return(c(lat, lng))
 
       <p>In the last step, our new Addr2latlng() function returns a two item list containing the latitude and longitude. We can test it out right now:</p>
 
-      <p>&gt; testData &lt;- Addr2latlng( +       "1600 Pennsylvania Avenue, Washington, DC")</p>
-      <p>&gt; str(testData)</p>
-      <p>num [1:2] 38.9 -77</p>
+      <program language="r">
+        <code>
+testData &lt;- Addr2latlng( +       "1600 Pennsylvania Avenue, Washington, DC")
+str(testData)
+        </code>
+      </program>
+      <pre>
+num [1:2] 38.9 -77
+      </pre>
 
       <p>Perfect! we called our new function Addr2latlng() with the address of the White House and got back a list with two numeric items containing the latitude and longitude associate with that address. With just a few lines of R code we have harnessed the power of Google’s extensive geocoding capability to convert a brief text street address into mapping coordinates.</p>
 
@@ -202,11 +247,14 @@ return(resultDF)
 
       <p>Now let’s try it and plot our points:</p>
 
-      <p>&gt; dhhsPoints &lt;- ProcessAddrList(dhhsAddrs$strAddr)</p>
-      <p>&gt; dhhsPoints &lt;- dhhsPoints[!is.na(dhhsPoints$X),]</p>
-      <p>&gt; eventData &lt;- as.EventData(dhhsPoints,projection=NA)</p>
-      <p>&gt; addPoints(eventData,col="red",cex=.5)</p>
-
+      <program language="r">
+        <code>
+dhhsPoints &lt;- ProcessAddrList(dhhsAddrs$strAddr)
+dhhsPoints &lt;- dhhsPoints[!is.na(dhhsPoints$X),]
+eventData &lt;- as.EventData(dhhsPoints,projection=NA)
+addPoints(eventData,col="red",cex=.5)
+        </code>
+      </program>
       <p>The second command above is the only one of the four that may seem unfamiliar. The as.EventData() coercion is picky and will not process the dataframe if there are any fields that are NA. To get rid of those rows that do not have complete latitude and longitude data, we use is.na() to test whether the X value on a given row is NA. We use the ! (not) operator to reverse the sense of this test. So the only rows that will survive this step are those where X is not NA. The plot below shows the results.</p>
 
       <p>￼If you like conspiracy theories, there is some support in this graph: The vast majority of the companies that have contracts with DHHS are in the Washington, DC area, with a little trickle of additional companies heading up the eastern seaboard as far as Boston and southern New Hampshire. Elsewhere in the country there are a few companies here and there, particularly near the large cities of the east and south east.</p>

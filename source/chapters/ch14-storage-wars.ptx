@@ -84,29 +84,26 @@
       Begin by using install.package() and library() functions to prepare the gdata package for use:
     </p>
 
-    <p>
-      &gt; install.packages("gdata")
-    </p>
+    <program language="r">
+      <code>
+install.packages("gdata")
+      </code>
+    </program>
 
     <p>
       # ... lots of output here
     </p>
 
-    <p>
-      &gt; library("gdata")
-    </p>
-
-    <p>
-      gdata: read.xls support for &#x2018;XLS&#x2019; (Excel 97-2004) files
-    </p>
-
-    <p>
-      gdata: ENABLED.
-    </p>
-
-    <p>
-      gdata: read.xls support for &#x2018;XLSX&#x2019; (Excel 2007+) files ENABLED.
-    </p>
+    <program language="r">
+      <code>
+library("gdata")
+      </code>
+    </program>
+    <pre>
+gdata: read.xls support for &#x2018;XLS&#x2019; (Excel 97-2004) files
+gdata: ENABLED.
+gdata: read.xls support for &#x2018;XLSX&#x2019; (Excel 2007+) files ENABLED.
+    </pre>
 
     <p>
       Of course, you could also use the EnsurePackage() function that we developed in an earlier chapter, but it was important here to see the output from the library() function. Note that the gdata package reported some diagnostics about the different versions of Excel data that it supports. Note that this is one of the major drawbacks of binary data formats, particularly proprietary ones: you have to make sure that you have the right software to access the different versions of data that you might encounter. In this case it looks like we are covered for the early versions of Excel (97-2004) as well as later versions of Excel (2007+). We must always be on the lookout, however, for data that is stored in even newer versions of Excel that may not be supported by gdata or other packages.
@@ -124,29 +121,18 @@
       A review of the documentation reveals that the only required argument to this function is the location of the XLS file, and that this location can be a pathname, a web location with http, or an Internet location with ftp (file transfer protocol, a way of sending and receiving files without using a web browser). If you hearken back to a very early chapter in this book, you may remember that we accessed some census data that had population counts for all the different U.S. states. For this example, we are going to read the Excel file containing that data directly into a dataframe using the read.xls() function:
     </p>
 
-    <p>
-      &gt; testFrame&lt;-read.xls( + "http://www.census.gov/popest/data/state/totals/2011/tables/NST-EST2011-01.xls")
-    </p>
-
-    <p>
-      trying URL &#x2018;http://www.census.gov/popest/data/state/totals/2011/tables/NST-EST2011-01.xls&#x2019;
-    </p>
-
-    <p>
-      Content type &#x2018;application/vnd.ms-excel&#x2019; length 31232 bytes (30 Kb)
-    </p>
-
-    <p>
-      opened URL
-    </p>
-
-    <p>
-      ==================================================
-    </p>
-
-    <p>
-      downloaded 30 Kb
-    </p>
+    <program language="r">
+      <code>
+testFrame&lt;-read.xls( + "http://www.census.gov/popest/data/state/totals/2011/tables/NST-EST2011-01.xls")
+      </code>
+    </program>
+    <pre>
+trying URL &#x2018;http://www.census.gov/popest/data/state/totals/2011/tables/NST-EST2011-01.xls&#x2019;
+Content type &#x2018;application/vnd.ms-excel&#x2019; length 31232 bytes (30 Kb)
+opened URL
+==================================================
+downloaded 30 Kb
+    </pre>
 
     <p>
       The command in the first three lines above provides the URL of the Excel file to the read.xls() function. The subsequent lines of output show the function attempting to open the URL, succeeding, and downloading 30 kilobytes of data.
@@ -156,61 +142,34 @@
       Next, let&#x2019;s take a look at what we got back. In R-Studio we can click on the name of the dataframe in the upper right hand data pane or we can use this command:
     </p>
 
-    <p>
-      &gt; View(testFrame)
-    </p>
+    <program language="r">
+      <code>
+View(testFrame)
+      </code>
+    </program>
 
     <p>
       Either method will show the contents of the dataframe in the upper left hand window of R-Studio. Alternatively, we could use the str() function to create a summary of the structure of testFrame:
     </p>
 
-    <p>
-      &gt; str(testFrame)
-    </p>
-
-    <p>
-      &#x2018;data.frame&#x2019;:65 obs. of  10 variables:
-    </p>
-
-    <p>
-      $ table.with.row.headers.in.column.A.and.column.headers.in.rows.3.through.4...leading.dots.indicate.sub.parts.: Factor w/ 65 levels "",".Alabama",..: 62 53 1 64 55 54 60 65 2 3 ...
-    </p>
-
-    <p>
-      $ X                                                                                                           : Factor w/ 60 levels "","1,052,567",..: 1 59 60 27 38 47 10 49 32 50 ...
-    </p>
-
-    <p>
-      $ X.1                                                                                                         : Factor w/ 59 levels "","1,052,567",..: 1 1 59 27 38 47 10 49 32 50 ...
-    </p>
-
-    <p>
-      $ X.2                                                                                                         : Factor w/ 60 levels "","1,052,528",..: 1 60 21 28 39 48 10 51 33 50 ...
-    </p>
-
-    <p>
-      $ X.3                                                                                                         : Factor w/ 59 levels "","1,051,302",..: 1 1 21 28 38 48 10 50 33 51 ...
-    </p>
-
-    <p>
-      $ X.4                                                                                                         : logi  NA NA NA NA NA NA ...
-    </p>
-
-    <p>
-      $ X.5                                                                                                         : logi  NA NA NA NA NA NA ...
-    </p>
-
-    <p>
-      $ X.6                                                                                                         : logi  NA NA NA NA NA NA ...
-    </p>
-
-    <p>
-      $ X.7                                                                                                         : logi  NA NA NA NA NA NA ...
-    </p>
-
-    <p>
-      $ X.8                                                                                                         : logi  NA NA NA NA NA NA ...
-    </p>
+    <program language="r">
+      <code>
+str(testFrame)
+      </code>
+    </program>
+    <pre>
+&#x2018;data.frame&#x2019;:65 obs. of  10 variables:
+$ table.with.row.headers.in.column.A.and.column.headers.in.rows.3.through.4...leading.dots.indicate.sub.parts.: Factor w/ 65 levels "",".Alabama",..: 62 53 1 64 55 54 60 65 2 3 ...
+$ X                                                                                                           : Factor w/ 60 levels "","1,052,567",..: 1 59 60 27 38 47 10 49 32 50 ...
+$ X.1                                                                                                         : Factor w/ 59 levels "","1,052,567",..: 1 1 59 27 38 47 10 49 32 50 ...
+$ X.2                                                                                                         : Factor w/ 60 levels "","1,052,528",..: 1 60 21 28 39 48 10 51 33 50 ...
+$ X.3                                                                                                         : Factor w/ 59 levels "","1,051,302",..: 1 1 21 28 38 48 10 50 33 51 ...
+$ X.4                                                                                                         : logi  NA NA NA NA NA NA ...
+$ X.5                                                                                                         : logi  NA NA NA NA NA NA ...
+$ X.6                                                                                                         : logi  NA NA NA NA NA NA ...
+$ X.7                                                                                                         : logi  NA NA NA NA NA NA ...
+$ X.8                                                                                                         : logi  NA NA NA NA NA NA ...
+    </pre>
 
     <p>
       The last few lines are reminiscent of that late 60s song entitled, &#x201c;&#x201c;Na Na Hey Hey Kiss Him Goodbye.&#x201d; Setting aside all the NA NA NA NAs, however, the overall structure is 65 observations of 10 variables, signifying that the spreadsheet contained 65 rows and 10 columns of data. The variable names that follow are pretty bizarre. The first variable name is:
@@ -232,9 +191,11 @@
       First, we will use an easy trick to get rid of stuff we don&#x2019;t need. The Census bureau put in three header rows that we can eliminate like this:
     </p>
 
-    <p>
-      &gt; testFrame&lt;-testFrame[-1:-3,]
-    </p>
+    <program language="r">
+      <code>
+testFrame&lt;-testFrame[-1:-3,]
+      </code>
+    </program>
 
     <p>
       The minus sign used inside the square brackets refers to the index of rows that should be eliminated from the dataframe. So the notation -1:-3 gets rid of the first three rows. We also leave the column designator empty so that we can keep all columns for now. So the interpretation of all of the notation within the square brackets is that rows 1 through 3 should be dropped, all other rows should be included, and all columns should be included. We assign the result back to the same data object thereby replacing the original with our new, smaller, cleaner version.
@@ -244,49 +205,61 @@
       Next, we know that of the ten variables we got from read.xls(), only the first five are useful to us (the last five seem to be blank). So this command keeps the first five columns of the dataframe:
     </p>
 
-    <p>
-      &gt; testFrame&lt;-testFrame[,1:5]
-    </p>
+    <program language="r">
+      <code>
+testFrame&lt;-testFrame[,1:5]
+      </code>
+    </program>
 
     <p>
       In the same vein, the tail() function shows us that the last few rows just contained some census bureau notes:
     </p>
 
-    <p>
-      &gt; tail(testFrame,5)
-    </p>
+    <program language="r">
+      <code>
+tail(testFrame,5)
+      </code>
+    </program>
 
     <p>
       So we can safely eliminate those like this:
     </p>
 
-    <p>
-      &gt; testFrame&lt;-testFrame[-58:-62,]
-    </p>
+    <program language="r">
+      <code>
+testFrame&lt;-testFrame[-58:-62,]
+      </code>
+    </program>
 
     <p>
       If you&#x2019;re alert you will notice that we could have combined some of these commands, but for the sake of clarity we have done each operation individually. The result (which you can check in the upper right hand pane of R-Studio) is a dataframe with 57 rows and five observations. Now we are ready to perform a couple of data transformations. Before we start these, let&#x2019;s give our first column a more reasonable name:
     </p>
 
-    <p>
-      &gt; testFrame$region &lt;- testFrame[,1]
-    </p>
+    <program language="r">
+      <code>
+testFrame$region &lt;- testFrame[,1]
+      </code>
+    </program>
 
     <p>
       We&#x2019;ve used a little hack here to avoid typing out the ridiculously long name of that first variable/column. We&#x2019;ve used the column notation in the square brackets on the right hand side of the expression to refer to the first column (the one with the ridiculous name) and simply copied the data into a new column entitled &#x201c;region.&#x201d; Let&#x2019;s also remove the offending column with the stupid name so that it does not cause us problems later on:
     </p>
 
-    <p>
-      &gt; testFrame&lt;-testFrame[,-1]
-    </p>
+    <program language="r">
+      <code>
+testFrame&lt;-testFrame[,-1]
+      </code>
+    </program>
 
     <p>
       Next, we can change formats and data types as needed. We can remove the dots from in front of the state names very easily with str_replace():
     </p>
 
-    <p>
-      &gt; testFrame$region &lt;- str_replace( +                        testFrame$region,&#x201c;\.&#x201d;,&#x201c;&#x201d;)
-    </p>
+    <program language="r">
+      <code>
+testFrame$region &lt;- str_replace( +                        testFrame$region,&#x201c;\.&#x201d;,&#x201c;&#x201d;)
+      </code>
+    </program>
 
     <p>
       Don&#x2019;t forget that str_replace() is part of the stringr package, and you will have to use install.packages() and library() to load it if it is not already in place. The two backslashes in the string expression above are called &#x201c;escape characters&#x201d; and they force the dot that follows to be treated as a literal dot rather than as a wildcard character. The dot on its own is a wildcard that matches one instance of any character.
@@ -411,17 +384,21 @@ testFrame$july11pop &lt;-Numberize(testFrame$X.3)
       Returning to R, use install.packages() and library() to prepare the RMySQL package for use. If everything is working the way it should, you should be able to run the following command from the command line:
     </p>
 
-    <p>
-      &gt; con &lt;- dbConnect(dbDriver("MySQL"), dbname = "test")
-    </p>
+    <program language="r">
+      <code>
+con &lt;- dbConnect(dbDriver("MySQL"), dbname = "test")
+      </code>
+    </program>
 
     <p>
       The dbConnect() function establishes a linkage or &#x201c;connection&#x201d; between R and the database we want to use. This underscores the point that we are connecting to an &#x201c;external&#x201d; resource and we must therefore manage the connection. If there were security controls involved, this is where we would provide the necessary information to establish that we were authorized users of the database. In this case, because we are on a &#x201c;local server&#x201d; of MySQL, we don&#x2019;t need to provide these. The dbDriver() function provided as an argument to dbConnect specifies that we want to use a MySQL client. The database name - specified as dbname=&#x201c;test&#x201d; - is just a placeholder at this point. We can use the dbListTables() function to see what tables are accessible to us (for our purposes, a table is just like a dataframe, but it is stored inside the database system):
     </p>
 
-    <p>
-      &gt; dbListTables(con)
-    </p>
+    <program language="r">
+      <code>
+dbListTables(con)
+      </code>
+    </program>
 
     <p>
       character(0)
@@ -431,13 +408,14 @@ testFrame$july11pop &lt;-Numberize(testFrame$X.3)
       The response &#x201c;character(0)&#x201d; means that there is an empty list, so no tables are available to us. This is not surprising, because we just installed MySQL and have not used it for anything yet. Unless you have another database available to import into MySQL, we can just use the census data we obtained earlier in the chapter to create a table in MySQL:
     </p>
 
-    <p>
-      &gt; dbWriteTable(con, &#x201c;census&#x201d;, testFrame, +                overwrite = TRUE)
-    </p>
-
-    <p>
-      [1] TRUE
-    </p>
+    <program language="r">
+      <code>
+dbWriteTable(con, &#x201c;census&#x201d;, testFrame, +                overwrite = TRUE)
+      </code>
+    </program>
+    <pre>
+[1] TRUE
+    </pre>
 
     <p>
       Take note of the arguments supplied to the dbWriteTable() function. The first argument provides the database connection that we established with the dbConnect() function. The &#x201c;census&#x201d; argument gives our new table in MySQL a name. We use testFrame as the source of data - as noted above a dataframe and a relational database table are very similar in structure. Finally, we provide the argument overwrite=TRUE, which was not really needed in this case - because we know that there were no existing tables - but could be important in other operations where we need to make sure to replace any old table that may have been left around from previous work. The function returns the logical value TRUE to signal that it was able to finish the request that we made. This is important in programming new functions because we can use the signal of success or failure to guide subsequent steps and provide error or success messages.
@@ -447,21 +425,21 @@ testFrame$july11pop &lt;-Numberize(testFrame$X.3)
       Now if we run dbListTables() we should see our new table:
     </p>
 
-    <p>
-      &gt; dbListTables(con)
-    </p>
+    <program language="r">
+      <code>
+dbListTables(con)
+      </code>
+    </program>
+    <pre>
+[1] &#x201c;census&#x201d;
+Now we can run an SQL query on our table:
+    </pre>
 
-    <p>
-      [1] &#x201c;census&#x201d;
-    </p>
-
-    <p>
-      Now we can run an SQL query on our table:
-    </p>
-
-    <p>
-      &gt; dbGetQuery(con, &#x201c;SELECT region, july11pop FROM    census WHERE july11pop&lt;1000000&#x201d;)
-    </p>
+    <program language="r">
+      <code>
+dbGetQuery(con, &#x201c;SELECT region, july11pop FROM    census WHERE july11pop&lt;1000000&#x201d;)
+      </code>
+    </program>
 
     <p>
       region july11pop
@@ -556,29 +534,26 @@ testFrame$july11pop &lt;-Numberize(testFrame$X.3)
       The tutorial example first demonstrates how a repetitive operation is accomplished in R without the use of MapReduce. In prior chapters we have used several variations of the apply() function. The lapply() or list-apply is one of the simplest. You provide an input vector of values and a function to apply to each element, and the lapply() function does the heavy lifting. The example in the RHadoop tutorial squares each integer from one to 10. This first command fills a vector with the input data:
     </p>
 
-    <p>
-      &gt; small.ints &lt;- 1:10
-    </p>
-
-    <p>
-      &gt; small.ints
-    </p>
-
-    <p>
-      [1]  1  2  3  4  5  6  7  8  9 10
-    </p>
+    <program language="r">
+      <code>
+small.ints &lt;- 1:10
+small.ints
+      </code>
+    </program>
+    <pre>
+[1]  1  2  3  4  5  6  7  8  9 10
+    </pre>
 
     <p>
       Next we can apply the &#x201c;squaring function&#x201d; (basically just using the ^ operator) to each element of the list:
     </p>
 
-    <p>
-      &gt; out &lt;- lapply(small.ints, function(x) x^2)
-    </p>
-
-    <p>
-      &gt; out
-    </p>
+    <program language="r">
+      <code>
+out &lt;- lapply(small.ints, function(x) x^2)
+out
+      </code>
+    </program>
 
     <p>
       [[1]]
@@ -608,13 +583,12 @@ testFrame$july11pop &lt;-Numberize(testFrame$X.3)
       After installing both Hadoop and RHadoop - which, again, is not an official package, and therefore has to be installed manually - we can perform this same operation with two commands:
     </p>
 
-    <p>
-      &gt; small.ints &lt;- to.dfs(1:10)
-    </p>
-
-    <p>
-      &gt; out &lt;- mapreduce(input = small.ints, +               map = function(k,v) keyval(v, v^2))
-    </p>
+    <program language="r">
+      <code>
+small.ints &lt;- to.dfs(1:10)
+out &lt;- mapreduce(input = small.ints, +               map = function(k,v) keyval(v, v^2))
+      </code>
+    </program>
 
     <p>
       In the first command, we again create a list of integers from one to ten. But rather than simply storing them in a vector, we are using the &#x201c;distributed file system&#x201d; or dfs class that is provided by RHadoop. Note that in most cases we would not need to create this ourselves because our large dataset would already exist on the HDFS (Hadoop Distributed FIle System). We would have connected to HDFS and selected the necessary data much as we did earlier in this chapter with dbConnect().
