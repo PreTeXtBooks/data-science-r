@@ -5,153 +5,705 @@
 
   <introduction>
     <p>
-      Before now we have only used small amounts of data that we typed in ourselves, or
-      somewhat larger amounts that we extracted from Twitter. The world is full of other
-      sources of data, however, and we need to examine how to get them into R, or at least
-      how to make them accessible for manipulation in R. In this chapter, we examine various
-      ways that data are stored, and how to access them.
+      Most people who have watched the evolution of technology over recent decades remember a time when storage was expensive and it had to be hoarded like gold. Over the last few years, however, the accelerating trend of Moore&#x2019;s Law has made data storage almost &#x201c;too cheap to meter&#x201d; (as they used to predict about nuclear power). Although this opens many opportunities, it also means that people keep data around for a long time, since it doesn&#x2019;t make sense to delete anything, and they may keep data around in many different formats. As a result, the world is full of different data formats, some of which are proprietary - designed and owned by a single company such as SAS - and some of which are open, such as the lowly but infinitely useful &#x201c;comma separated variable,&#x201d; or CSV format.
+    </p>
+
+    <p>
+      In fact, one of the basic dividing lines in data formats is whether data are human readable or not. Formats that are not human readable, often called binary formats, are very efficient in terms of how much data they can pack in per kilobyte, but are also squirrelly in the sense that it is hard to see what is going on inside of the format. As you might expect, human readable formats are inefficient from a storage standpoint, but easy to diagnose when something goes wrong. For high volume applications, such as credit card processing, the data that is exchanged between systems is almost universally in binary formats. When a data set is archived for later reuse, for example in the case of government data sets available to the public, they are usually available in multiple formats, at least one of which is a human readable format.
+    </p>
+
+    <p>
+      Another dividing line, as mentioned above is between proprietary and open formats. One of the most common ways of storing and sharing small datasets is as Microsoft Excel spreadsheets. Although this is a proprietary format, owned by Microsoft, it has also become a kind of informal and ubiquitous standard. Dozens of different software applications can read Excel formats (there are several different formats that match different versions of Excel). In contrast, the OpenDocument format is an open format, managed by a standards consortium, that anyone can use without worrying what the owner might do. OpenDocument format is based on XML, which stands for Extensible markup language. XML is a whole topic in and of itself, but briefly it is a data exchange format designed specifically to work on the Internet and is both human and machine readable. XML is managed by the W3C consortium, which is responsible for developing and maintaining the many standards and protocols that support the web.
+    </p>
+
+    <p>
+      As an open source program with many contributors, R offers a wide variety of methods of connecting with external data sources. This is both a blessing and a curse. There is a solution to almost any data access problem you can imagine with R, but there is also a dizzying array of options available such that it is not always obvious what to choose. We&#x2019;ll tackle this problem in two different ways. In the first half of this chapter we will look at methods for importing existing datasets. These may exist on a local computer or on the Internet but the characteristic they share in common is that they are contained (usually) within one single file. The main trick here is to choose the right command to import that data into R. In the second half of the chapter, we will consider a different strategy, namely linking to a &#x201c;source&#x201d; of data that is not a file. Many data sources, particularly databases, exist not as a single discrete file, but rather as a system. The system provides methods or calls to &#x201c;query&#x201d; data from the system, but from the perspective of the user (and of R) the data never really take the form of a file.
     </p>
   </introduction>
 
   <section xml:id="sec-data-formats">
-    <title>Data Formats: Open and Proprietary</title>
+    <title>Data Formats and Importing Data</title>
 
     <p>
-      Over the last few years, the accelerating trend of Moore's Law has made data storage
-      almost <q>too cheap to meter.</q> Although this opens many opportunities, it also means
-      that people keep data around for a long time, and they may keep data around in many
-      different formats. The world is full of different data formats, some of which are
-      proprietary&#x2014;designed and owned by a single company such as SAS&#x2014;and
-      some of which are open, such as the lowly but infinitely useful <q>comma separated
-      variable,</q> or CSV format.
+      The first and easiest strategy for getting data into R is to use the data import dialog in R-Studio. In the upper right hand pane of R-Studio, the &#x201c;Workspace&#x201d; tab gives views of currently available data objects, but also has a set of buttons at the top for managing the work space. One of the choices there is the &#x201c;Import Dataset&#x201d; button: This enables a drop down menu where one choice is to import, &#x201c;From Text File...&#x201d; If you click this option and choose an appropriate file you will get a screen like this:
     </p>
 
     <p>
-      One of the basic dividing lines in data formats is whether data are human readable or
-      not. Formats that are not human readable, often called <term>binary formats</term>,
-      are very efficient in terms of how much data they can pack in per kilobyte, but are
-      also squirrelly in the sense that it is hard to see what is going on inside of the
-      format. Human readable formats are inefficient from a storage standpoint, but easy to
-      diagnose when something goes wrong.
+      The most important stuff is on the left side. Heading controls whether or not the first line of the text file is treated as containing variable names. The separator drop down gives a choice of different characters that separate the fields/columns in the data. R-Studio tries to guess the appropriate choice here based on a scan of the data. In this case it guessed right by choosing &#x201c;tab-delimited.&#x201d; As mentioned above, tab-delimited and comma-delimited are the two most common formats used for interchange between data programs.The next drop down is for &#x201c;Decimal&#x201d; and this option accounts for the fact the a dot is used in the U.S. while a comma may be used for the decimal point in Europe and elsewhere. Finally, the &#x201c;Quote&#x201d; drop down controls which character is used to contain quoted string/text data. The most common method is double quotes.
     </p>
 
     <p>
-      Among the most common formats:
-    </p>
-
-    <ul>
-      <li><p><term>CSV (comma-separated values)</term>: A plain text format in which each
-        field is separated by a comma. The first row often contains column names
-        (headers).</p></li>
-      <li><p><term>Tab-delimited</term>: Like CSV, but uses a tab character as the
-        separator.</p></li>
-      <li><p><term>Excel (.xls/.xlsx)</term>: A proprietary binary format owned by
-        Microsoft that has become an informal standard for spreadsheet data.</p></li>
-      <li><p><term>OpenDocument</term>: An open format, based on XML, that is used by
-        programs like LibreOffice.</p></li>
-    </ul>
-
-  </section>
-
-  <section xml:id="sec-reading-files">
-    <title>Reading Files into R</title>
-
-    <p>
-      The first and easiest strategy for getting data into R is to use the data import
-      dialog in R-Studio. In the upper right-hand pane, the <q>Workspace</q> tab has an
-      <q>Import Dataset</q> button that opens a dialog for reading text files. R-Studio
-      tries to guess the appropriate separator and will give a preview of the data.
+      Of course, we skipped ahead a bit here because we assumed that an appropriate file of data was available. It might be useful to see some examples of human readable data:
     </p>
 
     <p>
-      At the command line, the most commonly used functions for reading text data are
-      <c>read.csv()</c> for comma-delimited files and <c>read.delim()</c> for
-      tab-delimited files:
-    </p>
-
-    <program language="r" xml:id="prog-ch14-readcsv">
-      <code>
-myData &lt;- read.csv("myfile.csv", header=TRUE)
-myData &lt;- read.delim("myfile.txt", header=TRUE)
-      </code>
-    </program>
-
-    <p>
-      For Excel files, a general purpose data manipulation package called <c>gdata</c>
-      provides essential facilities for importing spreadsheet files. Begin by installing
-      and loading the package:
-    </p>
-
-    <program language="r" xml:id="prog-ch14-gdata">
-      <code>
-install.packages("gdata")
-library(gdata)
-      </code>
-    </program>
-
-    <p>
-      The <c>gdata</c> package is a kind of <q>Swiss Army Knife</q> package containing
-      many different functions for accessing and manipulating data. For example, R uses
-      the value <c>NA</c> to represent missing data. Frequently, however, it is the case
-      that data sets contain other values, such as 999, to represent missing data. The
-      <c>gdata</c> package has several functions that find and transform these values to be
-      consistent with R's strategy for handling missing data.
-    </p>
-
-  </section>
-
-  <section xml:id="sec-database-access">
-    <title>Connecting to Databases</title>
-
-    <p>
-      Many data sources, particularly databases, exist not as a single discrete file, but
-      rather as a system that provides methods or calls to <q>query</q> data from the
-      system. The <c>RODBC</c> package provides an Open Database Connection (ODBC)
-      interface for Windows. For cross-platform database access, other packages such as
-      <c>RMySQL</c>, <c>RPostgreSQL</c>, and <c>RSQLite</c> provide direct connections to
-      specific database systems.
+      Name, Age, Gender &#x201c;Fred&#x201d;,22,&#x201c;M&#x201d; &#x201c;Ginger&#x201d;,21,&#x201c;F&#x201d;
     </p>
 
     <p>
-      A comprehensive access list of methods for obtaining data from a wide variety of
-      programs and formats appears in the R Data Import/Export manual:
+      The above is a very simple example of a comma delimited file where the first row contains a &#x201c;header,&#x201d; i.e. the information about the names of variables. The second and subsequent rows contain actual data. Each field is separated by a comma, and the text strings are enclosed in double quotes. The same file tab-delimited might look like this:
+    </p>
+
+    <p>
+      NameAgeGender &#x201c;Fred&#x201d;22&#x201c;M&#x201d; &#x201c;Ginger&#x201d;21&#x201c;F&#x201d;
+    </p>
+
+    <p>
+      Of course you can&#x2019;t see the tab characters on the screen, but there is one tab character in between each pair of values. In each case, for both comma- and tab-delimited, one line equals one row. The end of a line is marked, invisibly, with a so called &#x201c;newline&#x201d; character. On occasion you may run into differences between different operating systems on how this end of line designation is encoded.
+    </p>
+
+    <p>
+      Files containing comma or tab delimited data are ubiquitous across the Internet, but sometimes we would like to gain direct access to binary files in other formats. There are a variety of packages that one might use to access binary data. A comprehensive access list appears here:
+    </p>
+
+    <p>
       <url href="http://cran.r-project.org/doc/manuals/R-data.html">http://cran.r-project.org/doc/manuals/R-data.html</url>
     </p>
 
     <p>
-      As an open source program with many contributors, R offers a wide variety of methods
-      of connecting with external data sources. This is both a blessing and a curse. There
-      is a solution to almost any data access problem you can imagine with R, but there is
-      also a dizzying array of options available such that it is not always obvious what to
-      choose.
+      This page shows a range of methods for obtaining data from a wide variety of programs and formats. Because Excel is such a widely used program for small, informal data sets, we will use it as an example here to illustrate both the power and the pitfalls of accessing binary data with R. Down near the bottom of the page mentioned just above there are several paragraphs of discussion of how to access Excel files with R. In fact, the first sentence mentions that one of the most commonly asked data questions about R is how to access Excel data.
+    </p>
+
+    <p>
+      Interestingly, this is one area where Mac and Linux users are at a disadvantage relative to Windows users. This is perhaps because Excel is a Microsoft product, originally written to be native to Windows, and as a result it is easier to create tools that work with Windows. One example noted here is the package called RODBC. The acronym ODBC stands for Open Database Connection, and this is  a Windows facility for exchanging data among Windows programs. Although there is a proprietary ODBC driver available for the Mac, most Mac users will want to try a different method for getting access to Excel data.
+    </p>
+
+    <p>
+      Another Windows-only package for R is called xlsReadWrite. This package provides convenient one-command calls for importing data directly from Excel spreadsheets or exporting it directly to spreadsheets. There are also more detailed commands that allow manipulating individual cells.
+    </p>
+
+    <p>
+      Two additional packages, xlsx and XLConnect, supposedly will work with the Mac, but at the time of this writing both of these packages had version incompatibilities that made it impossible to install the packages directly into R. Note that the vast majority of packages provide the raw &#x201c;source code&#x201d; and so it is theoretically possible, but generally highly time consuming, to &#x201c;compile&#x201d; your own copies of these packages to create your own installation.
+    </p>
+
+    <p>
+      Fortunately, a general purpose data manipulation package called gdata provides essential facilities for importing spreadsheet files. In the example that follows, we will use a function from gdata to read Excel data directly from a website. The gdata package is a kind of &#x201c;Swiss Army Knife&#x201d; package containing many different functions for accessing and manipulating data. For example, you may recall that R uses the value &#x201c;NA&#x201d; to represent missing data. Frequently, however, it is the case that data sets contain other values, such as 999, to represent missing data. The gdata package has several functions that find and transform these values to be consistent with R&#x2019;s strategy for handling missing data.
+    </p>
+
+    <p>
+      Begin by using install.package() and library() functions to prepare the gdata package for use:
+    </p>
+
+    <p>
+      &gt; install.packages("gdata")
+    </p>
+
+    <p>
+      # ... lots of output here
+    </p>
+
+    <p>
+      &gt; library("gdata")
+    </p>
+
+    <p>
+      gdata: read.xls support for &#x2018;XLS&#x2019; (Excel 97-2004) files
+    </p>
+
+    <p>
+      gdata: ENABLED.
+    </p>
+
+    <p>
+      gdata: read.xls support for &#x2018;XLSX&#x2019; (Excel 2007+) files ENABLED.
+    </p>
+
+    <p>
+      Of course, you could also use the EnsurePackage() function that we developed in an earlier chapter, but it was important here to see the output from the library() function. Note that the gdata package reported some diagnostics about the different versions of Excel data that it supports. Note that this is one of the major drawbacks of binary data formats, particularly proprietary ones: you have to make sure that you have the right software to access the different versions of data that you might encounter. In this case it looks like we are covered for the early versions of Excel (97-2004) as well as later versions of Excel (2007+). We must always be on the lookout, however, for data that is stored in even newer versions of Excel that may not be supported by gdata or other packages.
+    </p>
+
+    <p>
+      Now that gdata is installed, we can use the read.xls() function that it provides. The documentation for the gdata package and the read.xls() function is located here:
+    </p>
+
+    <p>
+      <url href="http://cran.r-project.org/web/packages/gdata/gdata.pdf">http://cran.r-project.org/web/packages/gdata/gdata.pdf</url>
+    </p>
+
+    <p>
+      A review of the documentation reveals that the only required argument to this function is the location of the XLS file, and that this location can be a pathname, a web location with http, or an Internet location with ftp (file transfer protocol, a way of sending and receiving files without using a web browser). If you hearken back to a very early chapter in this book, you may remember that we accessed some census data that had population counts for all the different U.S. states. For this example, we are going to read the Excel file containing that data directly into a dataframe using the read.xls() function:
+    </p>
+
+    <p>
+      &gt; testFrame&lt;-read.xls( + "http://www.census.gov/popest/data/state/totals/2011/tables/NST-EST2011-01.xls")
+    </p>
+
+    <p>
+      trying URL &#x2018;http://www.census.gov/popest/data/state/totals/2011/tables/NST-EST2011-01.xls&#x2019;
+    </p>
+
+    <p>
+      Content type &#x2018;application/vnd.ms-excel&#x2019; length 31232 bytes (30 Kb)
+    </p>
+
+    <p>
+      opened URL
+    </p>
+
+    <p>
+      ==================================================
+    </p>
+
+    <p>
+      downloaded 30 Kb
+    </p>
+
+    <p>
+      The command in the first three lines above provides the URL of the Excel file to the read.xls() function. The subsequent lines of output show the function attempting to open the URL, succeeding, and downloading 30 kilobytes of data.
+    </p>
+
+    <p>
+      Next, let&#x2019;s take a look at what we got back. In R-Studio we can click on the name of the dataframe in the upper right hand data pane or we can use this command:
+    </p>
+
+    <p>
+      &gt; View(testFrame)
+    </p>
+
+    <p>
+      Either method will show the contents of the dataframe in the upper left hand window of R-Studio. Alternatively, we could use the str() function to create a summary of the structure of testFrame:
+    </p>
+
+    <p>
+      &gt; str(testFrame)
+    </p>
+
+    <p>
+      &#x2018;data.frame&#x2019;:65 obs. of  10 variables:
+    </p>
+
+    <p>
+      $ table.with.row.headers.in.column.A.and.column.headers.in.rows.3.through.4...leading.dots.indicate.sub.parts.: Factor w/ 65 levels "",".Alabama",..: 62 53 1 64 55 54 60 65 2 3 ...
+    </p>
+
+    <p>
+      $ X                                                                                                           : Factor w/ 60 levels "","1,052,567",..: 1 59 60 27 38 47 10 49 32 50 ...
+    </p>
+
+    <p>
+      $ X.1                                                                                                         : Factor w/ 59 levels "","1,052,567",..: 1 1 59 27 38 47 10 49 32 50 ...
+    </p>
+
+    <p>
+      $ X.2                                                                                                         : Factor w/ 60 levels "","1,052,528",..: 1 60 21 28 39 48 10 51 33 50 ...
+    </p>
+
+    <p>
+      $ X.3                                                                                                         : Factor w/ 59 levels "","1,051,302",..: 1 1 21 28 38 48 10 50 33 51 ...
+    </p>
+
+    <p>
+      $ X.4                                                                                                         : logi  NA NA NA NA NA NA ...
+    </p>
+
+    <p>
+      $ X.5                                                                                                         : logi  NA NA NA NA NA NA ...
+    </p>
+
+    <p>
+      $ X.6                                                                                                         : logi  NA NA NA NA NA NA ...
+    </p>
+
+    <p>
+      $ X.7                                                                                                         : logi  NA NA NA NA NA NA ...
+    </p>
+
+    <p>
+      $ X.8                                                                                                         : logi  NA NA NA NA NA NA ...
+    </p>
+
+    <p>
+      The last few lines are reminiscent of that late 60s song entitled, &#x201c;&#x201c;Na Na Hey Hey Kiss Him Goodbye.&#x201d; Setting aside all the NA NA NA NAs, however, the overall structure is 65 observations of 10 variables, signifying that the spreadsheet contained 65 rows and 10 columns of data. The variable names that follow are pretty bizarre. The first variable name is:
+    </p>
+
+    <p>
+      &#x201c;table.with.row.headers.in.column.A.and.column.headers.in.rows.3.through.4...leading.dots.indicate.sub.parts.&#x201d;
+    </p>
+
+    <p>
+      What a mess! It is clear that read.xls() treated the upper leftmost cell as a variable label, but was flummoxed by the fact that this was  really just a note to human users of the spreadsheet (the variable labels, such as they are, came on lower rows of the spreadsheet). Subsequent variable names include X, X.1, and X.2: clearly the read.xls() function did not have an easy time getting the variable names out of this file.
+    </p>
+
+    <p>
+      The other worrisome finding from str() is that all of our data are &#x201c;factors.&#x201d; This indicates that R did not see the incoming data as numbers, but rather as character strings that it interpreted as factor data. Again, this is a side effect of the fact that some of the first cells that read.xls() encountered were text rather than numeric. The numbers came much later in the sheet. This also underscores the idea that it is much better to export a data set in a more regular, structured format such as CSV rather than in the original spreadsheet format. Clearly we have some work to do if we are to make use of these data as numeric population values.
+    </p>
+
+    <p>
+      First, we will use an easy trick to get rid of stuff we don&#x2019;t need. The Census bureau put in three header rows that we can eliminate like this:
+    </p>
+
+    <p>
+      &gt; testFrame&lt;-testFrame[-1:-3,]
+    </p>
+
+    <p>
+      The minus sign used inside the square brackets refers to the index of rows that should be eliminated from the dataframe. So the notation -1:-3 gets rid of the first three rows. We also leave the column designator empty so that we can keep all columns for now. So the interpretation of all of the notation within the square brackets is that rows 1 through 3 should be dropped, all other rows should be included, and all columns should be included. We assign the result back to the same data object thereby replacing the original with our new, smaller, cleaner version.
+    </p>
+
+    <p>
+      Next, we know that of the ten variables we got from read.xls(), only the first five are useful to us (the last five seem to be blank). So this command keeps the first five columns of the dataframe:
+    </p>
+
+    <p>
+      &gt; testFrame&lt;-testFrame[,1:5]
+    </p>
+
+    <p>
+      In the same vein, the tail() function shows us that the last few rows just contained some census bureau notes:
+    </p>
+
+    <p>
+      &gt; tail(testFrame,5)
+    </p>
+
+    <p>
+      So we can safely eliminate those like this:
+    </p>
+
+    <p>
+      &gt; testFrame&lt;-testFrame[-58:-62,]
+    </p>
+
+    <p>
+      If you&#x2019;re alert you will notice that we could have combined some of these commands, but for the sake of clarity we have done each operation individually. The result (which you can check in the upper right hand pane of R-Studio) is a dataframe with 57 rows and five observations. Now we are ready to perform a couple of data transformations. Before we start these, let&#x2019;s give our first column a more reasonable name:
+    </p>
+
+    <p>
+      &gt; testFrame$region &lt;- testFrame[,1]
+    </p>
+
+    <p>
+      We&#x2019;ve used a little hack here to avoid typing out the ridiculously long name of that first variable/column. We&#x2019;ve used the column notation in the square brackets on the right hand side of the expression to refer to the first column (the one with the ridiculous name) and simply copied the data into a new column entitled &#x201c;region.&#x201d; Let&#x2019;s also remove the offending column with the stupid name so that it does not cause us problems later on:
+    </p>
+
+    <p>
+      &gt; testFrame&lt;-testFrame[,-1]
+    </p>
+
+    <p>
+      Next, we can change formats and data types as needed. We can remove the dots from in front of the state names very easily with str_replace():
+    </p>
+
+    <p>
+      &gt; testFrame$region &lt;- str_replace( +                        testFrame$region,&#x201c;\.&#x201d;,&#x201c;&#x201d;)
+    </p>
+
+    <p>
+      Don&#x2019;t forget that str_replace() is part of the stringr package, and you will have to use install.packages() and library() to load it if it is not already in place. The two backslashes in the string expression above are called &#x201c;escape characters&#x201d; and they force the dot that follows to be treated as a literal dot rather than as a wildcard character. The dot on its own is a wildcard that matches one instance of any character.
+    </p>
+
+    <p>
+      Next, we can use str_replace_all() and as.numeric() to convert the data contained in the population columns to usable numbers. Remember that those columns are now represented as R &#x201c;factors&#x201d; and what we are doing is taking apart the factor labels (which are basically character strings that look like this: &#x201c;308,745,538&#x201d;) and making them into numbers. This is sufficiently repetitive that we could probably benefit by created our own function call to do it:
+    </p>
+
+    <program language="r" xml:id="prog-ch14-numberize">
+      <code>
+# Numberize() - Gets rid of commas and other junk and
+# converts to numbers
+# Assumes that the inputVector is a list of data that
+# can be treated as character strings
+Numberize &lt;- function(inputVector)
+{
+# Get rid of commas
+inputVector&lt;-str_replace_all(inputVector,",","")
+# Get rid of spaces
+inputVector&lt;-str_replace_all(inputVector," ","")
+return(as.numeric(inputVector))
+}
+      </code>
+    </program>
+
+    <p>
+      This function is flexible in that it will deal with both unwanted commas and spaces, and will convert strings into numbers whether they are integers or not (i.e., possibly with digits after the decimal point). So we can now run this a few times to create new vectors on the dataframe that contain the numeric values we wanted:
+    </p>
+
+    <program language="r" xml:id="prog-ch14-numberize-apply">
+      <code>
+testFrame$april10census &lt;-Numberize(testFrame$X)
+testFrame$april10base &lt;-Numberize(testFrame$X.1)
+testFrame$july10pop &lt;-Numberize(testFrame$X.2)
+testFrame$july11pop &lt;-Numberize(testFrame$X.3)
+      </code>
+    </program>
+
+    <p>
+      By the way, the choice of variable names for the new columns in the dataframe was based on an examination of the original data set that was imported by read.xls(). You can (and should) confirm that the new columns on the dataframe are numeric. You can use str() to accomplish this.
+    </p>
+
+    <p>
+      We&#x2019;ve spent half a chapter so far just looking at one method of importing data from an external file (either on the web or local storage). A lot of our time was spent conditioning the data we got in order to make it usable for later analysis. Herein lies a very important lesson (or perhaps two). An important, and sometimes time consuming aspect of what data scientists do is to make sure that data are &#x201c;fit for the purpose&#x201d; to which they are going to be put. We had the convenience of importing a nice data set directly from the web with one simple command, and yet getting those data actually ready to analyze took several additional steps.
+    </p>
+
+    <p>
+      A related lesson is that it is important and valuable to try to automate as many of these steps as possible. So when we saw that numbers had gotten stored as factor labels, we moved immediately to create a general function that would convert these to numbers. Not only does this save a lot of future typing, it prevents mistakes from creeping into our processes.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-database-connections">
+    <title>Connecting to Databases</title>
+
+    <p>
+      Now we are ready to consider the other strategy for getting access to data: querying it from external databases. Depending upon your familiarity with computer programming and databases, you may notice that the abstraction is quite a bit different here. Earlier in the chapter we had a file (a rather messy one) that contained a complete copy of the data that we wanted, and we read that file into R and stored it in our local computer&#x2019;s memory (and possibly later on the hard disk for safekeeping). This is a good and reasonable strategy for small to medium sized datasets, let&#x2019;s say just for the sake of argument anything up to 100 megabytes.
+    </p>
+
+    <p>
+      But what if the data you want to work with is really large - too large to represent in your computer&#x2019;s memory all at once and too large to store on your own hard drive. This situation could occur even with smaller datasets if the data owner did not want people making complete copies of their data, but rather wanted everyone who was using it to work from one &#x201c;official&#x201d; version of the data. Similarly, if data do need to be shared among multiple users, it is much better to have them in a database that was designed for this purpose: For the most part R is a poor choice for maintaining data that must be used simultaneously by more than one user. For these reasons, it becomes necessary to do one or both of the following things:
+    </p>
+
+    <p>
+      Allow R to send messages to the large, remote database asking for summaries, subsets, or samples of the data.
+    </p>
+
+    <p>
+      Allow R to send computation requests to a distributed data processing system asking for the results of calculations performed on the large remote database.
+    </p>
+
+    <p>
+      Like most contemporary programming languages, R provides several methods for performing these two tasks. The strategy is the same across most of these methods: a package for R provides a &#x201c;client&#x201d; that can connect up to the database server. The R client supports sending commands - mostly in SQL, structured query language - to the database server. The database server returns a result to the R client, which places it in an R data object (typically a data frame) for use in further processing or visualization.
+    </p>
+
+    <p>
+      The R community has developed a range of client software to enable R to connect up with other databases. Here are the major databases for which R has client software:
+    </p>
+
+    <p>
+      RMySQL - Connects to MySQL, perhaps the most popular open source database in the world. MySQL is the M in &#x201c;LAMP&#x201d; which is the acronym for Linux, Apache, MySQL, and PHP. Together, these four elements provide a complete solution for data driven web applications.
+    </p>
+
+    <p>
+      ROracle - Connects with the widely used Oracle commercial database package. Oracle is probably the most widely used commercial database package. Ironically, Oracle acquired Sun Microsystems a few years ago and Sun developers predominate in development and control of the open source MySQL syste,
+    </p>
+
+    <p>
+      RPostgreSQL - Connects with the well-developed, full featured PostgreSQL (sometimes just called Postgres) database system. PostgreSQL is a much more venerable system than MySQL and has a much larger developer community. Unlike MySQL, which is effectively now controlled by Oracle, PostgreSQL has a developer community that is independent of any company and a licensing scheme that allows anybody to modify and reuse the code.
+    </p>
+
+    <p>
+      RSQlite - Connects with SQlite, another open source, independently developed database system. As the name suggests, SQlite has a very light &#x201c;code footprint&#x201d; meaning that it is fast and compact.
+    </p>
+
+    <p>
+      RMongo - Connects with the MongoDB system, which is the only system here that does not use SQL. Instead, MongoDB uses JavaScript to access data. As such it is well suited for web development applications.
+    </p>
+
+    <p>
+      RODBC - Connects with ODBC compliant databases, which include Microsoft&#x2019;s SQLserver, Microsoft Access, and Microsoft Excel, among others. Note that these applications are native to Windows and Windows server, and as such the support for Linux and Mac OS is limited.
+    </p>
+
+    <p>
+      For demonstration purposes, we will use RMySQL. This requires installing a copy of MySQL on your computer. Use your web browser to go to this page:
+    </p>
+
+    <p>
+      <url href="http://dev.mysql.com/downloads/">http://dev.mysql.com/downloads/</url>
+    </p>
+
+    <p>
+      Then look for the &#x201c;MySQL Community Server.&#x201d; The term community in this context refers to the free, open source developer community version of MySQL. Note that there are also commercial versions of SQL developed and marketed by various companies including Oracle. Download the version of MySQL Community Server that is most appropriate for your computer&#x2019;s operating system and install it. Note that unlike user applications, such as a word processor, there is no real user interface to server software like the MySQL Community Server. Instead, this software runs in the &#x201c;background&#x201d; providing services that other programs can use. This is the essence of the client-server idea. In many cases the server is on some remote computer to which we do not have physical access. In this case, we will run the server on our local computer so that we can complete the demonstration.
+    </p>
+
+    <p>
+      On the Mac installation used in preparation of this chapter, after installing the MySQL server software, it was also important to install the &#x201c;MySQL Preference Pane,&#x201d; in order to provide a simple graphical interface for turning the server on and off. Because we are just doing a demonstration here, and we want to avoid future security problems, it is probably sensible to turn MySQL server off when we are done with the demonstration. In Windows, you can use MySQL Workbench to control the server settings on your local computer.
+    </p>
+
+    <p>
+      Returning to R, use install.packages() and library() to prepare the RMySQL package for use. If everything is working the way it should, you should be able to run the following command from the command line:
+    </p>
+
+    <p>
+      &gt; con &lt;- dbConnect(dbDriver("MySQL"), dbname = "test")
+    </p>
+
+    <p>
+      The dbConnect() function establishes a linkage or &#x201c;connection&#x201d; between R and the database we want to use. This underscores the point that we are connecting to an &#x201c;external&#x201d; resource and we must therefore manage the connection. If there were security controls involved, this is where we would provide the necessary information to establish that we were authorized users of the database. In this case, because we are on a &#x201c;local server&#x201d; of MySQL, we don&#x2019;t need to provide these. The dbDriver() function provided as an argument to dbConnect specifies that we want to use a MySQL client. The database name - specified as dbname=&#x201c;test&#x201d; - is just a placeholder at this point. We can use the dbListTables() function to see what tables are accessible to us (for our purposes, a table is just like a dataframe, but it is stored inside the database system):
+    </p>
+
+    <p>
+      &gt; dbListTables(con)
+    </p>
+
+    <p>
+      character(0)
+    </p>
+
+    <p>
+      The response &#x201c;character(0)&#x201d; means that there is an empty list, so no tables are available to us. This is not surprising, because we just installed MySQL and have not used it for anything yet. Unless you have another database available to import into MySQL, we can just use the census data we obtained earlier in the chapter to create a table in MySQL:
+    </p>
+
+    <p>
+      &gt; dbWriteTable(con, &#x201c;census&#x201d;, testFrame, +                overwrite = TRUE)
+    </p>
+
+    <p>
+      [1] TRUE
+    </p>
+
+    <p>
+      Take note of the arguments supplied to the dbWriteTable() function. The first argument provides the database connection that we established with the dbConnect() function. The &#x201c;census&#x201d; argument gives our new table in MySQL a name. We use testFrame as the source of data - as noted above a dataframe and a relational database table are very similar in structure. Finally, we provide the argument overwrite=TRUE, which was not really needed in this case - because we know that there were no existing tables - but could be important in other operations where we need to make sure to replace any old table that may have been left around from previous work. The function returns the logical value TRUE to signal that it was able to finish the request that we made. This is important in programming new functions because we can use the signal of success or failure to guide subsequent steps and provide error or success messages.
+    </p>
+
+    <p>
+      Now if we run dbListTables() we should see our new table:
+    </p>
+
+    <p>
+      &gt; dbListTables(con)
+    </p>
+
+    <p>
+      [1] &#x201c;census&#x201d;
+    </p>
+
+    <p>
+      Now we can run an SQL query on our table:
+    </p>
+
+    <p>
+      &gt; dbGetQuery(con, &#x201c;SELECT region, july11pop FROM    census WHERE july11pop&lt;1000000&#x201d;)
+    </p>
+
+    <p>
+      region july11pop
+    </p>
+
+    <p>
+      1               Alaska    722718
+    </p>
+
+    <p>
+      2             Delaware    907135
+    </p>
+
+    <p>
+      3 District of Columbia    617996
+    </p>
+
+    <p>
+      4              Montana    998199
+    </p>
+
+    <p>
+      5         North Dakota    683932
+    </p>
+
+    <p>
+      6         South Dakota    824082
+    </p>
+
+    <p>
+      7              Vermont    626431
+    </p>
+
+    <p>
+      8              Wyoming    568158
+    </p>
+
+    <p>
+      Note that the dbGetQuery() call shown above breaks onto two lines, but the string starting with SELECT has to be typed all on one line. The capitalized words in that string are the SQL commands. It is beyond the scope of this chapter to give an SQL tutorial, but, briefly, SELECT chooses a subset of the table and the fields named after select are the ones that will appear in the result. The FROM command choose the table(s) where the data should come from. The WHERE command specified a condition, in this case that we only wanted rows where the July 2011 population was less than one million. SQL is a powerful and flexible language and this just scratches the surface.
+    </p>
+
+    <p>
+      In this case we did not assign the results of dbGetQuery() to another data object, so the results were just echoed to the R console. But it would be easy to assign the results to a dataframe and then use that dataframe for subsequent calculations or visualizations.
+    </p>
+
+    <p>
+      To emphasize a point made above, the normal motivation for accessing data through MySQL or another database system is that a large database exists on a remote server. Rather than having our own complete copy of those data, we can use dbConnect(), dbGetQuery() and other database functions to access the remote data through SQL. We can also use SQL to specify subsets of the data, to preprocess the data with sorts and other operations, and to create summaries of the data. SQL is also particularly well suited to &#x201c;joining&#x201d; data from multiple tables to make new combinations. In the present example, we only used one table, it was a very small table, and we had created it ourselves in R from an Excel source, so none of these were very good motivations for storing our data in MySQL, but this was only a demonstration.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-large-data-hadoop">
+    <title>Large Data and Hadoop</title>
+
+    <p>
+      The next step beyond remote databases is toward distributed computing across a &#x201c;cluster&#x201d; of computers. This combines the remote access to data that we just demonstrated with additional computational capabilities. At this writing, one of the most popular systems for large scale distributed storage and computing is &#x201c;Hadoop&#x201d; (named after the toy elephant of the young son of the developer).
+    </p>
+
+    <p>
+      Hadoop is not a single thing, but is rather a combination of pieces of software called a library. Hadoop is developed and maintained by the same people who maintain the Apache open source web server. There are about a dozen different parts of the Hadoop framework, but the Hadoop Distributed Files System (HDFS) and Hadoop MapReduce framework are two of the most important frameworks.
+    </p>
+
+    <p>
+      HDFS is easy to explain. Imagine your computer and several other computers at your home or workplace. If we could get them all to work together, we could call them a &#x201c;cluster&#x201d; and we could theoretically get more use out of them by taking advantage of all of the storage and computing power they have as a group. Running HDFS, we can treat this cluster of computers as one big hard drive. If we have a really large file - too big to fit on any one of the computers - HDFS can divide up the file and store its different parts in different storage areas without us having to worry about the details. With a proper configuration of computer hardware, such as an IT department could supply, HDFS can provide an enormous amount of &#x201c;throughput&#x201d; (i.e., a very fast capability for reading and writing data) as well as redundancy and failure tolerance.
+    </p>
+
+    <p>
+      MapReduce is a bit more complicated, but it follows the same logic of trying to divide up work across multiple computers. The term MapReduce is used because there are two big processes involved: map and reduce. For the map operation, a big job is broken up into lots of separate parts. For example, if we wanted to create a search index for all of the files on a company&#x2019;s intranet servers, we could break up the whole indexing task into a bunch of separate jobs. Each job might take care of indexing the files on one server.
+    </p>
+
+    <p>
+      In the end, though, we don&#x2019;t want dozens or hundreds of different search indices. We want one big one that covers all of the files our company owns. This is where the reduce operation comes in. As all of the individual indexing jobs finish up, a reduce operation combines them into one big job. This combining process works on the basis of a so called &#x201c;key.&#x201d; In the search indexing example, some of the small jobs might have found files that contained the word &#x201c;fish.&#x201d; As each small job finishes, it mentioned whether or not fish appeared in a document and perhaps how many times fish appeared. The reduce operation uses fish as a key to match up the results from all of the different jobs, thus creating an aggregated summary listing all of the documents that contained fish. Later, if anyone searched on the word fish, this list could be used to direct them to documents that contained the word.
+    </p>
+
+    <p>
+      In short, &#x201c;map&#x201d; takes a process that the user specifies and an indication of which data it applies to, and divides the processing into as many separate chunks as possible. As the results of each chunk become available, &#x201c;reduce&#x201d; combines them and eventually creates and returns one aggregated result.
+    </p>
+
+    <p>
+      Recently, an organization called RevolutionAnalytics has developed an R interface or &#x201c;wrapper&#x201d; for Hadoop that they call RHadoop. This package is still a work in progress in the sense that it does not appear in the standard CRAN package archive, not because there is anything wrong with it, but rather because RevolutionAnalytics wants to continue to develop it without having to provide stable versions for the R community. There is a nice tutorial here:
+    </p>
+
+    <p>
+      <url href="https://github.com/RevolutionAnalytics/RHadoop/wiki/Tutorial">https://github.com/RevolutionAnalytics/RHadoop/wiki/Tutorial</url>
+    </p>
+
+    <p>
+      We will break open the first example presented in the tutorial just to provide further illustration of the use of MapReduce. As with our MySQL example, this is a rather trivial activity that would not normally require the use of a large cluster of computers, but it does show how MapReduce can be put to use.
+    </p>
+
+    <p>
+      The tutorial example first demonstrates how a repetitive operation is accomplished in R without the use of MapReduce. In prior chapters we have used several variations of the apply() function. The lapply() or list-apply is one of the simplest. You provide an input vector of values and a function to apply to each element, and the lapply() function does the heavy lifting. The example in the RHadoop tutorial squares each integer from one to 10. This first command fills a vector with the input data:
+    </p>
+
+    <p>
+      &gt; small.ints &lt;- 1:10
+    </p>
+
+    <p>
+      &gt; small.ints
+    </p>
+
+    <p>
+      [1]  1  2  3  4  5  6  7  8  9 10
+    </p>
+
+    <p>
+      Next we can apply the &#x201c;squaring function&#x201d; (basically just using the ^ operator) to each element of the list:
+    </p>
+
+    <p>
+      &gt; out &lt;- lapply(small.ints, function(x) x^2)
+    </p>
+
+    <p>
+      &gt; out
+    </p>
+
+    <p>
+      [[1]]
+    </p>
+
+    <p>
+      [1] 1
+    </p>
+
+    <p>
+      [[2]]
+    </p>
+
+    <p>
+      [1] 4
+    </p>
+
+    <p>
+      ... (shows all of the values up to [[10]] [1] 100)
+    </p>
+
+    <p>
+      In the first command above, we have used lapply() to perform a function on the input vector small.ints. We have defined the function as taking the value x and returning the value x^2. The result is a list of ten vectors (each with just one element) containing the squares of the input values. Because this is such a small problem, R was able to accomplish it in a tiny fraction of a second.
+    </p>
+
+    <p>
+      After installing both Hadoop and RHadoop - which, again, is not an official package, and therefore has to be installed manually - we can perform this same operation with two commands:
+    </p>
+
+    <p>
+      &gt; small.ints &lt;- to.dfs(1:10)
+    </p>
+
+    <p>
+      &gt; out &lt;- mapreduce(input = small.ints, +               map = function(k,v) keyval(v, v^2))
+    </p>
+
+    <p>
+      In the first command, we again create a list of integers from one to ten. But rather than simply storing them in a vector, we are using the &#x201c;distributed file system&#x201d; or dfs class that is provided by RHadoop. Note that in most cases we would not need to create this ourselves because our large dataset would already exist on the HDFS (Hadoop Distributed FIle System). We would have connected to HDFS and selected the necessary data much as we did earlier in this chapter with dbConnect().
+    </p>
+
+    <p>
+      In the second command, we are doing essentially the same thing as we did with lapply(). We provide the input data structure (which, again is a dfs class data object, a kind of pointer to the data stored by Hadoop in the cluster). We also provide a &#x201c;map function&#x201d; which is the process that we want to apply to each element in our data set. Notice that the function takes two arguments, k and v. The k refers to the &#x201c;key&#x201d; that we mentioned earlier in the chapter. We actually don&#x2019;t need the key in this example because we are not supplying a reduce function. There is in fact, no aggregation or combining activity that needs to occur because our input list (the integers) and the output list (the squares of those integers) are lists of the same size. If we had needed to aggregate the results of the map function, say by creating a mean or a sum, we would have had to provide a &#x201c;reduce function&#x201d; that would do the job.
+    </p>
+
+    <p>
+      The keyval() function, for which there is no documentation at this writing, is characterized as a &#x201c;helper&#x201d; function in the tutorial. In this case it is clear that the first argument to keyval, &#x201c;v&#x201d; is the intger to which the process must be applied, and the second argument, &#x201c;v^2&#x201d; is the squaring function that is applied to each argument. The data returned by mapreduce() is functionally equivalent to that returned by lapply(), i.e., a list of the squares of the integers from 1 to 10.
+    </p>
+
+    <p>
+      Obviously there is no point in harnessing the power of a cluster of computers to calculate something that could be done with a pencil and a paper in a few seconds. If, however, the operation was more complex and the list of input data had millions of elements, the use of lapply() would be impractical as it would take your computer quite a long time to finish the job. On the other hand, the second strategy of using mapreduce() could run the job in a fraction of a second, given a sufficient supply of computers and storage.
+    </p>
+
+    <p>
+      On a related note, Amazon, the giant online retailer, provides virtual computer clusters that can be used for exactly this kind of work. Amazon&#x2019;s product is called the Elastic Compute Cloud or EC2, and at this writing it is possible to create a small cluster of Linux computers for as little as eight cents per hour.
+    </p>
+
+    <p>
+      To summarize this chapter, although there are many analytical problems that require only a small amount of data, the wide availability of larger data sets has added new challenges to data science. As a single user program running on a local computer, R is well suited for work by a single analyst on a data set that is small enough to fit into the computer&#x2019;s memory. We can retrieve these small datasets from individual files stored in human readable 9e.g., CSV) or binary (e.g., XLS) formats.
+    </p>
+
+    <p>
+      To be able to tackle the larger data sets, however, we need to be able to connect R with either remote databases or remote computational resources or both. A variety of packages is available to connect R to mature database technologies such as MySQL. In fact, we demonstrated the use of MySQL by installing it on a local machine and then using the RMySQL package to create a table and query it. The more cutting edge technology of Hadoop is just becoming available for R users. This technology, which provides the potential for both massive storage and parallel computational power, promises to make very large datasets available for processing and analysis in R.
     </p>
 
   </section>
 
   <exercises xml:id="exercises-ch14">
     <title>Chapter Challenge</title>
-    <exercise xml:id="ex-ch14-challenge">
+
+    <exercise xml:id="ex-ch14-challenge1">
       <statement>
         <p>
-          Go to <url href="http://Data.gov">Data.gov</url> or another open data portal and
-          find a data set in CSV or tab-delimited format that interests you. Download it and
-          read it into R using either <c>read.csv()</c> or <c>read.delim()</c>. Use the
-          <c>str()</c> and <c>summary()</c> functions to explore the structure of the data
-          and report what you find.
+          Hadoop is a software framework designed for use with Apache, which is first and foremost a Linux server application. Yet there are development versions of Hadoop available for Windows and Mac as well. These are what are called single node instances, that is they use a single computer to simulate the existence of a large cluster of computers. See if you can install the appropriate version of Hadoop for your computer&#x2019;s operating system.
         </p>
       </statement>
     </exercise>
+
+    <exercise xml:id="ex-ch14-challenge2">
+      <statement>
+        <p>
+          As a bonus activity, if you are successful in installing Hadoop, then get a copy of the RHadoop package from RevolutionAnalytics and install that. If you are successful with both, you should be able to run the MapReduce code presented in this chapter.
+        </p>
+      </statement>
+    </exercise>
+
   </exercises>
 
   <conclusion xml:id="conclusion-ch14">
     <title>Sources</title>
+
     <p>
       <ul>
-        <li><p><url href="http://cran.r-project.org/doc/manuals/R-data.html">R Data Import/Export Manual</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia: CSV</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/OpenDocument">Wikipedia: OpenDocument</url></p></li>
+        <li><p><url href="http://cran.r-project.org/doc/manuals/R-data.html">http://cran.r-project.org/doc/manuals/R-data.html</url></p></li>
+        <li><p><url href="http://cran.r-project.org/doc/manuals/R-data.pdf">http://cran.r-project.org/doc/manuals/R-data.pdf</url></p></li>
+        <li><p><url href="http://cran.r-project.org/web/packages/gdata/gdata.pdf">http://cran.r-project.org/web/packages/gdata/gdata.pdf</url></p></li>
+        <li><p><url href="http://dev.mysql.com/downloads/">http://dev.mysql.com/downloads/</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Comparison_of_relational_database_management_systems">http://en.wikipedia.org/wiki/Comparison_of_relational_database_management_systems</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Mapreduce">http://en.wikipedia.org/wiki/Mapreduce</url></p></li>
+        <li><p><url href="https://github.com/RevolutionAnalytics/RHadoop/wiki/Tutorial">https://github.com/RevolutionAnalytics/RHadoop/wiki/Tutorial</url></p></li>
       </ul>
     </p>
+
+    <p>
+      R Functions Used in this Chapter
+    </p>
+
+    <p>
+      <ul>
+        <li><p>as.numeric() - Convert another data type to a number</p></li>
+        <li><p>dbConnect() - Connect to an SQL database</p></li>
+        <li><p>dgGetQuery() - Run an SQL query and return the results</p></li>
+        <li><p>dbListTables() - Show the tables available in a connection</p></li>
+        <li><p>dbWriteTable() - Send a data table to an SQL systems</p></li>
+        <li><p>install.packages() - Get the code for an R package</p></li>
+        <li><p>lapply() - Apply a function to elements of a list</p></li>
+        <li><p>library() - Make an R package available for use</p></li>
+        <li><p>Numberize() - A custom function created in this chapter</p></li>
+        <li><p>read.xls() - Import data from a binary R file; part of the gdata package</p></li>
+        <li><p>return() - Used in functions to designate the data returned by the function</p></li>
+        <li><p>str_replace() - Replace a character string with another</p></li>
+        <li><p>str_replace_all() - Replace multiple instances of a character string with another</p></li>
+      </ul>
+    </p>
+
   </conclusion>
 
 </chapter>
