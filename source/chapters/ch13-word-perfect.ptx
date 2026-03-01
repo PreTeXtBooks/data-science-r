@@ -111,7 +111,7 @@ Weighting          : term frequency (tf)
 
     <p>The statistics reported when we ask for tweetTDM on the command line give us an overview of the results. The TermDocumentMatrix() function extracted 375 different terms from the 100 tweets. The resulting matrix mainly consists of zeros: Out of 37,500 cells in the matrix, only 610 contain non-zero entries, while 36,890 contain zeros. A zero in a cell means that that particular term did not appear in that particular document. The maximal term length was 21 words, which an inspection of the input tweets indicates is also the maximum word length of the input tweets. Finally, the last line, starting with “Weighting” indicates what kind of statistic was stored in the term-document matrix. In this case we used the default, and simplest, option which simply records the count of the number of times a term appears across all of the documents in the corpus. You can peek at what the term-document matrix contains by using the inspect function:</p>
 
-    <p>inspect(tweetTDM)</p>
+    <pre>inspect(tweetTDM)</pre>
 
     <p>Be prepared for a large amount of output. Remember the term “sparse” in the summary of the matrix? Sparse refers to the overwhelming number of cells that contain zero - indicating that the particular term does not appear in a given document. Most term document matrices are quite sparse. This one is 98% sparse because 36890/37500 = 0.98. In most cases we will need to cull or filter the term-document matrix for purposes of presenting or visualizing it. The tm package provides several methods for filtering out sparsely used terms, but in this example we are going to leave the heavy lifting to the word cloud package.</p>
 
