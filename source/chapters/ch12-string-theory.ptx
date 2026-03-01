@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <chapter xml:id="ch12-string-theory" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>String Theory</title>
-
+  <introduction><p>
+Prior chapters focused on statistical analysis of tweet arrival times and built on earlier knowledge of
+samples and distributions. This chapter switches gears to focus on manipulating so-called
+"unstructured" data, which in most cases means natural language texts. Tweets are again a useful
+source of data for this because tweets are mainly a short (140 characters or less) character strings.
+</p></introduction>
   <section xml:id="sec-text-as-data">
     <title>Text as Data</title>
 
