@@ -127,6 +127,13 @@ tweets &lt;- str_replace_all(tweets,"@[a-z,A-Z]*","")
 
     <p>In the second to last command above, we are extracting the names from the named list in the previous command and binding them together into a dataframe with the frequencies. This dataframe, “cloudFrame”, contains exactly the same information as the named list. “sortedMatrix,” but cloudFrame has the names in a separate column of data. This makes it easier to do the final command above, which is the call to the wordcloud() function. The wordcloud() function has lots of optional parameters for making the word cloud more colorful, controlling its shape, and controlling how frequent an item must be before it appears in the cloud, but we have used the default settings for all of these parameters for the sake of simplicity. We pass to the wordcloud() function the term list and frequency list that we bound into the dataframe and wordcloud() produces the nice graphic that you see below.</p>
 
+    <figure xml:id="fig-ch13-wordcloud-solar">
+      <caption>Word cloud generated from Twitter search results for the hashtag #solar, with word size indicating frequency of occurrence.</caption>
+      <image source="wordcloud-solar.png" width="80%">
+        <description>A word cloud generated from tweets about solar energy. The word "solar" appears largest in the center, followed by "energy" and "power" in large text. Other prominent words include "community," "independence," "masses," "people," "shared," "nationwide," "popularity," "providing," "gains," and "green," with many smaller related terms surrounding them.</description>
+      </image>
+    </figure>
+
     <p>If you recall the Twitter search that we used to retrieve those tweets (#solar) it makes perfect sense that “solar” is the most frequent term (even though we filtered out all of the hashtags. The next most popular term is “energy” and after that there are a variety of related words such as “independence,” “green,” “wind,” and “metering.”</p>
 
   </section>
