@@ -2,7 +2,14 @@
 
 <chapter xml:id="ch10-tweet-tweet" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Tweet, Tweet!</title>
-
+  <introduction>
+<p>
+We've come a long way already: Basic skills in controlling R, some exposure to R-studio, knowledge
+of how to manage add-on packages, experience creating a function, essential descriptive statistics, and
+a start on sampling distributions and inferential statistics. In this chapter, we use the social media
+service Twitter to grab some up-to-the minute data and begin manipulating it.
+</p>
+  </introduction>
   <section xml:id="sec-twitter-setup">
     <title>Getting Started with twitteR</title>
 
