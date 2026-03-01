@@ -3,6 +3,13 @@
 <chapter xml:id="ch13-word-perfect" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Word Perfect</title>
 
+<introduction>
+<p>In the previous chapter we mastered some of the most basic and important functions for examining
+and manipulating text. Now we are in a position to analyze the actual words that appear in text
+documents. Some of the most basic functions of the Internet, such as keyword search, are
+accomplished by analyzing the "content" i.e., the words in a body of text.</p>
+</introduction>
+
   <section xml:id="sec-word-clouds">
     <title>Word Clouds and the Corpus</title>
 
