@@ -69,30 +69,148 @@ few years ago. Let’s list a few things which are pretty accurate:
     <title>Cautions About Big Data</title>
 
     <p>
-      Big data does not help us with these kinds of tests. We don’t even need a thousand records for many conventional statistical comparisons, and having a million or a hundred million records won’t make our job any easier (it will just take more computer memory and storage).
-    </p>
+Big data does not help us with these kinds of tests. We don’t even
+need a thousand records for many conventional statistical comparisons,
+and having a million or a hundred million records won’t
+make our job any easier (it will just take more computer memory
+and storage). Think about what you read in the previous chapter:
+We were able to start using a basic form of statistical inference with
+a data set that contained a population with only 51 elements. In
+fact, many of the most commonly used statistical techniques, like
+the Student’s t-test, were designed specifically to work with very
+small samples. </p>
 
     <p>
       On the other hand, if we are looking for needles in haystacks, it makes sense to look (as efficiently as possible) through the biggest possible haystack we can find, because it is much more likely that a big haystack will contain at least one needle and maybe more. Keeping in mind the advances in machine learning that have occurred over recent years, we begin to have an idea that good tools together with big data and interesting questions about unusual patterns could indeed provide some powerful new insights.
     </p>
 
     <p>
-      Let’s couple this optimism with three very important cautions. The first caution is that the more complex our data are, the more difficult it will be to ensure that the data are “clean” and suitable for the purpose we plan for them. A dirty data set is worse in some ways than no data at all because we may put a lot of time and effort into finding an insight and find nothing. Even more problematic, we may put a lot of time and effort and find a result that is simply wrong!
-    </p>
+Let’s couple this optimism with three very important cautions. The
+first caution is that the more complex our data are, the more difficult
+it will be to ensure that the data are "clean" and suitable for the
+purpose we plan for them. A dirty data set is worse in some ways
+than no data at all because we may put a lot of time and effort into
+finding an insight and find nothing. Even more problematic, we
+may put a lot of time and effort and find a result that is simply
+wrong! Many analysts believe that cleaning data - getting it ready
+for analysis, weeding out the anomalies, organizing the data into a
+suitable configuration - actually takes up most of the time and effort
+of the analysis process.
+</p>
 
     <p>
-      The second caution is that rare and unusual events or patterns are almost always by their nature highly unpredictable. Even with the best data we can imagine and plenty of variables, we will almost always have a lot of trouble accurately enumerating all of the causes of an event. The data mining tools may show us a pattern, and we may even be able to replicate the pattern in some new data, but we may never be confident that we have understood the pattern to the point where we believe we can isolate, control, or understand the causes. Predicting the path of hurricanes provides a great example here: despite decades of advances in weather instrumentation, forecasting, and number crunching, meteorologists still have great difficulty predicting where a hurricane will make landfall or how hard the winds will blow when it gets there. The complexity and unpredictability of the forces at work make the task exceedingly difficult.
-    </p>
-
-    <p>
-      The third caution is about linking data sets. Item C above suggests that linkages may provide additional value. With every linkage to a new data set, however, we also increase the complexity of the data and the likelihood of dirty data and resulting spurious patterns. In addition, although many companies seem less and less concerned about the idea, the more we link data about living people (e.g., consumers, patients, voters, etc.) the more likely we are to cause a catastrophic loss of privacy. Even if you are not a big fan of the importance of privacy on principle, it is clear that security and privacy failures have cost companies dearly both in money and reputation. Today’s data innovations for valuable and acceptable purposes maybe tomorrow’s crimes and scams.
-    </p>
-
-    <p>
-      Putting this altogether, we can take a sensible position that high quality data, in abundance, together with tools used by intelligent analysts, may provide worthwhile benefits in the commercial sector, in education, in government, and in other areas. The focus of our efforts as data scientists, however, should not be on achieving the largest possible data sets, but rather on getting the right data and the right amount of data for the purpose we intend.
-    </p>
+The second caution is that rare and unusual events or patterns are
+almost always by their nature highly unpredictable. Even with the
+best data we can imagine and plenty of variables, we will almost
+always have a lot of trouble accurately enumerating all of the
+causes of an event. The data mining tools may show us a pattern,
+and we may even be able to replicate the pattern in some new data,
+but we may never be confident that we have understood the pattern
+to the point where we believe we can isolate, control, or understand
+the causes. Predicting the path of hurricanes provides a great
+example here: despite decades of advances in weather instrumentation,
+forecasting, and number crunching, meteorologists still have
+great difficulty predicting where a hurricane will make landfall or
+how hard the winds will blow when it gets there. The complexity
+and unpredictability of the forces at work make the task exceedingly
+difficult.
+</p>
+<p>
+The third caution is about linking data sets. Item C above suggests
+that linkages may provide additional value. With every linkage to
+a new data set, however, we also increase the complexity of the
+data and the likelihood of dirty data and resulting spurious patterns.
+In addition, although many companies seem less and less
+concerned about the idea, the more we link data about living people
+(e.g., consumers, patients, voters, etc.) the more likely we are to
+cause a catastrophic loss of privacy. Even if you are not a big fan of
+the importance of privacy on principle, it is clear that security and
+privacy failures have cost companies dearly both in money and
+reputation. Today’s data innovations for valuable and acceptable
+purposes maybe tomorrow’s crimes and scams. The greater the
+amount of linkage between data sets, the easier it is for those people
+with malevolent intentions to exploit it.
+</p>
+<p>
+Putting this altogether, we can take a sensible position that high
+quality data, in abundance, together with tools used by intelligent
+analysts in a secure environment, may provide worthwhile benefits
+in the commercial sector, in education, in government, and in
+other areas. The focus of our efforts as data scientists, however,
+should not be on achieving the largest possible data sets, but rather
+on getting the right data and the right amount of data for the purpose
+we intend. There is no special virtue in having a lot of data if
+those data are unsuitable to the conclusions that we want to draw.
+Likewise, simply getting data more quickly does not guarantee
+that what we get will be highly relevant to our problems. Finally,
+although it is said that variety is the spice of life, complexity is often
+a danger to reliability and trustworthiness: the more complex
+the linkages among our data the more likely it is that problems
+may crop up in making use of those data or keeping them safe.
+</p>
 
   </section>
+
+  <section xml:id="sec-big-data-tools">
+    <title>The Tools of Data Science</title>
+<p>
+Over the past few chapters, we’ve gotten a pretty quick jump start
+on an analytical tool used by thousands of data analysts worldwide
+- the open source R system for data analysis and visualization.
+Despite the many capabilities of R, however, there are hundreds
+of other tools used by data scientists, depending on the particular
+aspects of the data problem they focus on.
+</p><p>
+The single most popular and powerful tool, outside of R, is a proprietary
+statistical system called SAS (pronounced "sass"). SAS contains
+a powerful programming language that provides access to
+many data types, functions, and language features. Learning SAS
+is arguably as difficult (or as easy, depending upon your perspective)
+as learning R, but SAS is used by many large corporations because,
+unlike R, there is extensive technical and product support
+on offer. Of course, this support does not come cheap, so most SAS
+users work in large organizations that have sufficient resources to
+purchase the necessary licenses and support plans.
+</p><p>
+Next in line in the statistics realm is SPSS, a package used by many
+scientists (the acronym used to stand for Statistical Package for the
+Social Sciences). SPSS is much friendlier than SAS, in the opinion
+of many analysts, but not quite as flexible and powerful.
+</p><p>
+R, SPSS, and SAS grew up as statistics packages, but there are also
+many general purpose programming languages that incorporate
+features valuable to data scientists. One very exciting development 
+in programming languages has the odd name of "Processing." Processing
+is a programming language specifically geared toward creating
+data visualizations. Like R, Processing is an open source project,
+so it is freely available at http://processing.org/. Also like R,
+Processing is a cross-platform program, so it will run happily on
+Mac, Windows, and Linux. There are lots of books available for
+learning Processing (unfortunately, no open source books yet) and
+the website contains lots of examples for getting started. Besides R,
+Processing might be one of the most important tools in the data scientist’s
+toolbox, at least for those who need to use data to draw conclusions
+and communicate with others.
+</p>
+</section>
+
+  <section xml:id="sec-big-data-challenge">
+    <title>Chapter Challenge</title>
+<p>Look over the various websites connected with "Data.gov" to find
+the largest and/or most complex data set that you can. Think
+about (and perhaps write about) one or more of the ways that
+those data could potentially be misused by analysts. Download a
+data set that you find interesting and read it into R to see what you
+can do with it.
+</p><p>
+For a super extra challenge, go to this website:
+<url href="http://teamwpc.co.uk/products/wps">http://teamwpc.co.uk/products/wps</url>
+and download a trial version of the "World Programming System"
+(WPS). WPS can read SAS code, so you could easily look up the
+code that you would need in order to read in your Data.gov dataset.
+</p>
+</section>
+
 
   <conclusion xml:id="conclusion-ch08">
     <title>Sources</title>
@@ -100,6 +218,7 @@ few years ago. Let’s list a few things which are pretty accurate:
       <ul>
         <li><p><url href="http://aqua.nasa.gov/doc/pubs/Wx_Forecasting.pdf">http://aqua.nasa.gov/doc/pubs/Wx_Forecasting.pdf</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Big_data">http://en.wikipedia.org/wiki/Big_data</url></p></li>
+        <li><p><url href="http://en.wikipedia.org/wiki/Data.gov">http://en.wikipedia.org/wiki/Data.gov</url></p></li>
         <li><p><url href="http://www.marketwatch.com/story/big-data-equals-big-business-opportunity-say-global-it-and-business-professionals-2012-05-14">http://www.marketwatch.com/story/big-data-equals-big-business-opportunity-say-global-it-and-business-professionals-2012-05-14</url></p></li>
       </ul>
     </p>
