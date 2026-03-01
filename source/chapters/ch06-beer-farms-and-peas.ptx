@@ -93,28 +93,34 @@
     <title>Sample vs. Population</title>
 
     <p>
-      One of the critical distinctions woven throughout the work of these four is between
-      the <q>sample</q> of data that you have available to analyze and the larger
-      <q>population</q> of possible cases that may or do exist. When Gosset ran batches of
-      beer at the brewery, he knew that it was impractical to run every possible batch of
-      beer with every possible variation in recipe and preparation. Gosset knew that he had
-      to run a few batches, describe what he had found and then generalize or infer what
-      might happen in future batches. This is a fundamental aspect of working with all types
-      and amounts of data: Whatever data you have, there's always more out there. There's
-      data that you might have collected by changing the way things are done or the way
-      things are measured. There's future data that hasn't been collected yet and might never
-      be collected. There's even data that we might have gotten using the exact same
-      strategies we did use, but that would have come out subtly different just due to
-      randomness. Whatever data you have, it is just a snapshot or <q>sample</q> of what
-      might be out there. This leads us to the conclusion that we can never, ever 100% trust
-      the data we have. We must always hold back and keep in mind that there is always
-      uncertainty in data. A lot of the power and goodness in statistics comes from the
-      capabilities that people like Fisher developed to help us characterize and quantify
-      that uncertainty and for us to know when to guard against putting too much stock in
-      what a sample of data have to say. So remember that while we can always describe the
-      sample of data we have, the real trick is to infer what the data may mean when
-      generalized to the larger population of data that we don't have. This is the key
-      distinction between descriptive and inferential statistics.
+      One of the critical distinctions woven throughout the work of these
+four is between the "sample" of data that you have available to analyze
+and the larger "population" of possible cases that may or do
+exist. When Gosset ran batches of beer at the brewery, he knew
+that it was impractical to run every possible batch of beer with
+every possible variation in recipe and preparation. Gosset knew
+that he had to run a few batches, describe what he had found and
+then generalize or infer what might happen in future batches. This
+is a fundamental aspect of working with all types and amounts of
+data: Whatever data you have, there’s always more out there.
+There’s data that you might have collected by changing the way
+things are done or the way things are measured. There’s future
+data that hasn’t been collected yet and might never be collected.
+There’s even data that we might have gotten using the exact same
+strategies we did use, but that would have come out subtly different
+just due to randomness. Whatever data you have, it is just a
+snapshot or "sample" of what might be out there. This leads us to
+the conclusion that we can never, ever 100% trust the data we have.
+We must always hold back and keep in mind that there is always
+uncertainty in data. A lot of the power and goodness in statistics
+comes from the capabilities that people like Fisher developed to
+help us characterize and quantify that uncertainty and for us to
+know when to guard against putting too much stock in what a sample
+of data have to say. So remember that while we can always describe
+the sample of data we have, the real trick is to infer what
+the data may mean when generalized to the larger population of
+data that we don’t have. This is the key distinction between descriptive
+and inferential statistics.
     </p>
 
   </section>
@@ -248,6 +254,10 @@ var(myFamily$myFamilyAges)
 sd(myFamily$myFamilyAges)
       </code>
     </program>
+<pre>
+[1] 356.5
+[1] 18.88121
+</pre>
 
     <p>
       Note that these commands carry on using the data used in the previous chapter,
@@ -261,7 +271,10 @@ var(c(43,42,12,8,5))
 sd(c(43,42,12,8,5))
       </code>
     </program>
-
+<pre>
+[1] 356.5
+[1] 18.88121
+</pre>
   </section>
 
   <section xml:id="sec-us-state-pops">
@@ -343,6 +356,13 @@ USstatePops &lt;- read.table(pipe("pbpaste"))
 USstatePops
       </code>
     </program>
+<pre>
+   V1
+1 4779736
+2 710231
+3 6392017
+...
+</pre>
 
     <p>
       Only the first three observations are shown in order to save space on the page. Your
@@ -389,6 +409,12 @@ var(USstatePops$V1)
 sd(USstatePops$V1)
       </code>
     </program>
+<pre>
+[1] 6053834
+[1] 4339367
+[1] 4.656676e+13
+[1] 6823984
+</pre>
 
     <p>
       Some great summary information there, but wait, a couple things have gone awry:
