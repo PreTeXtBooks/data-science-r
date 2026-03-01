@@ -75,10 +75,13 @@
       Pretty obvious what's going on, right? The top line, in bold, is not really part of
       the data. Instead, the top line contains the attribute or variable names. Note that
       computer scientists tend to call them attributes while statisticians call them
-      variables. Either term is OK. Technically speaking, the variable names in the top line
-      are <q>metadata</q> or what you could think of as data about data. Imagine how much
-      more difficult it would be to understand what was going on in that table without the
-      metadata. There's lot of different kinds of metadata: variable names are just one simple type of metadata.
+      variables. Either term is OK. For example, age is an attribute that every living thing
+      has, and you could count it in minutes, hours, days, months, years, or other units of
+      time. Here we have the Age attribute calibrated in years. Technically speaking, the
+      variable names in the top line are <q>metadata</q> or what you could think of as data
+      about data. Imagine how much more difficult it would be to understand what was going on
+      in that table without the metadata. There's lot of different kinds of metadata:
+      variable names are just one simple type of metadata.
     </p>
 
     <p>
@@ -109,7 +112,7 @@ the name <q>Uncle.</q>
       way down. For example, the Age column is all numbers. There's nothing in the Age column
       like <q>Old</q> or <q>Young.</q> This is a really valuable way of keeping things
       organized. After all, we could not run the <c>mean()</c> function on the Age column if
-      it contained a little piece of text, like <q>Old</q> or <q>Young.</q> On a related
+      it contained little piece of text, like <q>Old</q> or <q>Young.</q> On a related
 note, every cell (that is an intersection of a row and a column,
 for example, Sis's Age) contains just one piece of information. Although
 a spreadsheet or a word processing program might allow
@@ -146,12 +149,71 @@ myFamilyNames &lt;- c("Dad","Mom","Sis","Bro","Dog")
     <p>
       One thing you might notice is that every name is placed within double quotes. This is
       how you signal to R that you want it to treat something as a string of characters
-      rather than the name of a storage location. Next, create the other vectors:
+      rather than the name of a storage location. If we had asked R to use Dad instead of
+      <q>Dad</q> it would have looked for a storage location (a data object) named Dad.
+      Another thing to notice is that the commas separating the different values are outside
+      of the double quotes. If you were writing a regular sentence this is not how things
+      would look, but for computer programming the comma can only do its job of separating
+      the different values if it is not included inside the quotes. Once you have typed the
+      line above, remember that you can check the contents of myFamilyNames by typing it on
+      the next command line:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-names-check">
+      <code>
+myFamilyNames
+      </code>
+    </program>
+
+    <p>
+      The output should look like this:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-names-output">
+      <code>
+[1] "Dad" "Mom" "Sis" "Bro" "Dog"
+      </code>
+    </program>
+
+    <p>Next, you can create a vector of the ages of the family members, like this:</p>
+
+    <program language="r" xml:id="prog-ch5-ages">
+      <code>
+myFamilyAges &lt;- c(43, 42, 12, 8, 5)
+      </code>
+    </program>
+
+    <p>
+      Note that this is exactly the same command we used in the last chapter, so if you have
+      kept R running between then and now you would not even have to retype this command
+      because myFamilyAges would still be there. Actually, if you closed R since working the
+      examples from the last chapter you will have been prompted to <q>save the workspace</q>
+      and if you did so, then R restored all of the data objects you were using in the last
+      session. You can always check by typing myFamilyAges on a blank command line. The
+      output should look like this:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-ages-output">
+      <code>
+[1] 43 42 12  8  5
+      </code>
+    </program>
+
+    <p>
+      Hey, now you have used the <c>c()</c> function and the assignment arrow to make
+      myFamilyNames and myFamilyAges. If you look at the data table earlier in the chapter
+      you should be able to figure out the commands for creating myFamilyGenders and
+      myFamilyWeights. In case you run into trouble, these commands also appear on the next
+      page, but you should try to figure them out for yourself before you turn the page. In
+      each case after you type the command to create the new data object, you should also
+      type the name of the data object at the command line to make sure that it looks the
+      way it should. Four variables, each one with five values in it. Two of the variables
+      are character data and two of the variables are integer data. Here are those two extra
+      commands in case you need them:
     </p>
 
     <program language="r" xml:id="prog-ch5-vectors">
       <code>
-myFamilyAges &lt;- c(43, 42, 12, 8, 5)
 myFamilyGenders &lt;- c("Male","Female","Female","Male","Female")
 myFamilyWeights &lt;- c(188,136,83,61,44)
       </code>
@@ -172,10 +234,34 @@ myFamily &lt;- data.frame(myFamilyNames,
     </program>
 
     <p>
-      Once you have gotten that command to work, type <c>myFamily</c> at the command line
-      to get a report back of what the data frame contains. R has put row numbers in front
-      of each row of our data. These are actual <q>indices</q> into the data frame, i.e.,
-      the row numbers that R uses to keep track of which row a particular piece of data is in.
+      Look out! We're starting to get commands that are long enough that they break onto
+      more than one line. The + at the end of the first line tells R to wait for more input
+      on the next line before trying to process the command. If you want to, you can type
+      the whole thing as one line in R, but if you do, just leave out the plus sign. Anyway,
+      the <c>data.frame()</c> function makes a data frame from the four vectors that we
+      previously typed in. Notice that we have also used the assignment arrow to make a new
+      stored location where R puts the data frame. This new data object, called
+      <c>myFamily</c>, is our data frame. Once you have gotten that command to work, type
+      <c>myFamily</c> at the command line to get a report back of what the data frame
+      contains. Here's the output you should see:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-dataframe-output">
+      <code>
+  myFamilyNames myFamilyAges myFamilyGenders myFamilyWeights
+1           Dad           43            Male             188
+2           Mom           42          Female             136
+3           Sis           12          Female              83
+4           Bro            8            Male              61
+5           Dog            5          Female              44
+      </code>
+    </program>
+
+    <p>
+      This looks great. Notice that R has put row numbers in front of each row of our data.
+      These are different from the output line numbers we saw in brackets before, because
+      these are actual <q>indices</q> into the data frame. In other words, they are the row
+      numbers that R uses to keep track of which row a particular piece of data is in.
     </p>
 
     <p>
@@ -190,18 +276,73 @@ str(myFamily)
       </code>
     </program>
 
+    <program language="r" xml:id="prog-ch5-str-output">
+      <code>
+'data.frame':	5 obs. of  4 variables:
+ $ myFamilyNames  : Factor w/ 5 levels "Bro","Dad","Dog",..: 2 4 5 1 3
+ $ myFamilyAges   : num  43 42 12 8 5
+ $ myFamilyGenders: Factor w/ 2 levels "Female","Male": 2 1 1 2 1
+ $ myFamilyWeights: num  188 136 83 61 44
+      </code>
+    </program>
+
     <p>
-      The output confirms that <c>myFamily</c> is a data frame with five observations and
-      four variables. You may notice that R has converted the character vectors into
-      <q>Factors.</q> In the terminology that R uses, a Factor is a special type of label
-      that can be used to identify and organize groups of cases. When you don't want this
-      to happen you can instruct R to stop with: <c>stringsAsFactors=FALSE</c>.
+      Take note that for the first time, the example shows the command prompt <q>&gt;</q> in
+      order to differentiate the command from the output that follows. You don't need to
+      type this: R provides it whenever it is ready to receive new input. From now on in the
+      book, there will be examples of R commands and output that are mixed together, so
+      always be on the lookout for <q>&gt;</q> because the command after that is what you
+      have to type.
+    </p>
+
+    <p>
+      OK, so the function <c>str()</c> reveals the structure of the data object that you
+      name between the parentheses. In this case we pretty well knew that
+      <c>myFamily</c> was a data frame because we just set that up in a previous command.
+      In the future, however, we will run into many situations where we are not sure how R
+      has created a data object, so it is important to know <c>str()</c> so that you can
+      ask R to report what an object is at any time.
+    </p>
+
+    <p>
+      In the first line of output we have the confirmation that <c>myFamily</c> is a data
+      frame as well as an indication that there are five observations (<q>obs.</q> which is
+      another word that statisticians use instead of cases or instances) and four variables.
+      After that first line of output, we have four sections that each begin with
+      <q>$</q>. For each of the four variables, these sections describe the component
+      columns of the <c>myFamily</c> data frame object.
+    </p>
+
+    <p>
+      For example, <c>myFamilyGenders</c> is shown as a <q>Factor.</q> In the terminology
+      that R uses, a Factor is a special type of label that can be used to identify and
+      organize groups of cases. R has organized these labels alphabetically and then listed
+      out the first few cases. For <c>myFamilyGenders</c> we see that there are two
+      <q>levels,</q> meaning that there are two different options: female and male. R
+      assigns a number, starting with one, to each of these levels, so every case that is
+      <q>Female</q> gets assigned a 1 and every case that is <q>Male</q> gets assigned a 2
+      (because Female comes before Male in the alphabet, so Female is the first Factor
+      label, so it gets a 1). So R assumes, unless you tell it otherwise, that when you type
+      in a short string like <q>Male</q> that you are referring to the label of a group, and
+      that R should prepare for the use of Male as a <q>Level</q> of a <q>Factor.</q>
+      When you don't want this to happen you can instruct R to stop with:
+      <c>stringsAsFactors=FALSE</c>. We will look with more detail at options and defaults
+      a little later on.
+    </p>
+
+    <p>
+      Phew, that was complicated! By contrast, our two numeric variables,
+      <c>myFamilyAges</c> and <c>myFamilyWeights</c>, are very simple. You can see that
+      after the colon the mode is shown as <q>num</q> (which stands for numeric) and that
+      the first few values are reported. Putting it altogether, we have pretty complete
+      information about the <c>myFamily</c> data frame and we are just about ready to do
+      some more work with it.
     </p>
 
     <p>
       Next, we will examine another very useful function called <c>summary()</c>. The
       <c>summary()</c> function provides some overlapping information to <c>str()</c> but
-      also goes a little further, particularly with numeric variables:
+      also goes a little further, particularly with numeric variables. Here's what we get:
     </p>
 
     <program language="r" xml:id="prog-ch5-summary">
@@ -210,21 +351,53 @@ summary(myFamily)
       </code>
     </program>
 
+    <program language="r" xml:id="prog-ch5-summary-output">
+      <code>
+ myFamilyNames  myFamilyAges    myFamilyGenders myFamilyWeights
+ Bro:1          Min.   : 5.0   Female:3        Min.   : 44.0
+ Dad:1          1st Qu.: 8.0   Male  :2        1st Qu.: 61.0
+ Dog:1          Median :12.0                   Median : 83.0
+ Mom:1          Mean   :22.0                   Mean   :102.4
+ Sis:1          3rd Qu.:42.0                   3rd Qu.:136.0
+                Max.   :43.0                   Max.   :188.0
+      </code>
+    </program>
+
     <p>
-      The output provides the following calculated quantities for numeric variables:
+      Notice, as with <c>str()</c>, that the output is quite different depending upon
+      whether we are talking about a Factor, like <c>myFamilyNames</c> or
+      <c>myFamilyGenders</c>, versus a numeric variable like <c>myFamilyAges</c> and
+      <c>myFamilyWeights</c>. The columns for the Factors list out a few of the Factor
+      names along with the number of occurrences of cases that are coded with that factor.
+      So for instance, under <c>myFamilyGenders</c> it shows three females and two males.
+      In contrast, for the numeric variables we get five different calculated quantities
+      that help to summarize the variable. There's no time like the present to start to
+      learn about what these are, so here goes:
     </p>
 
     <ul>
-      <li><p><q>Min.</q> refers to the minimum or lowest value among all the cases.</p></li>
+      <li><p><q>Min.</q> refers to the minimum or lowest value among all the cases. For
+        this data frame, 5 is the age of the dog and it is the lowest age of all of the
+        family members.</p></li>
       <li><p><q>1st Qu.</q> refers to the dividing line at the top of the first quartile.
-        Quartiles divide all the cases into four equal-sized groups when sorted by
-        value.</p></li>
+        If we took all the cases and lined them up side by side in order of age (or weight)
+        we could then divide up the whole into four groups, where each group had the same
+        number of observations. The <q>first quartile</q> is the value of age (or another
+        variable) that divides the first quarter of the cases from the other three quarters.
+        Note that if we don't have a number of cases that divides evenly by four, the value
+        is an approximation.</p></li>
       <li><p><q>Median</q> refers to the value of the case that splits the whole group in
-        half, with half of the cases having higher values and half having lower values.</p></li>
-      <li><p><q>Mean</q> is the numeric average of all of the values.</p></li>
-      <li><p><q>3rd Qu.</q> is the third quartile, the dividing line that separates the
-        bottom 75% from the top 25% of cases.</p></li>
-      <li><p><q>Max</q> is the maximum value.</p></li>
+        half, with half of the cases having higher values and half having lower values. If
+        you think about it a little bit, the median is also the dividing line that separates
+        the second quartile from the third quartile.</p></li>
+      <li><p><q>Mean</q> is the numeric average of all of the values. For instance, the
+        average age in the family is reported as 22.</p></li>
+      <li><p><q>3rd Qu.</q> is the third quartile, the third and final dividing line that
+        splits up all of the cases into four equal sized parts. Statisticians like quartiles
+        because they give a quick sense of the shape of the distribution.</p></li>
+      <li><p><q>Max.</q> is the maximum value and displays the highest value among all of
+        the available cases. For example, in this data frame Dad has the highest weight:
+        188.</p></li>
     </ul>
 
     <p>
@@ -236,15 +409,108 @@ summary(myFamily)
 
     <program language="r" xml:id="prog-ch5-dollar">
       <code>
-myFamily$myFamilyAges
+&gt; myFamily$myFamilyAges
+[1] 43 42 12  8  5
       </code>
     </program>
 
     <p>
-      When we created the <c>myFamily</c> data frame, R copied all of the information from
-      the individual vectors into a brand new storage space. So <c>myFamily$myFamilyAges</c>
-      actually refers to a completely separate (but so far identical) vector of values.
+      If you're alert you might wonder why we went to the trouble of typing out that big
+      long thing with the <c>$</c> in the middle, when we could have just referred to
+      <c>myFamilyAges</c> as we did earlier when we were setting up the data. Well, this
+      is a very important point. When we created the <c>myFamily</c> data frame, R copied
+      all of the information from the individual vectors into a brand new storage space.
+      So <c>myFamily$myFamilyAges</c> actually refers to a completely separate (but so
+      far identical) vector of values. You can prove this to yourself very easily, and you
+      should, by adding some data to the original vector, <c>myFamilyAges</c>:
     </p>
+
+    <program language="r" xml:id="prog-ch5-proof">
+      <code>
+&gt; myFamilyAges &lt;- c(myFamilyAges, 11)
+&gt; myFamilyAges
+[1] 43 42 12  8  5 11
+&gt; myFamily$myFamilyAges
+[1] 43 42 12  8  5
+      </code>
+    </program>
+
+    <p>
+      Look very closely at the five lines above. In the first line, we use the
+      <c>c()</c> command to add the value 11 to the original list of ages that we had
+      stored in <c>myFamilyAges</c> (perhaps we have adopted an older cat into the
+      family). In the second line we ask R to report what the vector <c>myFamilyAges</c>
+      now contains. Dutifully, R reports that <c>myFamilyAges</c> now contains the
+      original five values and the new value of 11 on the end of the list. When we ask R
+      to report <c>myFamily$myFamilyAges</c>, however, we still have the original list of
+      five values only. This shows that the data frame and its component columns/vectors
+      is now a completely independent piece of data. We must be very careful, if we
+      established a data frame that we want to use for subsequent analysis, that we don't
+      make a mistake and keep using some of the original data from which we assembled the
+      data frame.
+    </p>
+
+    <p>
+      Here's a puzzle that follows on from this question. We have a nice data frame with
+      five observations and four variables. This is a rectangular shaped data set, as we
+      discussed at the beginning of the chapter. What if we tried to add on a new piece of
+      data on the end of one of the variables? In other words, what if we tried something
+      like this command:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-puzzle">
+      <code>
+myFamily$myFamilyAges &lt;- c(myFamily$myFamilyAges, 11)
+      </code>
+    </program>
+
+    <p>
+      If this worked, we would have a pretty weird situation: The variable in the data
+      frame that contained the family members' ages would all of a sudden have one more
+      observation than the other variables: no more perfect rectangle! Try it out and see
+      what happens. The result helps to illuminate how R approaches situations like this.
+    </p>
+
+  </section>
+
+  <section xml:id="sec-ch05-keypoints">
+    <title>Key Points from This Chapter</title>
+
+    <p>
+      So what new skills and knowledge do we have at this point? Here are a few of the
+      key points from this chapter:
+    </p>
+
+    <ul>
+      <li><p>In R, as in other programs, a vector is a list of elements/things that are
+        all of the same kind, or what R refers to as a mode. For example, a vector of
+        mode <q>numeric</q> would contain only numbers.</p></li>
+      <li><p>Statisticians, database experts and others like to work with rectangular
+        datasets where the rows are cases or instances and the columns are variables or
+        attributes.</p></li>
+      <li><p>In R, one of the typical ways of storing these rectangular structures is in
+        an object known as a data frame. Technically speaking a data frame is a list of
+        vectors where each vector has the exact same number of elements as the others
+        (making a nice rectangle).</p></li>
+      <li><p>In R, the <c>data.frame()</c> function organizes a set of vectors into a
+        data frame. Data are copied from the original source vectors into new storage
+        space. The variables/columns of the data frame can be accessed using <c>$</c> to
+        connect the name of the data frame to the name of the variable/column.</p></li>
+      <li><p>The <c>str()</c> and <c>summary()</c> functions can be used to reveal the
+        structure and contents of a data frame. The <c>str()</c> function shows the
+        structure of a data object, while <c>summary()</c> provides numerical summaries
+        of numeric variables and overviews of non-numeric variables.</p></li>
+      <li><p>A factor is a labeling system often used to organize groups of cases or
+        observations. Factors always have <q>levels,</q> and these are the different
+        groups that the factor signifies.</p></li>
+      <li><p>Quartiles are a division of a sorted vector into four evenly sized groups.
+        The middle dividing line that splits the vector exactly in half is the median.
+        Min and max are often used as abbreviations for minimum and maximum and are the
+        terms used for the highest and lowest values in a vector.</p></li>
+      <li><p>The mean is the same thing that most people think of as the average. The
+        mean and the median are both measures of what statisticians call
+        <q>central tendency.</q></p></li>
+    </ul>
 
   </section>
 
@@ -270,8 +536,20 @@ myFamily$myFamilyAges
         <li><p><url href="http://en.wikipedia.org/wiki/Central_tendency">Wikipedia: Central Tendency</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Median">Wikipedia: Median</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Relational_model">Wikipedia: Relational Model</url></p></li>
+        <li><p><url href="http://msenux.redwoods.edu/math/R/dataframe.php">R: Data Frames</url></p></li>
         <li><p><url href="http://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html">R Manual: data.frame</url></p></li>
+        <li><p><url href="http://www.burns-stat.com/pages/Tutor/hints_R_begin.html">Burns Statistics: Hints for the Beginner</url></p></li>
         <li><p><url href="http://www.khanacademy.org/math/statistics/v/mean-median-and-mode">Khan Academy: Mean, Median, and Mode</url></p></li>
+      </ul>
+    </p>
+    <p>
+      <term>R Functions Used in This Chapter</term>
+      <ul>
+        <li><p><c>c()</c> — Concatenates data elements together</p></li>
+        <li><p><c>&lt;-</c> — Assignment arrow</p></li>
+        <li><p><c>data.frame()</c> — Makes a data frame from separate vectors</p></li>
+        <li><p><c>str()</c> — Reports the structure of a data object</p></li>
+        <li><p><c>summary()</c> — Reports data modes/types and a data overview</p></li>
       </ul>
     </p>
   </conclusion>
