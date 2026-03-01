@@ -92,23 +92,21 @@ EnsurePackage("twitteR")
 
     <p>Later on we will do a better job a commenting, but this gives us the bare minimum we need to keep going with this project. Before we move on, you should run the PrepareTwitter() function on the console command line to actually load the packages we need:</p>
 
-    <p>&gt; PrepareTwitter()</p>
-
-    <p>Loading required package: bitops</p>
-
-    <p>Loading required package: RCurl</p>
-
-    <p>Loading required package: RJSONIO</p>
-
-    <p>Loading required package: twitteR</p>
-
-    <p>Loading required package: rjson</p>
-
-    <p>Attaching package: ‘rjson’</p>
-
-    <p>The following object(s) are masked from ‘package:RJSONIO’:</p>
-
-    <p>fromJSON, toJSON</p>
+    <program language="r">
+      <code>
+PrepareTwitter()
+      </code>
+    </program>
+    <pre>
+Loading required package: bitops
+Loading required package: RCurl
+Loading required package: RJSONIO
+Loading required package: twitteR
+Loading required package: rjson
+Attaching package: ‘rjson’
+The following object(s) are masked from ‘package:RJSONIO’:
+fromJSON, toJSON
+    </pre>
 
     <p>The command to run is shown in bold above. Note the parentheses after the function name, even though there is no argument to this function. What would happen if you left out the parentheses? Try it. You may get a lot more output than this, because your computer may need to download some or all of these packages. You may notice the warning message above, about objects being “masked.” Generally speaking, this message refers to a variable or function that has become invisible because another variable or function with the same name has been loaded. Usually this is fine: the newer thing works the same as the older thing with the same name.</p>
 
@@ -120,9 +118,14 @@ EnsurePackage("twitteR")
 
     <p>Depending upon the speed of your Internet connection and the amount of traffic on Twitter’s servers, this command may take a short while for R to process. Now we have a new data object, tweetList, that presumably contains the tweets we requested. But what is this data object? Let’s use our R diagnostics to explore what we have gotten:</p>
 
-    <p>&gt; mode(tweetList)</p>
-
-    <p>[1] "list"</p>
+    <program language="r">
+      <code>
+mode(tweetList)
+      </code>
+    </program>
+    <pre>
+[1] "list"
+    </pre>
 
     <p>Hmm, this is a type of object that we have not encountered before. In R, a list is an object that contains other data objects, and those objects may be a variety of different modes/types. Contrast this definition with a vector: A vector is also a kind of list, but with the requirement that all of the elements in the vector must be in the same mode/type. Actually, if you dig deeply into the definitions of R data objects, you may realize that we have already encountered one type of list: the dataframe. Remember that the dataframe is a list of vectors, where each vector is exactly the same length. So a dataframe is a particular kind of list, but in general lists do not have those two restrictions that dataframes have (i.e., that each element is a vector and that each vector is the same length).</p>
 
@@ -187,13 +190,16 @@ return(do.call("rbind",+                 lapply(twtList,as.data.frame)))
 
     <p>But if we run attach(tweetDF) first, we can then refer to created directly, without having to type the tweetDF$ before it:</p>
 
-    <p>&gt; attach(tweetDF)</p>
-
-    <p>&gt; head(created,4)</p>
-
-    <p>[1] "2012-04-05 14:10:01 UTC" "2012-04-05 14:09:21 UTC"</p>
-
-    <p>[3] "2012-04-05 14:08:15 UTC" "2012-04-05 14:07:12 UTC"</p>
+    <program language="r">
+      <code>
+attach(tweetDF)
+head(created,4)
+      </code>
+    </program>
+    <pre>
+[1] "2012-04-05 14:10:01 UTC" "2012-04-05 14:09:21 UTC"
+[3] "2012-04-05 14:08:15 UTC" "2012-04-05 14:07:12 UTC"
+    </pre>
 
     <p>Let’s visualize the creation time of the 500 tweets in our dataset. Wen working with time codes, the hist() function requires us to specify the approximate number of categories we want to see in the histogram:</p>
 
@@ -219,10 +225,12 @@ return(do.call("rbind",+                 lapply(twtList,as.data.frame)))
 
     <p>If you choose this method, make sure to detach() tweetDF and attach() sortweetDF so that later commands will work smoothly with the sorted dataframe:</p>
 
-    <p>&gt; detach(tweetDF)</p>
-
-    <p>&gt; attach(sortweetDF)</p>
-
+    <program language="r">
+      <code>
+detach(tweetDF)
+attach(sortweetDF)
+      </code>
+    </program>
     <p>Another option, which seems better than creating a new dataframe, would be to build the sorting into the TweetFrame() function that we developed at the beginning of the chapter. Let’s leave that to the chapter challenge. For now, we can keep working with sortweetDF.</p>
 
     <p>Technically, what we have with our created variable now is a time series, and because statisticians like to have convenient methods for dealing with time series, R has a built-in function, called diff(), that allows us to easily calculate the difference in seconds between each pair of neighboring values. Try it:</p>
@@ -235,41 +243,70 @@ return(do.call("rbind",+                 lapply(twtList,as.data.frame)))
 
     <p>As with earlier commands, we use as.integer() to coerce the time differences into plain numbers, otherwise hist() does not know how to handle the time differences. This histogram shows that the majority of tweets in this group come within 50 seconds or less of the previous tweets. A much smaller number of tweets arrive within somewhere between 50 and 100 seconds, and so on down the line. This is typical of a Poisson arrival time distribution. Unlike the raw arrival time data, we could calculate a mean on the time differences:</p>
 
-    <p>&gt; mean(as.integer(diff(created)))</p>
-
-    <p>[1] 41.12826</p>
+    <program language="r">
+      <code>
+mean(as.integer(diff(created)))
+      </code>
+    </program>
+    <pre>
+[1] 41.12826
+    </pre>
 
     <p>We have to be careful though, in using measures of central tendency on this positively skewed distribution, that the value we get from the mean() is a sensible representation of central tendency. Remembering back to the previous chapter, and our discussion of the statistical mode (the most frequently occurring value), we learn that the mean and the mode are very different:</p>
 
-    <p>&gt; library("modeest")</p>
-
-    <p>&gt; mfv(as.integer(diff(created)))</p>
-
-    <p>[1] 0</p>
+    <program language="r">
+      <code>
+library("modeest")
+mfv(as.integer(diff(created)))
+      </code>
+    </program>
+    <pre>
+[1] 0
+    </pre>
 
     <p>We use the library() function to make sure that the add on package with the mfv() function is ready to use. The results of the mfv() function show that the most commonly occurring time interval between neighboring tweets is zero!</p>
 
     <p>Likewise the median shows that half of the tweets have arrival times of under half a minute:</p>
 
-    <p>&gt; median(as.integer(diff(created)))</p>
-
-    <p>[1] 28</p>
+    <program language="r">
+      <code>
+median(as.integer(diff(created)))
+      </code>
+    </program>
+    <pre>
+[1] 28
+    </pre>
 
     <p>In the next chapter we will delve more deeply into what it means when a set of data are shaped like a Poisson distribution and what that implies about making use of the mean.</p>
 
     <p>One last way of looking at these data before we close this chapter. If we choose a time interval, such as 10 seconds, or 30 seconds, or 60 seconds, we can ask the question of how many of our tweet arrivals occurred within that time interval. Here’s code that counts the number of arrivals that occur within certain time intervals:</p>
 
-    <p>&gt; sum((as.integer(diff(created)))&lt;60)</p>
+    <program language="r">
+      <code>
+sum((as.integer(diff(created)))&lt;60)
+      </code>
+    </program>
+    <pre>
+[1] 375
+    </pre>
 
-    <p>[1] 375</p>
+    <program language="r">
+      <code>
+sum((as.integer(diff(created)))&lt;30)
+      </code>
+    </program>
+    <pre>
+[1] 257
+    </pre>
 
-    <p>&gt; sum((as.integer(diff(created)))&lt;30)</p>
-
-    <p>[1] 257</p>
-
-    <p>&gt; sum((as.integer(diff(created)))&lt;10)</p>
-
-    <p>[1] 145</p>
+    <program language="r">
+      <code>
+sum((as.integer(diff(created)))&lt;10)
+      </code>
+    </program>
+    <pre>
+[1] 145
+    </pre>
 
     <p>You could also think of these as ratios, for example 145/500 = 0.29. And where we have a ratio, we often can think about it as a probability: There is a 29% probability that the next tweet will arrive in 10 seconds or less. You could make a function to create a whole list of these probabilities. Some sample code for such a function appears at the end of the chapter. Some new scripting skills that we have not yet covered (for example, the “for loop”) appear in this function, but try making sense out of it to stretch your brain. Output from this function created the plot that appears below.</p>
 
@@ -295,21 +332,21 @@ return(do.call("rbind",+                 lapply(twtList,as.data.frame)))
   <conclusion xml:id="conclusion-ch10">
     <title>Sources</title>
 
-    <p>http://cran.r-project.org/web/packages/twitteR/twitteR.pdf</p>
+    <p><url href="http://cran.r-project.org/web/packages/twitteR/twitteR.pdf">http://cran.r-project.org/web/packages/twitteR/twitteR.pdf</url></p>
 
-    <p>http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz</p>
+    <p><url href="http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz">http://en.wikipedia.org/wiki/Ladislaus_Bortkiewicz</url></p>
 
-    <p>http://en.wikipedia.org/wiki/Poisson_distribution</p>
+    <p><url href="http://en.wikipedia.org/wiki/Poisson_distribution">http://en.wikipedia.org/wiki/Poisson_distribution</url></p>
 
-    <p>http://hashtags.org/</p>
+    <p><url href="http://hashtags.org/">http://hashtags.org/</url></p>
 
-    <p>http://www.khanacademy.org/math/probability/v/poisson-process-1</p>
+    <p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-1">http://www.khanacademy.org/math/probability/v/poisson-process-1</url></p>
 
-    <p>http://www.khanacademy.org/math/probability/v/poisson-process-2</p>
+    <p><url href="http://www.khanacademy.org/math/probability/v/poisson-process-2">http://www.khanacademy.org/math/probability/v/poisson-process-2</url></p>
 
-    <p>https://support.twitter.com/articles/49309 (hashtags explained)</p>
+    <p><url href="https://support.twitter.com/articles/49309">https://support.twitter.com/articles/49309</url> (hashtags explained)</p>
 
-    <p>http://www.rdatamining.com/examples/text-mining</p>
+    <p><url href="http://www.rdatamining.com/examples/text-mining">http://www.rdatamining.com/examples/text-mining</url></p>
 
     <p>R Script - Create Vector of Probabilities From Arrival Times</p>
 

@@ -85,7 +85,9 @@ tinyData &lt;- c(1,2,1,2,3,3,3,4,5,4,5)
 tinyData
       </code>
     </program>
-    <p>[1] 1 2 1 2 3 3 3 4 5 4 5</p>
+    <pre>
+[1] 1 2 1 2 3 3 3 4 5 4 5
+    </pre>
 
     <p>
       Then we can try out our new <c>MyMode()</c> function:
@@ -96,7 +98,9 @@ tinyData
 MyMode(tinyData)
       </code>
     </program>
-    <pre>Error: could not find function "MyMode"</pre>
+    <pre>
+Error: could not find function &quot;MyMode&quot;
+    </pre>
 
     <p>
       Oops! R doesn’t know about our new function yet. We typed our <c>MyMode()</c> function into the code window, but we didn’t tell R about it. If you look in the upper left pane, you will see the code for <c>MyMode()</c> and just above that a few small buttons on a tool bar. One of the buttons looks like a little right pointing arrow with the word “Run” next to it. First, use your mouse to select all of the code for <c>MyMode()</c>, from the first M all the way to the last curly brace. Then click the Run button. You will immediately see the same code appear in the R console window just below. If you have typed everything correctly, there should be no errors or warnings. Now R knows about our <c>MyMode()</c> function and is ready to use it. Now we can type:
@@ -107,7 +111,9 @@ MyMode(tinyData)
 MyMode(tinyData)
       </code>
     </program>
-    <p>[1] 1 2 1 2 3 3 3 4 5 4 5</p>
+    <pre>
+[1] 1 2 1 2 3 3 3 4 5 4 5
+    </pre>
 
     <p>
       This did exactly what we expected: it just echoed back the contents of <c>tinyData</c>. You can see from this example how parameters work, too. In the command just above, we passed in tinyData as the input to the function. While the function was working, it took what was in <c>tinyData</c> and copied it into <c>myVector</c> for use inside the function. Now we are ready to add the next command to our function:
@@ -127,12 +133,14 @@ return(uniqueValues)
       Because we made a few changes, the whole function appears again above. Later, when the code gets a little more complicated, we will just provide one or two lines to add. Let’s see what this code does. First, don’t forget to select the code and click on the Run button. Then, in the R console, try the <c>MyMode()</c> command again:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v2-test">
+    <program language="r">
       <code>
 MyMode(tinyData)
       </code>
     </program>
-    <p>[1] 1 2 3 4 5</p>
+    <pre>
+[1] 1 2 3 4 5
+    </pre>
 
     <p>
       Pretty easy to see what the new code does, right? We called the <c>unique()</c> function, and that returned a list of unique values that appeared in <c>tinyData</c>. Basically, <c>unique()</c> took out all of the redundancies in the vector that we passed to it. Now let’s build a little more:
@@ -153,12 +161,14 @@ return(uniqueCounts)
       Don’t forget to select all of this code and Run it before testing it out. This time when we pass tinyData to our function we get back another list of five elements, but this time it is the count of how many times each value occurred:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v3-test">
+    <program language="r">
       <code>
 MyMode(tinyData)
       </code>
     </program>
-    <p>[1] 2 2 3 2 2</p>
+    <pre>
+[1] 2 2 3 2 2
+    </pre>
 
     <p>
       Now we’re basically ready to finish our <c>MyMode()</c> function, but let’s make sure we understand the two pieces of data we have in <c>uniqueValues</c> and <c>uniqueCounts</c>:
@@ -223,41 +233,65 @@ return(uniqueValues[which.max(uniqueCounts)])
       We’re now ready to test out our function. Don’t forget to select the whole thing and run it! Otherwise R will still be remembering our old one. Let’s ask R what <c>tinyData</c> contains, just to remind ourselves, and then we will send <c>tinyData</c> to our <c>MyMode()</c> function:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v4-test1">
+    <program language="r">
       <code>
 tinyData
+      </code>
+    </program>
+    <pre>
+[1] 1 2 1 2 3 3 3 4 5 4 5
+    </pre>
+    <program language="r">
+      <code>
 MyMode(tinyData)
       </code>
     </program>
-    <pre>[1] 1 2 1 2 3 3 3 4 5 4 5
-[1] 3</pre>
+    <pre>
+[1] 3
+    </pre>
 
     <p>
       Hooray! It works. Three is the most frequently occurring value in <c>tinyData</c>. Let’s keep testing and see what happens:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v4-test2">
+    <program language="r">
       <code>
 tinyData&lt;-c(tinyData,5,5,5)
 tinyData
+      </code>
+    </program>
+    <pre>
+[1] 1 2 1 2 3 3 3 4 5 4 5 5 5 5
+    </pre>
+    <program language="r">
+      <code>
 MyMode(tinyData)
       </code>
     </program>
-    <pre>[1] 1 2 1 2 3 3 3 4 5 4 5 5 5 5
-[1] 5</pre>
+    <pre>
+[1] 5
+    </pre>
 
     <p>
       It still works! We added three more fives to the end of the <c>tinyData</c> vector. Now <c>tinyData</c> contains five fives. <c>MyMode()</c> properly reports the mode as five. Hmm, now let’s try to break it:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v4-test3">
+    <program language="r">
       <code>
 tinyData
+      </code>
+    </program>
+    <pre>
+[1] 1 2 1 2 3 3 3 4 5 4 5 5 5 5 1 1 1
+    </pre>
+    <program language="r">
+      <code>
 MyMode(tinyData)
       </code>
     </program>
-    <pre>[1] 1 2 1 2 3 3 3 4 5 4 5 5 5 5 1 1 1
-[1] 1</pre>
+    <pre>
+[1] 1
+    </pre>
 
     <p>
       This is interesting: Now <c>tinyData</c> contains five ones and five fives. <c>MyMode()</c> now reports the mode as one. This turns out to be no surprise. In the documentation for <c>which.max()</c> it says that this function will return the first maximum it finds. So this behavior is to be expected. Actually, this is always a problem with the statistical mode: there can be more than one mode in a data set. Our <c>MyMode()</c> function is not smart enough to realize this, nor does it give us any kind of warning that there are multiple modes in our data. It just reports the first mode that it finds.
@@ -267,26 +301,36 @@ MyMode(tinyData)
       Here’s another problem:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v4-test4">
+    <program language="r">
       <code>
 tinyData&lt;-c(tinyData,9,9,9,9,9,9,9)
 MyMode(tinyData)
+      </code>
+    </program>
+    <pre>
+[1] NA
+    </pre>
+    <program language="r">
+      <code>
 tabulate(tinyData)
       </code>
     </program>
-    <pre>[1] NA
-[1] 5 2 3 2 5 0 0 0 7</pre>
+    <pre>
+[1] 5 2 3 2 5 0 0 0 7
+    </pre>
 
     <p>
       In the first line, we stuck a bunch of nines on the end of tinyData. Remember that we had no sixes, sevens, or eights. Now when we run <c>MyMode()</c> it says “NA,” which is R’s way of saying that something went wrong and you are getting back an empty value. It is probably not obvious why things went whacky until we look at the last command above, <c>tabulate(tinyData)</c>. Here we can see what happened: when it was run inside of the <c>MyMode()</c> function, <c>tabulate()</c> generated a longer list than we were expecting, because it added zeroes to cover the sixes, sevens, and eights that were not there. The maximum value, out at the end is 7, and this refers to the number of nines in <c>tinyData</c>. But look at what the <c>unique()</c> function produces:
     </p>
 
-    <program language="r" xml:id="prog-ch9-unique-test">
+    <program language="r">
       <code>
 unique(tinyData)
       </code>
     </program>
-    <p>[1]  1  2  3  4  5  9</p>
+    <pre>
+[1]  1  2  3  4  5  9
+    </pre>
 
     <p>
       There are only six elements in this list, so it doesn’t match up as it should (take another look at the table on the previous page and imagine if the bottom row stuck out further than the row just above it). We can fix this with the addition of the <c>match()</c> function to our code:
@@ -308,12 +352,14 @@ return(uniqueValues[which.max(uniqueCounts)])
       The new part of the code is in bold. Now instead of tabulating every possible value, including the ones for which we have no data, we only tabulate those items where there is a “match” between the list of unique values and what is in myVector. Now when we ask MyMode() for the mode of tinyData we get the correct result:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mymode-v5-test">
+    <program language="r">
       <code>
 MyMode(tinyData)
       </code>
     </program>
-    <p>[1] 9</p>
+    <pre>
+[1] 9
+    </pre>
 
     <p>
       Aha, now it works the way it should. After our last addition of seven nines to the data set, the mode of this vector is correctly reported as nine.
@@ -347,12 +393,14 @@ MyMode(tinyData)
       Let’s try out the <c>mfv()</c> function. This function returns the “most frequent value” in a vector, which is generally what we want in a mode function:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mfv-test">
+    <program language="r">
       <code>
 mfv(tinyData)
       </code>
     </program>
-    <p>[1] 9</p>
+    <pre>
+[1] 9
+    </pre>
 
     <p>
       So far so good! This seems to do exactly what our <c>MyMode()</c> function did, though it probably uses a different method. In fact, it is easy to see what strategy the authors of this package used just by typing the name of the function at the R command line:
@@ -375,15 +423,23 @@ return(as.numeric(levels(f)[tf == max(tf)]))
       This is one of the great things about an open source program: you can easily look under the hood to see how things work. Notice that this is quite different from how we built <c>MyMode()</c>, although it too uses the <c>tabulate()</c> function. The final line, that begins with the word “environment” has importance for more complex feats of programming, as it indicates which variable names <c>mfv()</c> can refer to when it is working. The other aspect of this function which is probably not so obvious is that it will correctly return a list of multiple modes when one exists in the data you send to it:
     </p>
 
-    <program language="r" xml:id="prog-ch9-mfv-multimode">
+    <program language="r">
       <code>
 multiData &lt;- c(1,5,7,7,9,9,10)
 mfv(multiData)
+      </code>
+    </program>
+    <pre>
+[1] 7 9
+    </pre>
+    <program language="r">
+      <code>
 MyMode(multiData)
       </code>
     </program>
-    <pre>[1] 7 9
-[1] 7</pre>
+    <pre>
+[1] 7
+    </pre>
 
     <p>
       In the first command line above, we made a small new vector that contains two modes, 7 and 9.  Each of these numbers occurs twice, while the other numbers occur only once. When we run <c>mfv()</c> on this vector it correctly reports both 7 and 9 as modes. When we use our function, <c>MyMode()</c>, it only reports the first of the two modes.

@@ -102,29 +102,26 @@ head(tweetDF$text,2)
       This screen shot confirms what we observed in the command line output, but gives us a much more appealing and convenient way of looking through our data. Before we start to manipulate our strings, let’s attach() tweetDF so that we don’t have to keep using the $ notation to access the text field. And before that, let’s check what is already attached with the search() function:
     </p>
 
-    <p>
-      &gt; search()
-    </p>
-
-    <p>
-      [1] ".GlobalEnv"         "sortweetDF"         "package:gplots"
-    </p>
-
-    <p>
-      [4] "package:KernSmooth" "package:grid"       "package:caTools"
-    </p>
+    <program language="r">
+      <code>
+search()
+      </code>
+    </program>
+    <pre>
+[1] ".GlobalEnv"         "sortweetDF"         "package:gplots"
+[4] "package:KernSmooth" "package:grid"       "package:caTools"
+    </pre>
 
     <p>
       We’ve truncated this list to save space, but you can see on the first line “sortweetDF” left over from our work in a previous chapter. The other entries are all function packages that we want to keep active. So let’s detach() sortweetDF and attach tweetDF:
     </p>
 
-    <p>
-      &gt; detach(sortweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
+    <program language="r">
+      <code>
+detach(sortweetDF)
+attach(tweetDF)
+      </code>
+    </program>
 
     <p>
       These commands should yield no additional output. If you get any messages about “The following object(s) are masked from...” you should run search() again and look for other dataframes that should be detached before proceeding. Once you can run attach(“tweetDF”) without any warnings, you can be sure that the fields in this dataframe are ready to use without interference.
@@ -139,49 +136,33 @@ head(tweetDF$text,2)
       The first and most basic thing to do with strings is to see how long they are. The stringr package gives us the str_length() function to accomplish this task:
     </p>
 
-    <p>
-      &gt; str_length(text)
-    </p>
-
-    <p>
-      [1] 130 136 136 128  98  75 131 139  85 157 107  49  75 139 136 136
-    </p>
-
-    <p>
-      [17] 136  72  73 136 157 123 160 142 142 122 122 122 122 134  82  87
-    </p>
-
-    <p>
-      [33]  89 118  94  74 103  91 136 136 151 136 139 135  70 122 122 136
-    </p>
-
-    <p>
-      [49] 123 111  83 136 137  85 154 114 117  98 125 138 107  92 140 119
-    </p>
-
-    <p>
-      [65]  92 125  84  81 107 107  73  73 138  63 137 139 131 136 120 124
-    </p>
-
-    <p>
-      [81] 124 114  78 118 138 138 116 112 101  94 153  79  79 125 125 102
-    </p>
-
-    <p>
-      [97] 102 139 138 153
-    </p>
+    <program language="r">
+      <code>
+str_length(text)
+      </code>
+    </program>
+    <pre>
+[1] 130 136 136 128  98  75 131 139  85 157 107  49  75 139 136 136
+[17] 136  72  73 136 157 123 160 142 142 122 122 122 122 134  82  87
+[33]  89 118  94  74 103  91 136 136 151 136 139 135  70 122 122 136
+[49] 123 111  83 136 137  85 154 114 117  98 125 138 107  92 140 119
+[65]  92 125  84  81 107 107  73  73 138  63 137 139 131 136 120 124
+[81] 124 114  78 118 138 138 116 112 101  94 153  79  79 125 125 102
+[97] 102 139 138 153
+    </pre>
 
     <p>
       There are all of the string lengths of the texts, reported to the command line. It is interesting to find that there are a few of them (like the very last one) that are longer than 140 characters:
     </p>
 
-    <p>
-      &gt; tail(text,1)
-    </p>
-
-    <p>
-      [1] "RT @SolarFred: Hey, #solar &amp; wind people. Tell @SpeakerBoehner and @Reuters that YOU have a green job and proud to be providing energy Independence to US"
-    </p>
+    <program language="r">
+      <code>
+tail(text,1)
+      </code>
+    </program>
+    <pre>
+[1] "RT @SolarFred: Hey, #solar &amp; wind people. Tell @SpeakerBoehner and @Reuters that YOU have a green job and proud to be providing energy Independence to US"
+    </pre>
 
     <p>
       As you can see, the tail() command works like the head() command except from the bottom up rather than the top down. So we have learned that under certain circumstances Twitter apparently does allow tweets longer than 140 characters. Perhaps the initial phrase “RT @SolarFred” does not count against the total. By the way “RT” stands for “retweet” and it indicates when the receiver of a tweet has passed along the same message to his or her followers.
@@ -201,21 +182,16 @@ tweetDF$textlen &lt;- str_length(text)
       After running this line of text, you should use the data browser in R-studio to confirm that the tweetDF now has a new column of data labeled “textlen”. You will find the new column all the way on the rightmost side of the dataframe structure. One peculiarity of the way R treats attached data is that you will not be able to access the new field without the $ notation unless you detach() and then again attach() the data frame. One advantage of grafting this new field onto our existing dataframe is that we can use it to probe the dataframe structure:
     </p>
 
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
-
-    <p>
-      &gt; tweetDF[textlen&gt;140, "text"]
-    </p>
-
-    <p>
-      [1] "RT @andyschonberger: Exciting (and tempting) to see #EVs all over the #GLS12 show. Combine EVs w #solar generation and we have a winner! http://t.co/NVsfq4G3"
-    </p>
+    <program language="r">
+      <code>
+detach(tweetDF)
+attach(tweetDF)
+tweetDF[textlen&gt;140, "text"]
+      </code>
+    </program>
+    <pre>
+[1] "RT @andyschonberger: Exciting (and tempting) to see #EVs all over the #GLS12 show. Combine EVs w #solar generation and we have a winner! http://t.co/NVsfq4G3"
+    </pre>
 
     <p>
       We’ve truncated the output to save space, but in the data we are using here, there were nine tweets with lengths greater than 140. Not all of them had “RT” in them, though, so the mystery remains. An important word about the final command line above, though: We’re using the square brackets notation to access the elements of tweetDF. In the first entry, “textlen&gt;140”, we’re using a conditional expression to control which rows are reported. Only those rows where our new field “textlen” contains a quantity larger than 140 will be reported to the output. In the second entry within square brackets, “text” controls which columns are reported onto the output. The square bracket notation is extremely powerful and sometimes a little unpredictable and confusing, so it is worth experimenting with. For example, how would you change that last command above to report all of the columns/fields for the matching rows? Or how would you request the “screenName” column instead of the “text” column? What would happen if you substituted the number 1 in place of “text” on that command?
@@ -225,25 +201,15 @@ tweetDF$textlen &lt;- str_length(text)
       The next common task in working with strings is to count the number of words as well as the number of other interesting elements within the text. Counting the words can be accomplished in several ways. One of the simplest ways is to count the separators between the words - these are generally spaces. We need to be careful not to over count, if someone has mistakenly typed two spaces between a word, so let’s make sure to take out doubles. The str_replace_all() function from stringr can be used to accomplish this:
     </p>
 
-    <p>
-      &gt; tweetDF$modtext &lt;- str_replace_all(text,"  "," ")
-    </p>
-
-    <p>
-      &gt; tweetDF$textlen2 &lt;- str_length(tweetDF$modtext)
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
-
-    <p>
-      &gt; tweetDF[textlen != textlen2,]
-    </p>
+    <program language="r">
+      <code>
+tweetDF$modtext &lt;- str_replace_all(text,"  "," ")
+tweetDF$textlen2 &lt;- str_length(tweetDF$modtext)
+detach(tweetDF)
+attach(tweetDF)
+tweetDF[textlen != textlen2,]
+      </code>
+    </program>
 
     <p>
       The first line above uses the str_replace_all() function to substitute the one string in place of another as many times as the matching string appears in the input. Three arguments appear on the function above: the first is the input string, and that is tweetDF$text (although we’ve referred to it just as “text because the dataframe is attached). The second argument is the string to look for and the third argument is the string to substitute in place of the first. Note that here we are asking to substitute one space any time that two in a row are found. Almost all computer languages have a function similar to this, although many of them only supply a function that replaces the first instance of the matching string.
@@ -257,25 +223,17 @@ tweetDF$textlen &lt;- str_length(text)
       Now we are ready to count the number of words in each tweet using the str_count() function. If you give it some thought, it should be clear that generally there is one more word than there are spaces. For instance, in the sentence, “Go for it,” there are two spaces but three words. So if we want to have an accurate count, we should add one to the total that we obtain from the str_count() function:
     </p>
 
-    <p>
-      &gt; tweetDF$wordCount&lt;-(str_count(modtext," ") + 1)
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
-
-    <p>
-      &gt; mean(wordCount)
-    </p>
-
-    <p>
-      [1] 14.24
-    </p>
+    <program language="r">
+      <code>
+tweetDF$wordCount&lt;-(str_count(modtext," ") + 1)
+detach(tweetDF)
+attach(tweetDF)
+mean(wordCount)
+      </code>
+    </program>
+    <pre>
+[1] 14.24
+    </pre>
 
     <p>
       In this last command, we’ve asked R to report the mean value of the vector of word counts, and we learn that on average a tweet in our dataset has about 14 words in it.
@@ -299,25 +257,23 @@ str_match(modtext,"RT @[a-z,A-Z]*: ")
       Once you are satisfied that this expression matches the retweet phrases properly, you can commit the results to a new column/field/variable in the dataframe:
     </p>
 
-    <p>
-      &gt; tweetDF$rt &lt;- str_match(modtext,"RT @[a-z,A-Z]*: ")
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
+    <program language="r">
+      <code>
+tweetDF$rt &lt;- str_match(modtext,"RT @[a-z,A-Z]*: ")
+detach(tweetDF)
+attach(tweetDF)
+      </code>
+    </program>
 
     <p>
       Now you can review what you found by echoing the new variable “rt” to the command line or by examining it in R-studio’s data browser:
     </p>
 
-    <p>
-      &gt; head(rt, 10)
-    </p>
+    <program language="r">
+      <code>
+head(rt, 10)
+      </code>
+    </program>
 
     <p>
       [,1]
@@ -400,9 +356,11 @@ tweetDF$rt&lt;-str_replace(rt,": ","")
       </code>
     </program>
 
-    <p>
-      &gt; tail(rt, 1)
-    </p>
+    <program language="r">
+      <code>
+tail(rt, 1)
+      </code>
+    </program>
 
     <p>
       [,1]
@@ -480,25 +438,23 @@ str(as.factor(rt))
       Remember earlier in the chapter we noticed some tweets had texts that were longer than 140 characters. We can make a new variable, we’ll call it longtext, that will be TRUE if the original tweet was longer than 140 characters and FALSE if it was not:
     </p>
 
-    <p>
-      &gt; tweetDF$longtext &lt;- (textlen&gt;140)
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
+    <program language="r">
+      <code>
+tweetDF$longtext &lt;- (textlen&gt;140)
+detach(tweetDF)
+attach(tweetDF)
+      </code>
+    </program>
 
     <p>
       The first command above has an inequality expression on the right hand side. This is tested for each row and the result, either TRUE or FALSE, is assigned to the new variable longtext. Computer scientists sometimes call this a “flag” variable because it flags whether or not a certain attribute is present in the data. Now we can run the table() function on the two factors:
     </p>
 
-    <p>
-      &gt; table(as.factor(rt),as.factor(longtext))
-    </p>
+    <program language="r">
+      <code>
+table(as.factor(rt),as.factor(longtext))
+      </code>
+    </program>
 
     <p>
       FALSE TRUE
@@ -568,29 +524,24 @@ str(as.factor(rt))
       For a two-way contingency table, the first argument you supply to table() is used to build up the rows and the second argument is used to create the columns. The command and output above give us a nice compact display of which retweets are longer than 140 characters (the TRUE column) and which are not (the FALSE column). It is easy to see at a glance that there are many in each category. So, while doing a retweet may contribute to having an extra long tweet, there are also many retweets that are 140 characters or less. It seems a little cumbersome to look at the long list of retweet screennames, so we will create another flag variable that indicates whether a tweet text contains a retweet. This will just provide a more compact way of reviewing which tweets have retweets and which do not:
     </p>
 
-    <p>
-      &gt; tweetDF$hasrt &lt;- !(is.na(rt))
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
-
-    <p>
-      &gt; View(tweetDF)
-    </p>
+    <program language="r">
+      <code>
+tweetDF$hasrt &lt;- !(is.na(rt))
+detach(tweetDF)
+attach(tweetDF)
+View(tweetDF)
+      </code>
+    </program>
 
     <p>
       The first command above uses a function we have not encountered bevfore: is.na(). A whole family of functions that start with “is” exists in R (as well as in other programming languages) and these functions provide a convenient way of testing the status or contents of a data object or of a particular element of a data object. The is.na() function tests whether an element of the input variable has the value NA, which we know from earlier in the chapter is R’s way of showing a missing value (when a particular data element is empty). So the expression, is.na(rt) will return TRUE if a particular cell of tweetDF$rt contains the empty value NA, and false if it contains some real data. If you look at the name of our new variable, however, which we have called “hasrt” you may see that we want to reverse the sense of the TRUE and FALSE that is.na() returns. To do that job we use the “!” character, which computers scientists may either call “bang” or more accurately, “not.” Using “not” is more accurate because the “!” character provides the Boolean NOT function, which changes a TRUE to a FALSE and vice versa. One last little thing is that the View() command causes R-Studio to freshen the display of the dataframe in its upper left hand pane. Let’s look again at retweets and long tweet texts:
     </p>
 
-    <p>
-      &gt; table(hasrt,longtext)
-    </p>
+    <program language="r">
+      <code>
+table(hasrt,longtext)
+      </code>
+    </program>
 
     <p>
       longtext
@@ -694,21 +645,14 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       Let’s go ahead and store the output from str_match_all() into a new vector on tweetDF and then see what we can do to tally up the URLs we have found:
     </p>
 
-    <p>
-      &gt; tweetDF$urlist&lt;-str_match_all(text,+                  "http://t.co/[a-z,A-Z,0-9]{8}")
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
-
-    <p>
-      &gt; head(tweetDF$urlist,2)
-    </p>
+    <program language="r">
+      <code>
+tweetDF$urlist&lt;-str_match_all(text,+                  "http://t.co/[a-z,A-Z,0-9]{8}")
+detach(tweetDF)
+attach(tweetDF)
+head(tweetDF$urlist,2)
+      </code>
+    </program>
 
     <p>
       [[1]]
@@ -738,29 +682,32 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       Now we are ready to wrestle with the problem of how to tally up the results of our URL parsing. Unlike the situation with retweets, where there either was or was not a single retweet indication in the text, we have the possibility of zero, one or more URLs within the text of each tweet. Our new object “urlist” is a multi-dimensional object that contains a single null character, one row/column of character data, or one column with more than one row of character data. The key to summarizing this is the length() function, which will happily count up the number of elements in an object that you supply to it:
     </p>
 
-    <p>
-      &gt; length(urlist[[1]])
-    </p>
+    <program language="r">
+      <code>
+length(urlist[[1]])
+      </code>
+    </program>
+    <pre>
+[1] 1
+    </pre>
 
-    <p>
-      [1] 1
-    </p>
+    <program language="r">
+      <code>
+length(urlist[[5]])
+      </code>
+    </program>
+    <pre>
+[1] 0
+    </pre>
 
-    <p>
-      &gt; length(urlist[[5]])
-    </p>
-
-    <p>
-      [1] 0
-    </p>
-
-    <p>
-      &gt; length(urlist[[7]])
-    </p>
-
-    <p>
-      [1] 2
-    </p>
+    <program language="r">
+      <code>
+length(urlist[[7]])
+      </code>
+    </program>
+    <pre>
+[1] 2
+    </pre>
 
     <p>
       Here you see that double bracket notation again, used as an index into each “chunk” of data, where the chunk itself may have some internal complexity. In the case of element [[1]] above, there is one row, and therefore one URL. For element [[5]] above, we see a zero, which means that length() is telling us that this element has no rows in it at all. Finally, for element [[7]] we see 2, meaning that this element contains two rows, and therefore two URLs.
@@ -770,9 +717,11 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       In previous work with R, we’ve gotten used to leaving the inside of the square brackets empty when we want to work with a whole list of items, but that won’t work with the double brackets:
     </p>
 
-    <p>
-      &gt; length(urlist[[]])
-    </p>
+    <program language="r">
+      <code>
+length(urlist[[]])
+      </code>
+    </program>
 
     <p>
       Error in urlist[[]] : invalid subscript type 'symbol'
@@ -782,33 +731,27 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       The double brackets notation is designed to reference just a single element or component in a list, so empty double brackets does not work as a shorthand for every element in a list. So what we must do if we want to apply the length() function to each element in urlist is to loop. We could accomplish this with a for loop, as we did in the last chapter, using an index quantity such as “i” and substituting i into each expression like this: urlist[[i]]. But let’s take this opportunity to learn a new function in R, one that is generally more efficient for looping. The rapply() function is part of the “apply” family of functions,  and it stands for “recursive apply.” Recursive in this case means that the function will dive down into the complex, nested structure of urlist and repetitively run a function for us, in this case the length() function:
     </p>
 
-    <p>
-      &gt; tweetDF$numurls&lt;-rapply(urlist,length)
-    </p>
-
-    <p>
-      &gt; detach(tweetDF)
-    </p>
-
-    <p>
-      &gt; attach(tweetDF)
-    </p>
-
-    <p>
-      &gt; head(numurls,10)
-    </p>
-
-    <p>
-      [1] 1 1 1 1 0 1 2 1 1 1
-    </p>
+    <program language="r">
+      <code>
+tweetDF$numurls&lt;-rapply(urlist,length)
+detach(tweetDF)
+attach(tweetDF)
+head(numurls,10)
+      </code>
+    </program>
+    <pre>
+[1] 1 1 1 1 0 1 2 1 1 1
+    </pre>
 
     <p>
       Excellent! We now have a new field on tweetDF that counts up the number of URLs. As a last step in examining our tweet data, let’s look at a contingency table that looks at the number of URLs together with the flag indicating an extra long tweet. Earlier in the chapter, we mentioned that the table() function takes factors as its input. In the command below we have supplied the numurls field to the table() function without coercing it to a factor. Fortunately, the table() function has some built in intelligence that will coerce a numeric variable into a factor. In this case because numurls only takes on the values of 0, 1, or 2, it makes good sense to allow table() to perform this coercion:
     </p>
 
-    <p>
-      &gt; table(numurls,longtext)
-    </p>
+    <program language="r">
+      <code>
+table(numurls,longtext)
+      </code>
+    </program>
 
     <p>
       longtext
@@ -834,9 +777,11 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       This table might be even more informative if we looked at it as proportions, so here is a trick to view proportions instead of counts:
     </p>
 
-    <p>
-      &gt; prop.table(table(numurls,longtext))
-    </p>
+    <program language="r">
+      <code>
+prop.table(table(numurls,longtext))
+      </code>
+    </program>
 
     <p>
       longtext
@@ -866,9 +811,11 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       So, before we close out this chapter, let’s look at a three way contingency table by putting together our two flag variables and the number of URLs:
     </p>
 
-    <p>
-      &gt; table(numurls,hasrt,longtext)
-    </p>
+    <program language="r">
+      <code>
+table(numurls,hasrt,longtext)
+      </code>
+    </program>
 
     <p>
       , , longtext = FALSE
@@ -926,21 +873,23 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       When we said we would give statistics a little rest in this chapter, we lied just a tiny bit. Check out these results:
     </p>
 
-    <p>
-      &gt; mean(textlen[hasrt&amp;longtext])
-    </p>
+    <program language="r">
+      <code>
+mean(textlen[hasrt&amp;longtext])
+      </code>
+    </program>
+    <pre>
+[1] 155
+    </pre>
 
-    <p>
-      [1] 155
-    </p>
-
-    <p>
-      &gt; mean(textlen[!hasrt&amp;longtext])
-    </p>
-
-    <p>
-      [1] 142
-    </p>
+    <program language="r">
+      <code>
+mean(textlen[!hasrt&amp;longtext])
+      </code>
+    </program>
+    <pre>
+[1] 142
+    </pre>
 
     <p>
       In both commands we have requested the mean of the variable textlen, which contains the length of the original tweet (the one without the space stripped out). In each command we have also used the bracket notation to choose a particular subset of the cases. Inside the brackets we have a logical expression. The only cases that will be included in the calculation of the mean are those where the expression inside the brackets evaluates to TRUE. In the first command we ask for the mean tweet length for those tweets that have a retweet AND are extra long (the ampersand is the Boolean AND operator). In the second command we use the logical NOT (the “!” character) to look at only those cases that have extra long text but do not have a retweet. The results are instructive. The really long tweets, with a mean length of 155 characters, are those that have retweets. It seems that Twitter does not penalize an individual who retweets by counting the number of characters in the “RT @SCREENNAME:” string. If you have tried the web interface for Twitter you will see why this makes sense: Retweeting is accomplished with a click, and the original tweet - which after all may already be 140 characters - appears underneath the screenname of the originator of the tweet. The “RT @” string does not even appear in the text of the tweet at that point.
