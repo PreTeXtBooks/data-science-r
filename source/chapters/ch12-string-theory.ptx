@@ -50,6 +50,17 @@ tweetDF &lt;- TweetFrame("#solar",100)
       This command should return a data frame containing about 100 tweets, mainly having to do with solar energy. You can choose any topic you like - all of the string techniques we examine in this chapter are widely applicable to any text strings. We should get oriented by taking a look at what we retrieved. The head() function can return the first entries in any vector or list:
     </p>
 
+    <figure xml:id="fig-ch12-head-tweetDF">
+      <caption>The R console showing the output of <c>head(tweetDF,1)</c>, displaying the
+      first row of the tweet dataframe with all its fields.</caption>
+      <image source="r-console-head-tweetDF.png" width="80%">
+        <description>A screenshot of the RStudio console showing the command head(tweetDF,1)
+        and its output. The output displays the fields of the first tweet including text,
+        favorited, replyToSN, created, truncated, replyToSID, id, replyToUID, and screenName,
+        with row number 97 and the tweet text about solar energy.</description>
+      </image>
+    </figure>
+
     <p>
       We provide a screen shot from R-Studio here just to preserve the formatting of this output. In the left hand margin, the number 97 represents R’s indexing of the original order in which the tweet was received. The tweets were re-sorted into arrival order by our enhanced TweetFrame() function (see the end of the chapter for code). So this is the first element in our dataframe, but internally R has numbered it as 97 out of the 100 tweets we obtained. On the first line of the output, R has place the label “text” and this is the field name of the column in the dataframe that contains the texts of the tweets. Other dataframe fields that we will not be using in this chapter include: “favorited,” “replyToSN,” and “truncated.” You may also recognize the field name “created” which contains the POSIX format time and date stamp that we used in previous chapters. Generally speaking, R has placed the example data (from tweet 97) that goes with the field name just underneath it, but the text justification can be confusing, and it makes this display very hard to read. For example, there is a really long number that starts with “1908” that is the unique numeric identifier (a kind of serial number) for this tweet. The field name “id” appears just above it, but is right justified (probably because the field is a number). The most important fact for us to note is that if we want to work with the text string that is the tweet itself, we need to use the field name “text.” Let’s see if we can get a somewhat better view if we use the head() function just on the text field. This command should provide just the first 2 entries in the “text” column of the dataframe:
     </p>
@@ -75,6 +86,17 @@ head(tweetDF$text,2)
     <p>
       An even better way to look at these data, including the text and the other fields is to use the data browser that is built into R-Studio. If you look in the upper right hand pane of R-Studio, and make sure that the Workspace tab is clicked, you should see a list of available dataframes, under the heading “Data.” One of these should be “tweetDF.” If you click on tweetDF, the data browser will open in the upper left hand pane of R-Studio and you should be able to see the first field or two of the first dozen rows. Here’s a screen shot:
     </p>
+
+    <figure xml:id="fig-ch12-tweetDF-browser">
+      <caption>The RStudio data browser showing the <c>tweetDF</c> dataframe with
+      100 observations of 11 variables, displaying the first few rows of tweet text.</caption>
+      <image source="rstudio-tweetDF-browser.png" width="80%">
+        <description>A screenshot of the RStudio data browser showing the tweetDF dataframe.
+        The header reads 100 observations of 11 variables. The table displays row numbers,
+        row.names column (showing values 97, 96, 95, 94), and text column showing the
+        beginning of each tweet about solar energy topics.</description>
+      </image>
+    </figure>
 
     <p>
       This screen shot confirms what we observed in the command line output, but gives us a much more appealing and convenient way of looking through our data. Before we start to manipulate our strings, let’s attach() tweetDF so that we don’t have to keep using the $ notation to access the text field. And before that, let’s check what is already attached with the search() function:
@@ -436,6 +458,19 @@ str(as.factor(rt))
     <p>
       Returning to the earlier table(as.factor(rt)) command, the table() function takes as input one or more factors and returns a so called contingency table. This is easy to understand for use with just one factor: The function returns a unique list of factor “levels” (unique: meaning no duplicates) along with a count of how many rows/instances there were of each level in the dataset as a whole.
     </p>
+
+    <figure xml:id="fig-ch12-table-factor-rt">
+      <caption>The R console showing the output of <c>table(as.factor(rt))</c>, a
+      contingency table listing the unique screennames of retweeted users and how many
+      times each was retweeted.</caption>
+      <image source="r-console-table-factor-rt.png" width="80%">
+        <description>A screenshot of the RStudio console showing the command
+        table(as.factor(rt)) and its output. The output is a contingency table displaying
+        approximately 15 unique Twitter screennames such as EarthTechling, FeedTheGrid,
+        FirstSolar, SEIA, SolarFred, and others, each with a count of how many times they
+        were retweeted. SEIA has the highest count of 3.</description>
+      </image>
+    </figure>
 
     <p>
       The screen shot on this page shows the command and the output. There are about 15 unique screennames of Twitter users who were retweeted. The highest number of times that a screenname appeared was three, in the case of SEIA. The table() function is used more commonly to create two-way (two dimensional) contingency tables. We could demonstrate that here if we had two factors, so let’s create another factor.
