@@ -314,18 +314,37 @@ str(myFamily)
     </p>
 
     <p>
+      Each of the four variables has a <q>mode</q> or type that is reported by R right
+      after the colon on the line that names the variable:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-mode-example">
+      <code>
+ $ myFamilyGenders: Factor w/ 2 levels
+      </code>
+    </program>
+
+    <p>
       For example, <c>myFamilyGenders</c> is shown as a <q>Factor.</q> In the terminology
-      that R uses, a Factor is a special type of label that can be used to identify and
+      that R uses, Factor refers to a special type of label that can be used to identify and
       organize groups of cases. R has organized these labels alphabetically and then listed
-      out the first few cases. For <c>myFamilyGenders</c> we see that there are two
+      out the first few cases (because our dataframe is so small it actually is showing us
+      all of the cases). For <c>myFamilyGenders</c> we see that there are two
       <q>levels,</q> meaning that there are two different options: female and male. R
       assigns a number, starting with one, to each of these levels, so every case that is
       <q>Female</q> gets assigned a 1 and every case that is <q>Male</q> gets assigned a 2
       (because Female comes before Male in the alphabet, so Female is the first Factor
-      label, so it gets a 1). So R assumes, unless you tell it otherwise, that when you type
-      in a short string like <q>Male</q> that you are referring to the label of a group, and
-      that R should prepare for the use of Male as a <q>Level</q> of a <q>Factor.</q>
-      When you don't want this to happen you can instruct R to stop with:
+      label, so it gets a 1). If you have your thinking cap on, you may be wondering why we
+      started out by typing in small strings of text, like <q>Male,</q> but then R has gone
+      ahead and converted these small pieces of text into numbers that it calls
+      <q>Factors.</q> The reason for this lies in the statistical origins of R. For years,
+      researchers have done things like calling an experimental group <q>Exp</q> and a
+      control group <q>Ctl</q> without intending to use these small strings of text for
+      anything other than labels. So R assumes, unless you tell it otherwise, that when you
+      type in a short string like <q>Male</q> that you are referring to the label of a
+      group, and that R should prepare for the use of Male as a <q>Level</q> of a
+      <q>Factor.</q> When you don't want this to happen you can instruct R to stop doing
+      this with an option on the <c>data.frame()</c> function:
       <c>stringsAsFactors=FALSE</c>. We will look with more detail at options and defaults
       a little later on.
     </p>
@@ -334,9 +353,22 @@ str(myFamily)
       Phew, that was complicated! By contrast, our two numeric variables,
       <c>myFamilyAges</c> and <c>myFamilyWeights</c>, are very simple. You can see that
       after the colon the mode is shown as <q>num</q> (which stands for numeric) and that
-      the first few values are reported. Putting it altogether, we have pretty complete
-      information about the <c>myFamily</c> data frame and we are just about ready to do
-      some more work with it.
+      the first few values are reported:
+    </p>
+
+    <program language="r" xml:id="prog-ch5-ages-str-output">
+      <code>
+ $ myFamilyAges   : num  43 42 12 8 5
+      </code>
+    </program>
+
+    <p>
+      Putting it altogether, we have pretty complete information about the
+      <c>myFamily</c> data frame and we are just about ready to do some more work with it.
+      We have seen firsthand that R has some pretty cryptic labels for things as well as
+      some obscure strategies for converting this to that. R was designed for experts,
+      rather than novices, so we will just have to take our lumps so that one day we can be
+      experts too.
     </p>
 
     <p>
@@ -364,7 +396,11 @@ summary(myFamily)
     </program>
 
     <p>
-      Notice, as with <c>str()</c>, that the output is quite different depending upon
+      In order to fit on the page properly, these columns have been reorganized a bit. The
+      name of a column/variable sits up above the information that pertains to it, and each
+      block of information is independent of the others (so it is meaningless, for instance,
+      that <c>Bro: 1</c> and <c>Min.</c> happen to be on the same line of output). Notice,
+      as with <c>str()</c>, that the output is quite different depending upon
       whether we are talking about a Factor, like <c>myFamilyNames</c> or
       <c>myFamilyGenders</c>, versus a numeric variable like <c>myFamilyAges</c> and
       <c>myFamilyWeights</c>. The columns for the Factors list out a few of the Factor
@@ -382,22 +418,32 @@ summary(myFamily)
       <li><p><q>1st Qu.</q> refers to the dividing line at the top of the first quartile.
         If we took all the cases and lined them up side by side in order of age (or weight)
         we could then divide up the whole into four groups, where each group had the same
-        number of observations. The <q>first quartile</q> is the value of age (or another
-        variable) that divides the first quarter of the cases from the other three quarters.
-        Note that if we don't have a number of cases that divides evenly by four, the value
-        is an approximation.</p></li>
+        number of observations. Just like a number line, the smallest cases would be on the
+        left with the largest on the right. If we're looking at myFamilyAges, the leftmost
+        group, which contains one quarter of all the cases, would start with five on the low
+        end (the dog) and would have eight on the high end (Bro). So the <q>first
+        quartile</q> is the value of age (or another variable) that divides the first
+        quarter of the cases from the other three quarters. Note that if we don't have a
+        number of cases that divides evenly by four, the value is an
+        approximation.</p></li>
       <li><p><q>Median</q> refers to the value of the case that splits the whole group in
         half, with half of the cases having higher values and half having lower values. If
         you think about it a little bit, the median is also the dividing line that separates
         the second quartile from the third quartile.</p></li>
-      <li><p><q>Mean</q> is the numeric average of all of the values. For instance, the
-        average age in the family is reported as 22.</p></li>
-      <li><p><q>3rd Qu.</q> is the third quartile, the third and final dividing line that
-        splits up all of the cases into four equal sized parts. Statisticians like quartiles
-        because they give a quick sense of the shape of the distribution.</p></li>
-      <li><p><q>Max.</q> is the maximum value and displays the highest value among all of
-        the available cases. For example, in this data frame Dad has the highest weight:
-        188.</p></li>
+      <li><p><q>Mean,</q> as we have learned before, is the numeric average of all of the
+        values. For instance, the average age in the family is reported as 22.</p></li>
+      <li><p><q>3rd Qu.</q> is the third quartile. If you remember back to the first
+        quartile and the median, this is the third and final dividing line that splits up
+        all of the cases into four equal sized parts. You may be wondering about these
+        quartiles and what they are useful for. Statisticians like them because they give a
+        quick sense of the shape of the distribution. Everyone has the experience of sorting
+        and dividing things up — pieces of pizza, playing cards into hands, a bunch of
+        players into teams — and it is easy for most people to visualize four equal sized
+        groups and useful to know how high you need to go in age or weight (or another
+        variable) to get to the next dividing line between the groups.</p></li>
+      <li><p>Finally, <q>Max.</q> is the maximum value and as you might expect displays
+        the highest value among all of the available cases. For example, in this data frame
+        Dad has the highest weight: 188. Seems like a pretty trim guy.</p></li>
     </ul>
 
     <p>
