@@ -430,15 +430,45 @@ more replications included in the sampling distribution.
     </ul>
 
     <paragraphs>
-      <title>R Commands Used in This Chapter</title>
+      <title>R Functions Used in This Chapter</title>
+      <p><c>read.DIF()</c> - Reads data in interchange format</p>
+      <p><c>read.table()</c> - Reads data table from external source</p>
+      <p><c>hist()</c> - Produces a histogram graphic</p>
       <p><c>length()</c> - The number of elements in a vector</p>
-      <p><c>mean()</c> - The arithmetic mean or average of a set of values</p>
+      <p><c>mean()</c> - Calculate arithmetic mean</p>
+      <p><c>median()</c> - Locate the median</p>
+      <p><c>mode()</c> - Tells the data type/mode of a data object (Note: This is NOT the statistical mode)</p>
       <p><c>quantile()</c> - Calculates cut points based on percents/proportions</p>
       <p><c>replicate()</c> - Runs an expression/calculation many times</p>
       <p><c>sample()</c> - Chooses elements at random from a vector</p>
-      <p><c>sd()</c> - Calculates standard deviation</p>
+      <p><c>sd()</c> - Calculate the sample standard deviation</p>
       <p><c>sqrt()</c> - Calculates square root</p>
       <p><c>summary()</c> - Summarizes contents of a vector</p>
+      <p><c>var()</c> - Calculate the sample variance</p>
+    </paragraphs>
+
+    <paragraphs>
+      <title>Test Yourself</title>
+      <p>See the Chapter Challenge exercise above.</p>
+    </paragraphs>
+
+    <paragraphs>
+      <title>If All Else Fails</title>
+      <p>In case you have difficulty with the <c>read.DIF()</c> or <c>read.table()</c> functions, the code shown below can be copied and pasted (or, in the worst case scenario, typed) into the R console to create the data set used in this chapter.</p>
+      <program language="r" xml:id="prog-ch7-ifallelsefails">
+        <code>
+V1 &lt;- c(4779736,710231,6392017,2915918,37253956,
+5029196,3574097,897934,601723,18801310,9687653,
+1360301,1567582,12830632,6483802,3046355,2853118,
+4339367,4533372,1328361,5773552,6547629,9883640,
+5303925,2967297,5988927,989415,1826341,2700551,
+1316470,8791894,2059179,19378102,9535483,672591,
+11536504,3751351,3831074,12702379,1052567,
+4625364,814180,6346105,25145561,2763885,625741,
+8001024,6724540,1852994,5686986,563626)
+USstatePops &lt;- data.frame(V1)
+        </code>
+      </program>
     </paragraphs>
   </conclusion>
 
