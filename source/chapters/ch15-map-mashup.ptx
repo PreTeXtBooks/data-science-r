@@ -4,215 +4,259 @@
   <title>Map MashUp</title>
 
   <introduction>
-    <p>
-      Much of what we have accomplished so far has focused on the standard rectangular
-      dataset: one neat table with rows and columns well defined. Yet much of the power of
-      data science comes from bringing together different sources of data in complementary
-      ways. In this chapter we combine different sources of data to make a unique product
-      that transcends any one source.
-    </p>
+      <p>Mashup is a term that originated in the music business decades ago related to the practice of overlaying one music recording on top of another one. The term has entered general usage to mean anything that brings together disparate influences or elements. In the application development area, mashup often refers to bringing together various sources of data to create a new product with unique value. There’s even a non-profit group called the Open Mashup Alliance that develops standards and methods for creating new mashups.</p>
+      <p>One example of a mashup is http://www.housingmaps.com/ , a web application that grabs apartment rental listings from the classified advertising service Craigslist and plots them on an interactive map that shows the location of each listing. If you have ever used Craigslist you know that it provides a very basic text-based interface and that the capability to find listings on a map would be welcome.</p>
+      <p>In this chapter we tackle a similar problem. Using some address data from government records, we call the Google geocoding API over the web to find the latitude and longitude of each address. Then we plot these latitudes and longitudes on a map of the U.S. This activities reuses skills we learned in the previous chapter for reading in data files, adds some new skills related to calling web APIs, and introduces us to a new type of data, namely the shapefiles that provide the basis for electronic maps.</p>
   </introduction>
 
-  <section xml:id="sec-mashup-concept">
-    <title>What Is a Mashup?</title>
+  <section xml:id="sec-shapefiles-ch15">
+    <title>Shapefiles and Mapping Packages</title>
 
-    <p>
-      <term>Mashup</term> is a term that originated in the music business related to the
-      practice of overlaying one music recording on top of another one. The term has entered
-      general usage to mean anything that brings together disparate influences or elements.
-      In the application development area, mashup often refers to bringing together various
-      sources of data to create a new product with unique value.
-    </p>
+      <p>Let’s look at the new stuff first. The Internet is full of shapefiles that contain mapping data. Shapefiles are a partially proprietary, partially open format supported by a California software company called ESRI. Shapefile is actually an umbrella term that covers several different file types. Because the R community has provided some packages to help deal with shapefiles, we don’t need to much information about the details. The most important thing to know is that shapefiles contain points, polygons, and “polylines.” Everyone knows what a point and a polygon are, but a polyline is a term used by computer scientist to refer to a multi-segment line. In many graphics applications it is much easier to approximate a curved line with many tiny connected straight lines than it is to draw a truly curved line. If you think of a road or a river on a map, you will have a good idea of a polyline.</p>
 
-    <p>
-      One example of a mashup is <url href="http://www.housingmaps.com/">housingmaps.com</url>,
-      a web application that grabs apartment rental listings from the classified advertising
-      service Craigslist and plots them on an interactive map. In this chapter we tackle a
-      similar problem: Using some address data from government records, we call the Google
-      geocoding API over the web to find the latitude and longitude of each address. Then
-      we plot these latitudes and longitudes on a map of the U.S.
-    </p>
+      <p>The U.S. Census bureau publishes shapefiles at various levels of detail for every part of the country. Search for the term “shapefile” at “site:census.gov” and you will find several pages with listings of different shapefiles. For this exercise, we are using a relatively low detail map of the whole U.S. We downloaded a “zip” file. Unzip this (usually just by double-clicking on it) and you will find several files inside it. The file ending in “shp” is the main shapefile. Another file that will be useful to us ends in “dbf” - this contains labels and other information.</p>
 
-  </section>
+      <p>To get started, we will need two new R packages called PBSmapping and maptools. PBSmapping refers not to public broadcasting, but rather to the Pacific Biology Station, whose researchers and technologists kindly bundled up a wide range of the R processing tools that they use to manage map data.  The maptools package was developed by Nicholas J. Lewin-Koh (University of Singapore) and others to provide additional tools and some “wrappers” to make PBSmapping functions easier to use. In this chapter we only scratch the surface of the available tools: there could be a whole book just dedicated to R mapping functions alone.</p>
 
-  <section xml:id="sec-shapefiles">
-    <title>Working with Map Data (Shapefiles)</title>
+      <p>Before we read in the data we grabbed from the Census Bureau, let’s set the working directory in R-Studio so that we don’t have to type it out on the command line. Click on the Tools menu and then choose “Set Working Directory.” Use the dialog box to designate the folder where you have unzipped the shape data. After that, these commands will load the shape data into R and show us what we have:</p>
 
-    <p>
-      The Internet is full of shapefiles that contain mapping data. Shapefiles are a
-      partially proprietary, partially open format supported by a California software
-      company called ESRI. Shapefiles contain points, polygons, and <q>polylines</q>
-      (multi-segment lines used to approximate curves, such as roads or rivers on a map).
-    </p>
+      <p>&gt; usShape &lt;- importShapefile( +            "gz_2010_us_040_00_500k",readDBF=TRUE)</p>
+      <p>&gt; summary(usShape)</p>
+      <p>PolySet</p>
+      <p>Records         : 90696</p>
+      <p>Contours      : 574</p>
+      <p>Holes       : 0</p>
+      <p>Events        : NA</p>
+      <p>On boundary : NA</p>
+      <p>Ranges</p>
+      <p>X             : [-179.14734, 179.77847]</p>
+      <p>Y             : [17.884813, 71.3525606439998]</p>
+      <p>Attributes</p>
+      <p>Projection    : LL</p>
+      <p>Zone          : NULL</p>
+      <p>Extra columns   :</p>
 
-    <p>
-      The U.S. Census Bureau publishes shapefiles at various levels of detail for every
-      part of the country. For this exercise, we use a relatively low detail map of the
-      whole U.S. To get started, we will need two new R packages called <c>PBSmapping</c>
-      and <c>maptools</c>:
-    </p>
+      <p>&gt; plotPolys(usShape)</p>
 
-    <program language="r" xml:id="prog-ch15-setup">
-      <code>
-EnsurePackage("PBSmapping")
-EnsurePackage("maptools")
-usShape &lt;- importShapefile("gz_2010_us_040_00_500k",
-  readDBF=TRUE)
-plotPolys(usShape, xlim=c(-130,-60), ylim=c(20,50))
-      </code>
-    </program>
+      <p>This last command gives us a simple plot of the 90,696 shapes that our shapefile contains. Here is the plot:</p>
 
-    <p>
-      The <c>importShapefile()</c> function reads the shape data from the set of ESRI
-      compatible polygon data files. The <c>plotPolys()</c> function plots a map from the
-      shape data. The <c>xlim</c> and <c>ylim</c> parameters restrict the view to the
-      continental United States.
-    </p>
+      <p>￼This is funny looking! The ranges output from the summary() command gives us a hint as to why. The longitude of the elements in our map range from -179 to nearly 180: this covers pretty much the whole of the planet. The reason is that the map contains shapes for Hawaii and Alaska. Both states have far western longitudes, but the Aleutian peninsula in Alaska extends so far that it crosses over the longitude line where -180 and 180 meet in the Pacific Ocean. As a result, the continental U.S. is super squashed. We can specify a more limited area of the map to consider by using the xlim and ylim parameters. The following command:</p>
+
+      <p>&gt; plotPolys(usShape,+                   xlim=c(-130,-60),ylim=c(20,50))</p>
+
+      <p>...gives a plot that shows the continental U.S. more in its typical proportions.</p>
+
+      <p>￼So now we have some map data stored away and ready to use. The PBSmapping package gives us the capability of adding points to an existing map. For now, let’s demonstrate this with a made up point somewhere in Texas:</p>
+
+      <p>&gt; X &lt;- -100</p>
+      <p>&gt; Y &lt;- 30</p>
+      <p>&gt; EID &lt;- 1</p>
+      <p>&gt; pointData &lt;- data.frame(EID,X,Y)</p>
+      <p>&gt; eventData &lt;- as.EventData( +                          pointData,projection=NA)</p>
+      <p>&gt; addPoints(eventData,col="red",cex=.5)</p>
+
+      <p>￼You have to look carefully, but in southern Texas there is now a little red dot. We began by manually creating a single point - specified by X (longitude), Y (latitude), and EID (an identification number) - and sticking it into a dataframe. Then we converted the data in that dataframe into an EventData object. This is a custom class of object specified by the PBSmapping package. The final command above adds the EventData to the plot.</p>
+
+      <p>The idea of EventData is a little confusing, but if you remember that this package was developed by biologists at the Pacific Biology Station to map sightings of fish and other natural phenomena it makes more sense. In their lingo, an event was some observation of interest that occurred at a particular day, time, and location. The “event id” or EID &lt;- 1 that we stuck in the data frame was just saying that this was the first point in our list that we wanted to plot. For us it is not an event so much as a location of something we wanted to see on the map.</p>
+
+      <p>Also note that the “projection=NA” parameter in the as.EventData() coercion is just letting the mapping software know that we don’t want our point to be transformed according to a mapping projection. If you remember from your Geography class, a projection is a mapping technique to make a curved object like the Earth seem sensible on a flat map. In this example, we’ve already flattened out the U.S., so there is no need to transform the points.</p>
 
   </section>
 
-  <section xml:id="sec-geocoding">
-    <title>Geocoding Addresses with the Google API</title>
+  <section xml:id="sec-geocoding-ch15">
+    <title>Geocoding and Combining Data</title>
 
-    <p>
-      We will use the Google geocoding API to convert street addresses into latitude and
-      longitude values. We also need to use the <c>RCurl</c> and <c>RJSONIO</c> packages
-      to send HTTP GET requests and parse the JSON responses. Here is a helper function
-      to format the URL:
-    </p>
+      <p>Next, we need a source of points to add to our map. This could be anything that we’re interested in: the locations of restaurants, crime scenes, colleges, etc. In Google a search for filetype:xls or filetype;csv with appropriate additional search terms can provide interesting data sources. You may also have mailing lists of customers or clients. The most important thing is that we will need street address, city, and state in order to geocode the addresses. For this example, we searched for “housing street address list filetype:csv” and this turned up a data set of small businesses that have contracts with the U.S. Department of Health and Human services. Let’s read this in using read.csv():</p>
 
-    <program language="r" xml:id="prog-ch15-makeurl">
+      <p>&gt; dhhsAddrs &lt;- read.csv("DHHS_Contracts.csv")</p>
+      <p>&gt; str(dhhsAddrs)</p>
+      <p>'data.frame':	599 obs. of  10 variables:</p>
+      <p>$ Contract.Number           : Factor w/ 285 levels "26301D0054","500000049",..: 125 125 125 279 164 247 19 242 275 70 ...</p>
+      <p>$ Contractor.Name           : Factor w/ 245 levels "2020 COMPANY LIMITED LIABILITY COMPANY",..: 1 1 1 2 2 3 4 6 5 7 ...</p>
+      <p>$ Contractor.Address        : Factor w/ 244 levels "1 CHASE SQUARE 10TH FLR, ROCHESTER, NY ",..: 116 116 116 117 117 136 230 194 64 164 ...</p>
+      <p>$ Description.Of.Requirement: Factor w/ 468 levels "9TH SOW - DEFINTIZE THE LETTER CONTRACT",..: 55 55 55 292 172 354 308 157 221 340 ...</p>
+      <p>$ Dollars.Obligated         : Factor w/ 586 levels " $1,000,000.00 ",..: 342 561 335 314 294 2 250 275 421 21 ...</p>
+      <p>$ NAICS.Code                : Factor w/ 55 levels "323119","334310",..: 26 26 26 25 10 38 33 29 27 35 ...</p>
+      <p>$ Ultimate.Completion.Date  : Factor w/ 206 levels "1-Aug-2011","1-Feb-2013",..: 149 149 149 10 175 161 124 37 150 91 ...</p>
+      <p>$ Contract.Specialist       : Factor w/ 95 levels "ALAN  FREDERICKS",..: 14 14 60 54 16 90 55 25 58 57 ...</p>
+      <p>$ Contract.Specialist.Email : Factor w/ 102 levels "410-786-8622",..: 16 16 64 59 40 98 60 29 62 62 ...</p>
+      <p>$ X               : logi  NA NA NA NA NA NA ...</p>
+
+      <p>There’s that crazy 60s song again! Anyhow, we read in a comma separated data set with 599 rows and 10 variables. The most important field we have there is Contractor.Address. This contains the street addresses that we need to geocode. We note, however, that the data type for these is Factor rather than character string. So we need to convert that:</p>
+
+      <p>&gt; dhhsAddrs$strAddr &lt;- +        as.character(dhhsAddrs$Contractor.Address)</p>
+      <p>&gt; mode(dhhsAddrs$strAddr)</p>
+      <p>[1] "character"</p>
+      <p>&gt; tail(dhhsAddrs$strAddr,4)</p>
+      <p>[1] "1717 W BROADWAY, MADISON, WI "</p>
+      <p>[2] "1717 W BROADWAY, MADISON, WI "</p>
+      <p>[3] "1717 W BROADWAY, MADISON, WI "</p>
+      <p>[4] "789 HOWARD AVE, NEW HAVEN, CT, "</p>
+
+      <p>This looks pretty good: Our new column, called dhhsAddrs, is character string data, converted from the factor labels of the original Contractor.Address column. Now we need to geocode these. We will use the Google geocoding application programming interface (API) which is pretty easy to use, does not require an account or application ID, and allows about 2500 address conversions per day. The API can be accessed over the web, using what is called an HTTP GET request.</p>
+
+      <p>These acronyms probably look familiar. HTTP is the Hyper Text Transfer Protocol, and it is the standard method for requesting and receiving web page data. A GET request consists of information that is included in the URL string to specify some details about the information we are hoping to get back from the request. Here is an example GET request to the Google geocoding API:</p>
+
+      <p>http://maps.googleapis.com/maps/api/geocode/json?address=1600+Pennsylvania+Avenue,+Washington,+DC&amp;sensor=false</p>
+
+      <p>The first part of this should look familiar: The http://maps.googleapis.com part of the URL specifies the domain name just like a regular web page. The next part of the URL,  “/maps/api/geocode” tells Google which API we want to use. Then the “json” indicates that we would like to receive our result in “Java Script Object Notation” (JSON) which is a structured, but human readable way of sending back some data. The address appears next, and we are apparently looking for the White House at 1600 Pennsylvania Avenue in Washington, DC. Finally, sensor=false is a required parameter indicating that we are not sending our request from a mobile phone. You can type that whole URL into the address field of any web browser and you should get a sensible result back. The JSON notation is not beautiful, but you will see that it makes sense and provides the names of individual data items along with their values. Here’s a small excerpt that shows the key parts of the data object that we are trying to get our hands on:</p>
+
+      <p>{</p>
+      <p>"results" : [</p>
+      <p>{</p>
+      <p>"address_components" : [</p>
+      <p>"geometry" : {</p>
+      <p>"location" : {</p>
+      <p>"lat" : 38.89788009999999,</p>
+      <p>"lng" : -77.03664780</p>
+      <p>},</p>
+      <p>"status" : "OK"</p>
+      <p>}</p>
+
+      <p>There’s tons more data in the JSON object that Google returned, and fortunately there is an R package, called JSONIO, that will extract the data we need from the structure without having to parse it ourselves.</p>
+
+      <p>In order to get R to send the HTTP GET requests to google, we will also need to use the RCurl package. This will give us a single command to send the request and receive the result back - essentially doing all of the quirky steps that a web browser takes care of automatically for us. To get started, install.packages() and library() the two packages we will need - RCurl and JSONIO. If you are working on a Windows machine, you may need to jump through a hoop or two to get RCurl, but it is available for Windows even if it is not in the standard CRAN repository. Search for “RCurl Windows” if you run into trouble.</p>
+
+      <p>Next, we will create a new helper function to take the address field and turn it into the URL that we need:</p>
+
+      <program language="r">
       <code>
+# Format an URL for the Google Geocode API
 MakeGeoURL &lt;- function(address)
 {
-  root &lt;- "http://maps.google.com/maps/api/geocode/"
-  url &lt;- paste(root, "json?address=",
-    address, "&amp;sensor=false", sep="")
-  return(URLencode(url))
+root &lt;- "http://maps.google.com/maps/api/geocode/"
+url &lt;- paste(root, "json?address=", +               address, "&amp;sensor=false", sep = "")
+return(URLencode(url))
 }
       </code>
     </program>
 
-    <p>
-      And the function that actually calls the API and extracts latitude and longitude from
-      the JSON response:
-    </p>
+      <p>There are three simple steps here. The first line initializes the beginning part of the URL into a string called root. Then we use paste() to glue together the separate parts of the strong (note the sep=”” so we don’t get spaces between the parts). This creates a string that looks almost like the one in the White House example two pages ago. The final step converts the string to a legal URL using a utility function called URLencode() that RCurl provides. Let’s try it:</p>
 
-    <program language="r" xml:id="prog-ch15-addr2latlng">
+      <p>&gt; MakeGeoURL( + "1600 Pennsylvania Avenue, Washington, DC")</p>
+      <p>[1] "http://maps.google.com/maps/api/geocode/json?address=1600%20Pennsylvania%20Avenue,%20Washington,%20DC&amp;sensor=false"</p>
+
+      <p>Looks good! Just slightly different than the original example (%20 instead of the plus character) but hopefully that won’t make a difference. Remember that you can type this function at the command line or you can create it in the script editing window in the upper left hand pane of R-Studio. The latter is the better way to go and if you click the “Source on Save” checkmark, R-Studio will make sure to update R’s stored version of your function every time you save the script file.</p>
+
+      <p>Now we are ready to use our new function, MakeGeoURL(), in another function that will actually request the data from the Google API:</p>
+
+      <program language="r">
       <code>
 Addr2latlng &lt;- function(address)
 {
-  url &lt;- MakeGeoURL(address)
-  apiResult &lt;- getURL(url)
-  geoStruct &lt;- fromJSON(apiResult, simplify=FALSE)
-  lat &lt;- NA
-  lng &lt;- NA
-  try(lat &lt;-
-    geoStruct$results[[1]]$geometry$location$lat)
-  try(lng &lt;-
-    geoStruct$results[[1]]$geometry$location$lng)
-  return(c(lat, lng))
+url &lt;- MakeGeoURL(address)
+apiResult &lt;- getURL(url)
+geoStruct &lt;- fromJSON(apiResult, +                                 simplify = FALSE)
+lat &lt;- NA
+lng &lt;- NA
+try(lat &lt;- +     geoStruct$results[[1]]$geometry$location$lat)
+try(lng &lt;- +     geoStruct$results[[1]]$geometry$location$lng)
+return(c(lat, lng))
 }
       </code>
     </program>
 
-    <p>
-      Note the use of the <c>try()</c> function: When programmers expect the possibility
-      of an error, they will frequently use methods that are tolerant of errors. If the
-      Google API returns something unusual, the JSON structure may not contain the fields
-      we want. By surrounding our assignment commands with <c>try()</c>, we avoid stopping
-      the flow of the code if there is an error.
-    </p>
+      <p>We have defined this function to receive an address string as its only argument. The first thing it does is to pass the URL string to MakeGeoURL() to develop the formatted URL. Then the function passes the URL to getURL(), which actually does the work of sending the request out onto the Internet. The getURL() function is part of the RCurl package. This step is just like typing a URL into the address box of your browser.</p>
 
-  </section>
+      <p>We capture the result in an object called “apiResult”. If we were to stop and look inside this, we would find the JSON structure that appeared a couple of pages ago. We can pass this structure to the function fromJSON() - we put the result in an object called geoStruct. This is a regular R data frame such that we can access any individual element using regular $ notation and the array index [[1]]. In other instances, a JSON object may contain a whole list of data structures, but in this case there is just one. If you compare the variable names “geometry”, “location”, “lat” and “lng” to the JSON example a few pages ago you will find that they match perfectly. The fromJSON() function  in the JSONIO package has done all the heavy lifting of breaking the JSON structure into its component pieces.</p>
 
-  <section xml:id="sec-map-plot">
-    <title>Processing a List of Addresses and Plotting</title>
+      <p>Note that this is the first time we have encountered the try() function. When programmers expect the possibility of an error, they will frequently use methods that are tolerant of errors or that catch errors before they disrupt the code. If our call to getURL() returns something unusual that we aren’t expecting, then the JSON structure may not contain the fields that we want. By surrounding our command to assign the lat and lng variables with a try() function, we can avoid stopping the flow of the code if there is an error. Because we initialized lat and lng to NA above, this function will return a two item list with both items being NA if an error occurs in accessing the JSON structure. There are more elegant ways to accomplish this same goal. For example, the Google API puts an error code in the JSON structure and we could choose to interpret that instead. We will leave that to the chapter challenge!</p>
 
-    <p>
-      Once we have a function that can convert one address to latitude and longitude, we
-      can loop through a whole list of addresses. The function below creates a data frame
-      with fields <c>X</c> (longitude), <c>Y</c> (latitude), and <c>EID</c> (event ID)
-      that the <c>PBSmapping</c> package needs to plot points on the map:
-    </p>
+      <p>In the last step, our new Addr2latlng() function returns a two item list containing the latitude and longitude. We can test it out right now:</p>
 
-    <program language="r" xml:id="prog-ch15-processlist">
+      <p>&gt; testData &lt;- Addr2latlng( +       "1600 Pennsylvania Avenue, Washington, DC")</p>
+      <p>&gt; str(testData)</p>
+      <p>num [1:2] 38.9 -77</p>
+
+      <p>Perfect! we called our new function Addr2latlng() with the address of the White House and got back a list with two numeric items containing the latitude and longitude associate with that address. With just a few lines of R code we have harnessed the power of Google’s extensive geocoding capability to convert a brief text street address into mapping coordinates.</p>
+
+      <p>At this point there isn’t too much left to do. We have to create a looping mechanism so that we can process the whole list of addresses in our DHHS data set. We have some small design choices here. It would be possible to attach new fields to the existing dataframe. Instead, the following code keeps everything pretty simple by receiving a list of addresses and returning a new data frame with X, Y, and EID ready to feed into our mapping software:</p>
+
+      <program language="r">
       <code>
+# Process a whole list of addresses
 ProcessAddrList &lt;- function(addrList)
 {
-  resultDF &lt;- data.frame(atext=character(),
-    X=numeric(), Y=numeric(), EID=numeric())
-  i &lt;- 1
-  for (addr in addrList)
-  {
-    latlng &lt;- Addr2latlng(addr)
-    resultDF &lt;- rbind(resultDF,
-      data.frame(atext=addr,
-        X=latlng[[2]], Y=latlng[[1]], EID=i))
-    i &lt;- i + 1
-  }
-  return(resultDF)
+resultDF &lt;- data.frame(atext=character(), +               X=numeric(),Y=numeric(),EID=numeric())
+i &lt;- 1
+for (addr in addrList)
+{
+latlng = Addr2latlng(addr)
+resultDF &lt;- rbind(resultDF,+                  data.frame(atext=addr, +                  X=latlng[[2]],Y=latlng[[1]], EID=i))
+i &lt;- i + 1
+}
+return(resultDF)
 }
       </code>
     </program>
 
-    <p>
-      With the addresses converted to map coordinates, we can add them to our map plot:
-    </p>
+      <p>This new function takes one argument, the list of addresses, which should be character strings. In the first step we make an empty dataframe for use in the loop. In the second step we initialize a scalar variable called i to the number one. We will increment this in the loop and use it as our EID.</p>
 
-    <program language="r" xml:id="prog-ch15-addpoints">
-      <code>
-dhhsPoints &lt;- ProcessAddrList(dhhsAddrs$strAddr)
-dhhsPoints &lt;- dhhsPoints[!is.na(dhhsPoints$X),]
-eventData &lt;- as.EventData(dhhsPoints, projection=NA)
-addPoints(eventData, col="red", cex=.5)
-      </code>
-    </program>
+      <p>Then we have the for loop. We are using a neat construct here called “in”. The expression “addr in addrList” creates a new variable called addr. Every time that R goes through the loop it assigns to addr the next item in addrList. When addrList runs out of items, the for loop ends. Very handy!</p>
 
-    <p>
-      The second command removes rows that do not have complete latitude and longitude
-      data. The <c>as.EventData()</c> coercion is picky and will not process the data
-      frame if there are any fields that are <c>NA</c>.
-    </p>
+      <p>Inside the for loop the first thing we do is to call the function that we developed earlier: Addr2latlng(). This performs one conversion of an address to a geocode (latitude and longitude) as described earlier. We pass addr to it as add contains the text address for this time around the loop. We put the result in a new variable called latlng. Remember that this is a two item list.</p>
+
+      <p>The next statement, starting with “resultDF &lt;- rbind” is the heart of this function. Recall that rbind() sticks a new row on the end of a dataframe. So in the arguments to rbind() we supply our earlier version of resultDF (which starts empty and grows from there) plus a new row of data. The new row of data includes the text address (not strictly necessary but handy for diagnostic purposes), the “X” that our mapping software expects (this is the longitude), the “Y” that the mapping software expects, and the event ID, EID, that the mapping software expects.</p>
+
+      <p>At the end of the for loop, we increment i so that we will have the next number next time around for EID. Once the for loop is done we simply return the dataframe object, resultDF. Piece of cake!</p>
+
+      <p>Now let’s try it and plot our points:</p>
+
+      <p>&gt; dhhsPoints &lt;- ProcessAddrList(dhhsAddrs$strAddr)</p>
+      <p>&gt; dhhsPoints &lt;- dhhsPoints[!is.na(dhhsPoints$X),]</p>
+      <p>&gt; eventData &lt;- as.EventData(dhhsPoints,projection=NA)</p>
+      <p>&gt; addPoints(eventData,col="red",cex=.5)</p>
+
+      <p>The second command above is the only one of the four that may seem unfamiliar. The as.EventData() coercion is picky and will not process the dataframe if there are any fields that are NA. To get rid of those rows that do not have complete latitude and longitude data, we use is.na() to test whether the X value on a given row is NA. We use the ! (not) operator to reverse the sense of this test. So the only rows that will survive this step are those where X is not NA. The plot below shows the results.</p>
+
+      <p>￼If you like conspiracy theories, there is some support in this graph: The vast majority of the companies that have contracts with DHHS are in the Washington, DC area, with a little trickle of additional companies heading up the eastern seaboard as far as Boston and southern New Hampshire. Elsewhere in the country there are a few companies here and there, particularly near the large cities of the east and south east.</p>
+
+      <p>Using some of the parameters on plotPolys() you could adjust the zoom level and look at different parts of the country in more detail. If you remember that the original DHHS data also had the monetary size of the contract in it, it would also be interesting to change the size or color of the dots depending on the amount of money in the Dollars.Obligated field. This would require running addPoints() in a loop and setting the col= or cex= parameters for each new point.</p>
 
   </section>
 
   <exercises xml:id="exercises-ch15">
-    <title>Chapter Challenges</title>
-    <exercise xml:id="ex-ch15-challenge1">
+    <title>Chapter Challenge(s)</title>
+
+    <exercise xml:id="ex-ch15-1">
       <statement>
-        <p>
-          Improve the <c>Addr2latlng()</c> function so that it checks for errors returned
-          from the Google API. This will require going to the Google API site, looking more
-          closely at the JSON structure, and reviewing the error codes that Google mentions
-          in the documentation.
-        </p>
+        <p>Improve the Addr2latlng() function so that it checks for errors returned from the Google API. This will require going to the Google API site, looking more closely at the JSON structure, and reviewing the error codes that Google mentions in the documentation. You may also learn enough that you can repair some of the addresses that failed.</p>
       </statement>
     </exercise>
-    <exercise xml:id="ex-ch15-challenge2">
+
+    <exercise xml:id="ex-ch15-2">
       <statement>
-        <p>
-          If you get that far and are still itching for another challenge, try improving
-          the map. One idea: change the size or color of the dots based on the size of
-          the contract received. An even better (and much harder) idea would be to sum
-          the total dollar amount being given within each state and then color each state
-          accordingly.
-        </p>
+        <p>If you get that far and are still itching for another challenge, try improving the map. One idea for this was mentioned above: you could change the size or color of the dots based on the size of the contract received. An even better (and much harder) idea would be to sum the total dollar amount being given within each state and then color each state according to how much DHHS money it receives. This would require delving into the shapefile data quite substantially so that you could understand how to find the outline of a state and fill it in with a color.</p>
       </statement>
     </exercise>
+
   </exercises>
 
   <conclusion xml:id="conclusion-ch15">
-    <title>Sources</title>
-    <p>
-      <ul>
-        <li><p><url href="http://en.wikipedia.org/wiki/Open_Mashup_Alliance">Wikipedia: Open Mashup Alliance</url></p></li>
-        <li><p><url href="http://en.wikipedia.org/wiki/Shapefile">Wikipedia: Shapefile</url></p></li>
-        <li><p><url href="http://www.housingmaps.com/">housingmaps.com</url></p></li>
-        <li><p><url href="http://www.census.gov/geo/www/cob/cbf_state.html">U.S. Census Shapefiles</url></p></li>
-        <li><p><url href="https://developers.google.com/maps/terms">Google Maps Terms of Service</url></p></li>
-      </ul>
-    </p>
+    <title>R Functions Used in This Chapter</title>
+
+      <p>Addr2latlng() -  A custom function built for this chapter</p>
+      <p>addPoints() - Place more points on an existing plot</p>
+      <p>as.character() - Coerces data into a character string</p>
+      <p>as.EventData() - Coerce a regular dataframe into an EventData object for use with PBSmapping routines.</p>
+      <p>data.frame() - Takes individual variables and ties them together</p>
+      <p>for() - Runs a loop, iterating a certain number of times depending upon the expression provided in parentheses</p>
+      <p>fromJSON() - Takes JSON data as input and provides a regular R dataframe as output</p>
+      <p>function() - Creates a new function</p>
+      <p>importShapeFile() - Gets shapefile data from a set of ESRI compatible polygon data files</p>
+      <p>MakeGeoURL() - Custom helper function built for this chapter</p>
+      <p>paste() - Glues strings together</p>
+      <p>plotPolys() - Plots a map from shape data</p>
+      <p>rbind() - Binds new rows on a dataframe</p>
+      <p>return() - Specifies the object that should be returned from a function</p>
+      <p>URLencode() - Formats a character string so it can be used in an HTTP request</p>
+
+      <p>Sources</p>
+      <p>http://en.wikipedia.org/wiki/Open_Mashup_Alliance</p>
+      <p>http://en.wikipedia.org/wiki/Shapefile</p>
+      <p>http://www.housingmaps.com/</p>
+      <p>http://www.census.gov/geo/www/cob/cbf_state.html</p>
+
   </conclusion>
 
 </chapter>
