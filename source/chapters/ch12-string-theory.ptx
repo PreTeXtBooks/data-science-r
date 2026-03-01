@@ -456,69 +456,24 @@ table(as.factor(rt),as.factor(longtext))
       </code>
     </program>
 
-    <p>
+    <pre>
       FALSE TRUE
-    </p>
-
-    <p>
       EarthTechling       0    1
-    </p>
-
-    <p>
       FeedTheGrid         2    0
-    </p>
-
-    <p>
-      FirstSolar          1    0
-    </p>
-
-    <p>
+       FirstSolar          1    0
       GreenergyNews       1    0
-    </p>
-
-    <p>
       RayGil              0    1
-    </p>
-
-    <p>
       SEIA                3    0
-    </p>
-
-    <p>
       SolarFred           0    2
-    </p>
-
-    <p>
       SolarIndustry       1    0
-    </p>
-
-    <p>
       SolarNovus          1    0
-    </p>
-
-    <p>
       andyschonberger     0    2
-    </p>
-
-    <p>
       deepgreendesign     0    1
-    </p>
-
-    <p>
       gerdvdlogt          2    0
-    </p>
-
-    <p>
       seia                2    0
-    </p>
-
-    <p>
       solarfred           1    0
-    </p>
-
-    <p>
       thesolsolution      1    0
-    </p>
+    </pre>
 
     <p>
       For a two-way contingency table, the first argument you supply to table() is used to build up the rows and the second argument is used to create the columns. The command and output above give us a nice compact display of which retweets are longer than 140 characters (the TRUE column) and which are not (the FALSE column). It is easy to see at a glance that there are many in each category. So, while doing a retweet may contribute to having an extra long tweet, there are also many retweets that are 140 characters or less. It seems a little cumbersome to look at the long list of retweet screennames, so we will create another flag variable that indicates whether a tweet text contains a retweet. This will just provide a more compact way of reviewing which tweets have retweets and which do not:
@@ -543,21 +498,12 @@ table(hasrt,longtext)
       </code>
     </program>
 
-    <p>
+    <pre>
       longtext
-    </p>
-
-    <p>
       hasrt   FALSE TRUE
-    </p>
-
-    <p>
       FALSE    76    2
-    </p>
-
-    <p>
       TRUE     15    7
-    </p>
+    </pre>
 
     <p>
       There are more than twice as many extra long texts (7) when a tweet contains a retweet than when it does not.
@@ -581,33 +527,16 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       We feed the tweetDF$text field as input into this function call (we don’t need to provide the tweetDF$ part because this dataframe is attached). The regular expression begins with the 12 literal characters ending with a forward slash. Then we have a regular expression pattern to match. The material within the square brackets matches any upper or lowercase letter and any digit. The numeral 8 between the curly braces at the end say to match the previous pattern exactly eight times. This yields output that looks like this:
     </p>
 
-    <p>
+    <pre>
       [[6]]
-    </p>
-
-    <p>
-      [,1]
-    </p>
-
-    <p>
+           [,1]
       [1,] "http://t.co/w74X9jci"
-    </p>
 
-    <p>
       [[7]]
-    </p>
-
-    <p>
-      [,1]
-    </p>
-
-    <p>
+           [,1]
       [1,] "http://t.co/DZBUoz5L"
-    </p>
-
-    <p>
       [2,] "http://t.co/gmtEdcQI"
-    </p>
+    </pre>
 
     <p>
       This is just an excerpt of the output, but there are a couple of important things to note. First, note that the first element is preceded by the notation [[6]]. In the past when R has listed out multiple items on the output, we have seen them with index numbers like [1] and [2]. In this case, however, that could be confusing because each element in the output could have multiple rows (as item [[7]] above clearly shows). So R is using double bracket notation to indicate the ordinal number of each chunk of data in the list, where a given chunk may itself contain multiple elements.
@@ -621,21 +550,13 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
       The only other bit of complexity is this: What if a tweet contained no URLs at all? Your output from running the str_match_all() function probably contains a few elements that look like this:
     </p>
 
-    <p>
+    <pre>
       [[30]]
-    </p>
-
-    <p>
       character(0)
-    </p>
 
-    <p>
       [[31]]
-    </p>
-
-    <p>
       character(0)
-    </p>
+    </pre>
 
     <p>
       So elements [[30]] and [[31]] of the data returned from str_match_all() each contain a zero length string. No rows, no columns, just character(0), the so-called null character, which in many computer programming languages is used to “terminate” a string.
@@ -654,29 +575,15 @@ head(tweetDF$urlist,2)
       </code>
     </program>
 
-    <p>
+    <pre>
       [[1]]
-    </p>
-
-    <p>
-      [,1]
-    </p>
-
-    <p>
+           [,1]
       [1,] "http://t.co/ims8gDWW"
-    </p>
 
-    <p>
       [[2]]
-    </p>
-
-    <p>
-      [,1]
-    </p>
-
-    <p>
+           [,1]
       [1,] "http://t.co/37PKAF3N"
-    </p>
+    </pre>
 
     <p>
       Now we are ready to wrestle with the problem of how to tally up the results of our URL parsing. Unlike the situation with retweets, where there either was or was not a single retweet indication in the text, we have the possibility of zero, one or more URLs within the text of each tweet. Our new object “urlist” is a multi-dimensional object that contains a single null character, one row/column of character data, or one column with more than one row of character data. The key to summarizing this is the length() function, which will happily count up the number of elements in an object that you supply to it:
@@ -723,9 +630,9 @@ length(urlist[[]])
       </code>
     </program>
 
-    <p>
+    <pre>
       Error in urlist[[]] : invalid subscript type 'symbol'
-    </p>
+    </pre>
 
     <p>
       The double brackets notation is designed to reference just a single element or component in a list, so empty double brackets does not work as a shorthand for every element in a list. So what we must do if we want to apply the length() function to each element in urlist is to loop. We could accomplish this with a for loop, as we did in the last chapter, using an index quantity such as “i” and substituting i into each expression like this: urlist[[i]]. But let’s take this opportunity to learn a new function in R, one that is generally more efficient for looping. The rapply() function is part of the “apply” family of functions,  and it stands for “recursive apply.” Recursive in this case means that the function will dive down into the complex, nested structure of urlist and repetitively run a function for us, in this case the length() function:
@@ -753,25 +660,14 @@ table(numurls,longtext)
       </code>
     </program>
 
-    <p>
+    <pre>
       longtext
-    </p>
 
-    <p>
       numurls FALSE TRUE
-    </p>
-
-    <p>
       0    16    3
-    </p>
-
-    <p>
       1    72    6
-    </p>
-
-    <p>
       2     3    0
-    </p>
+    </pre>
 
     <p>
       This table might be even more informative if we looked at it as proportions, so here is a trick to view proportions instead of counts:
@@ -783,25 +679,14 @@ prop.table(table(numurls,longtext))
       </code>
     </program>
 
-    <p>
+    <pre>
       longtext
-    </p>
 
-    <p>
       numurls FALSE TRUE
-    </p>
-
-    <p>
       0  0.16 0.03
-    </p>
-
-    <p>
       1  0.72 0.06
-    </p>
-
-    <p>
       2  0.03 0.00
-    </p>
+    </pre>
 
     <p>
       That looks familiar! Now, of course, we remember that we had exactly 100 tweets, so each of the counts could be considered a percentage with no further calculation. Still, prop.table() is a useful function to have when you would rather view your contingency tables as percentages rather than counts. We can see from these results that six percent of the tweets have one URL, but only three percent have no URLS.
@@ -817,53 +702,22 @@ table(numurls,hasrt,longtext)
       </code>
     </program>
 
-    <p>
+    <pre>
       , , longtext = FALSE
-    </p>
-
-    <p>
       hasrt
-    </p>
 
-    <p>
       numurls FALSE TRUE
-    </p>
-
-    <p>
       0    15    1
-    </p>
-
-    <p>
       1    58   14
-    </p>
-
-    <p>
       2     3    0
-    </p>
 
-    <p>
       , , longtext = TRUE
-    </p>
-
-    <p>
       hasrt
-    </p>
-
-    <p>
       numurls FALSE TRUE
-    </p>
-
-    <p>
       0     0    3
-    </p>
-
-    <p>
       1     2    4
-    </p>
-
-    <p>
       2     0    0
-    </p>
+    </pre>
 
     <p>
       Not sure this entirely solves the mystery, but if we look at the second two-way table above, where longtext = TRUE, it seems that extra long tweets either have a retweet (3 cases), or a single URL (2 cases) or both (4 cases).
