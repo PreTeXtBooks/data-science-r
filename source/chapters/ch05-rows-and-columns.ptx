@@ -26,6 +26,7 @@
       Rows and columns can be organized any way that you want, but the most common way is to
       have the rows be <q>cases</q> or <q>instances</q> and the columns be <q>attributes</q>
       or <q>variables.</q>
+      Take a look at this nice, two dimensional representation of rows and columns:
     </p>
 
     <table xml:id="table-family-data">
@@ -77,18 +78,30 @@
       variables. Either term is OK. Technically speaking, the variable names in the top line
       are <q>metadata</q> or what you could think of as data about data. Imagine how much
       more difficult it would be to understand what was going on in that table without the
-      metadata.
+      metadata. There's lot of different kinds of metadata: variable names are just one simple type of metadata.
     </p>
 
     <p>
-      So if you ignore the top row, which contains the variable names, each of the remaining
-      rows is an instance or a case. The important thing is that each row refers to an actual
-      thing. In this case all of our things are living creatures in a family. You could think
-      of the Name column as <q>case labels</q> in that each one of these labels refers to one
-      and only one row in our data. Most of the time when you are working with a large
-      dataset, there is a number used for the case label, and that number is unique for each
-      case. Computer scientists sometimes refer to this column of unique numbers as a
-      <q>key.</q>
+      So if you ignore the top row, which contains the variable names,
+each of the remaining rows is an instance or a case. Again, computer
+scientists may call them instances, and statisticians may call
+them cases, but either term is fine. The important thing is that each
+row refers to an actual thing. In this case all of our things are living
+creatures in a family. You could think of the Name column as <q>case
+labels</q> in that each one of these labels refers to one and only one
+row in our data. Most of the time when you are working with a
+large dataset, there is a number used for the case label, and that
+number is unique for each case (in other words, the same number
+would never appear in more than one row). Computer scientists
+sometimes refer to this column of unique numbers as a <q>key.</q> A key
+is very useful particularly for matching things up from different
+data sources, and we will run into this idea again a bit later. For
+now, though, just take note that the <q>Dad</q> row can be distinguished
+from the <q>Bro</q> row, even though they are both Male. Even
+if we added an <q>Uncle</q> row that had the same Age, Gender, and
+Weight as <q>Dad</q> we would still be able to tell the two rows apart
+because one would have the name <q>Dad</q> and the other would have
+the name <q>Uncle.</q>
     </p>
 
     <p>
@@ -96,10 +109,15 @@
       way down. For example, the Age column is all numbers. There's nothing in the Age column
       like <q>Old</q> or <q>Young.</q> This is a really valuable way of keeping things
       organized. After all, we could not run the <c>mean()</c> function on the Age column if
-      it contained a little piece of text. Finally, see that every column has the same number
-      of entries, so that the whole forms a nice rectangle. When statisticians and other
-      people who work with databases work with a dataset, they expect this rectangular
-      arrangement.
+      it contained a little piece of text, like <q>Old</q> or <q>Young.</q> On a related
+note, every cell (that is an intersection of a row and a column,
+for example, Sis's Age) contains just one piece of information. Although
+a spreadsheet or a word processing program might allow
+us to put more than one thing in a cell, a real data handling program
+will not. Finally, see that every column has the same number
+of entries, so that the whole forms a nice rectangle. When statisticians
+and other people who work with databases work with a dataset,
+they expect this rectangular arrangement.
     </p>
 
   </section>
@@ -108,9 +126,15 @@
     <title>Creating a Data Frame in R</title>
 
     <p>
-      Now let's figure out how to get these rows and columns into R. In this case we will
-      build each column one by one and then join them together into a single data frame.
-      First, run this command to make the column of names:
+      Now let's figure out how to get these rows and columns into R.
+One thing you will quickly learn about R is that there is almost always
+more than one way to accomplish a goal. Sometimes the
+quickest or most efficient way is not the easiest to understand. In
+this case we will build each column one by one and then join them
+together into a single data frame. This is a bit labor intensive, and
+not the usual way that we would work with a data set, but it is
+easy to understand. First, run this command to make the column
+of names:
     </p>
 
     <program language="r" xml:id="prog-ch5-names">
