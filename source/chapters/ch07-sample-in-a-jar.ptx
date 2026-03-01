@@ -21,7 +21,6 @@
 
     <p>Conveniently, R has a function called sample(), that will draw a random sample from a data set with just a single call. We can try it now with our state data:</p>
 
-
     <program language="r" xml:id="prog-ch7-sample">
       <code>
 sample(USstatePops$V1,size=16,replace=TRUE)
@@ -36,7 +35,6 @@ sample(USstatePops$V1,size=16,replace=TRUE)
 
     <p>When we’re working with numbers such as these state values, instead of counting gumball colors, we’re more interested in finding out the average, or what you now know as the mean. So we could also ask R to calculate a mean() of the sample for us:</p>
 
-
     <program language="r" xml:id="prog-ch7-mean-sample">
       <code>
 mean(sample(USstatePops$V1,size=16,
@@ -48,10 +46,9 @@ replace=TRUE))
 
     <p>There’s the nested function call again. The output no longer shows the eight values that R sampled from the list of 51. Instead it used those eight values to calculate the mean and display that for us. If you have a good memory, or merely took the time to look in the last chapter, you will remember that the actual mean of our 51 observations is 6,053,834. So the mean that we got from this one sample of eight states is really not even close to the true mean value of our 51 observations. Are we worried? Definitely not! We know that when we draw a sample, whether it is gumballs or states, we will never hit the true population mean right on the head. We’re interested not in any one sample, but in what happens over the long haul. So now we’ve got to get R to repeat this process for us, not once, not four times, but four hundred times or four thousand times. Like most programming languages, R has a variety of ways of repeating an activity. One of the easiest ones to use is the replicate() function. To start, let’s just try four replications:</p>
 
-
     <program language="r" xml:id="prog-ch7-replicate4">
       <code>
-replicate(4, mean(sample(USstatePops$V1,+ size=16,replace=TRUE)),simplify=TRUE)
+replicate(4, mean(sample(USstatePops$V1, size=16,replace=TRUE)),simplify=TRUE)
       </code>
     </program>
 
@@ -59,11 +56,10 @@ replicate(4, mean(sample(USstatePops$V1,+ size=16,replace=TRUE)),simplify=TRUE)
 
     <p>Couldn’t be any easier. We took the exact same command as before, which was a nested function to calculate the mean() of a random sample of eight states (shown above in bold). This time, we put that command inside the replicate() function so we could run it over and over again. The simplify=TRUE argument asks R to return the results as a simple vector of means, perfect for what we are trying to do. We only ran it four times, so that we would not have a big screen full of numbers. From here, though, it is easy to ramp up to repeating the process four hundred times. You can try that and see the output, but for here in the book we will encapsulate the whole replicate function inside another mean(), so that we can get the average of all 400 of the sample means. Here we go:</p>
 
-
     <program language="r" xml:id="prog-ch7-mean-replicate400">
       <code>
 mean(replicate(400, mean(
-sample(USstatePops$V1,size=16,replace=TRUE)),+
+sample(USstatePops$V1,size=16,replace=TRUE)),
 simplify=TRUE))
       </code>
     </program>
@@ -72,11 +68,10 @@ simplify=TRUE))
 
     <p>In the command above, the outermost mean() command is bolded to show what is different from the previous command. So, put into words, this deeply nested command accomplishes the following: a)  Draw 400 samples of size n=8 from our full data set of 51 states; b) Calculate the mean from each sample and keep it in a list; c) When finished with the list of 400 of these means, calculate the mean of that list of means. You can see that the mean of four hundred sample means is 5,958,336. Now that is still not the exact value of the whole data set, but it is getting close. We’re off by about 95,000, which is roughly an error of about 1.6% (more precisely, 95,498/6,053,834 = 1.58%. You may have also noticed that it took a little while to run that command, even if you have a fast computer. There’s a lot of work going on there! Let’s push it a bit further and see if we can get closer to the true mean for all of our data:</p>
 
-
     <program language="r" xml:id="prog-ch7-mean-replicate4000">
       <code>
 mean(replicate(4000, mean(
-sample(USstatePops$V1,size=16,replace=TRUE)),+
+sample(USstatePops$V1,size=16,replace=TRUE)),
 simplify=TRUE))
       </code>
     </program>
@@ -91,7 +86,6 @@ simplify=TRUE))
 
     <p>By the way, were you able to figure out the command to generate this histogram on your own? All you had to do was substitute hist() for the outermost mean() in the previous command. In case you struggled, here it is:</p>
 
-
     <program language="r" xml:id="prog-ch7-hist-sample">
       <code>
 hist(replicate(4000, mean(
@@ -104,11 +98,10 @@ simplify=TRUE))
 
     <p>Second, when we are looking at sample means, and we take the law of large numbers into account, we find that the distribution of sampling means starts to create a bell-shaped or normal distribution, and the center of that distribution, the mean of all of those sample means gets really close to the actual population mean. It gets closer faster for larger samples, and in contrast, for smaller samples you have to draw lots and lots of them to get really close. Just for fun, lets illustrate this with a sample size that is larger than 16. Here’s a run that only repeats 100 times, but each time draws a sample of n=51 (equal in size to the population):</p>
 
-
     <program language="r" xml:id="prog-ch7-replicate-n51">
       <code>
 mean(replicate(100, mean(
-sample(USstatePops$V1,size=51,replace=TRUE)),+
+sample(USstatePops$V1,size=51,replace=TRUE)),
 simplify=TRUE))
       </code>
     </program>
@@ -116,7 +109,6 @@ simplify=TRUE))
     <p>[1] 6114231</p>
 
     <p>Now, we’re only off from the true value of the population mean by about one tenth of one percent. You might be scratching your head now, saying, “Wait a minute, isn’t a sample of 51 the same thing as the whole list of 51 observations?” This is confusing, but it goes back to the question of sampling with replacement that we examined a couple of pages ago (and that appears in the command above as replace=TRUE). Sampling with replacement means that as you draw out one value to include in your random sample, you immediately chuck it back into the list so that, potentially, it could get drawn again either immediately or later. As mentioned before, this practice simplifies the underlying proofs, and it does not cause any practical problems, other than head scratching. In fact, we could go even higher in our sample size with no trouble:</p>
-
 
     <program language="r" xml:id="prog-ch7-replicate-n120">
       <code>
@@ -137,16 +129,14 @@ simplify=TRUE))
 
     <p>So, if you’ve had a chance to catch your breath, let’s move on to making use of the sampling distribution. First, let’s save one distribution of sample means so that we have a fixed set of numbers to work with:</p>
 
-
     <program language="r" xml:id="prog-ch7-samplemeans">
       <code>
-SampleMeans &lt;- replicate(10000, + mean(sample(USstatePops$V1,size=120,+
+SampleMeans &lt;- replicate(10000, mean(sample(USstatePops$V1,size=120,
 replace=TRUE)),simplify=TRUE)
       </code>
     </program>
 
     <p>The bolded part is new. We’re saving a distribution of sample means to a new vector called “SampleMeans”. We should have 10,000 of them:</p>
-
 
     <program language="r" xml:id="prog-ch7-length">
       <code>
@@ -158,7 +148,6 @@ length(SampleMeans)
 
     <p>And the mean of all of these means should be pretty close to our population mean of 6,053,384:</p>
 
-
     <program language="r" xml:id="prog-ch7-mean-samplemeans">
       <code>
 mean(SampleMeans)
@@ -168,7 +157,6 @@ mean(SampleMeans)
     <p>[1] 6058718</p>
 
     <p>You might also want to run a histogram on SampleMeans and see what the frequency distribution looks like. Right now, all we need to look at is a summary of the list of sample means:</p>
-
 
     <program language="r" xml:id="prog-ch7-summary">
       <code>
@@ -188,7 +176,6 @@ summary(SampleMeans)
 
     <p>There is a slightly different way of getting the same information from R that will prove more flexible for us in the long run. The quantile() function can show us the same information as the median and the quartiles, like this:</p>
 
-
     <program language="r" xml:id="prog-ch7-quantile-quartiles">
       <code>
 quantile(SampleMeans, probs=c(0.25,0.50,0.75))
@@ -200,7 +187,6 @@ quantile(SampleMeans, probs=c(0.25,0.50,0.75))
     <p>5631624 6028665 6457388</p>
 
     <p>You will notice that the values are just slightly different, by less than one tenth of one percent, than those produced by the summary() function. These are actually more precise, although the less precise ones from summary() are fine for most purposes. One reason to use quantile() is that it lets us control exactly where we make the cuts. To get quartiles, we cut at 25% (0.25 in the command just above), at 50%, and at 75%. But what if we wanted instead to cut at 5% and 95%? Easy to do with quantile():</p>
-
 
     <program language="r" xml:id="prog-ch7-quantile-5-95">
       <code>
@@ -220,14 +206,12 @@ quantile(SampleMeans, probs=c(0.05,0.95))
 
     <p>We can easily get these into R and calculate the sample mean:</p>
 
-
     <program language="r" xml:id="prog-ch7-mystery-assign">
       <code>
 MysterySample &lt;- c(3706690, 159358, 106405,
    55519, 53883)
       </code>
     </program>
-
 
     <program language="r" xml:id="prog-ch7-mystery-mean">
       <code>
@@ -242,7 +226,6 @@ mean(MysterySample)
     <p>In this case, we can see quite clearly that 816,371 is on the extreme low end of the sampling distribution. Recall that when we ran the quantile() command we found that only 5% of the sample means in the distribution were smaller than 5,085,394.</p>
 
     <p>In fact, we could even play around with a more stringent criterion:</p>
-
 
     <program language="r" xml:id="prog-ch7-quantile-1-99">
       <code>
@@ -264,7 +247,6 @@ quantile(SampleMeans, probs=c(0.01,0.99))
 
     <p>First, we looked at the mean of the sampling distribution with mean() and we looked at its shaped with hist(), but we never quantified the spread of the distribution:</p>
 
-
     <program language="r" xml:id="prog-ch7-sd-samplemeans">
       <code>
 sd(SampleMeans)
@@ -276,7 +258,6 @@ sd(SampleMeans)
     <p>This shows us the standard deviation of the distribution of sampling means. Statisticians call this the “standard error of the mean.” This chewy phrase would have been clearer, although longer, if it had been something like this: “the standard deviation of the distribution of sample means for samples drawn from a population.” Unfortunately, statisticians are not known for giving things clear labels. Suffice to say that when we are looking at a distribution and each data point in that distribution is itself a representation of a sample (for example, a mean), then the standard deviation is referred to as the standard error.</p>
 
     <p>Second, there is a shortcut to finding out the standard error that does not require actually constructing an empirical distribution of 10,000 (or any other number) of sampling means. It turns out that the standard deviation of the original raw data and the standard error are closely related by a simple bit of algebra:</p>
-
 
     <program language="r" xml:id="prog-ch7-stderr-formula">
       <code>
@@ -290,13 +271,11 @@ sd(USstatePops$V1)/sqrt(120)
 
     <p>The last thing is another shortcut. We found out the 5% cut point and the 95% cut point by constructing the sampling distribution and then using quantile to tell us the actual cuts. You can also find those cut points just using the mean and the standard error. Two standard errors down from the mean is the 5% cut point and two standard errors up from the mean is the 95% cut point.</p>
 
-
     <program language="r" xml:id="prog-ch7-stderror">
       <code>
 StdError&lt;-sd(USstatePops$V1)/sqrt(120)
       </code>
     </program>
-
 
     <program language="r" xml:id="prog-ch7-cutpoint5">
       <code>
@@ -304,13 +283,11 @@ CutPoint5&lt;-mean(USstatePops$V1)-(2 * StdError)
       </code>
     </program>
 
-
     <program language="r" xml:id="prog-ch7-cutpoint95">
       <code>
 CutPoint95&lt;-mean(USstatePops$V1)+(2 * StdError)
       </code>
     </program>
-
 
     <program language="r" xml:id="prog-ch7-cutpoint5-val">
       <code>
@@ -319,7 +296,6 @@ CutPoint5
     </program>
 
     <p>[1] 4807951</p>
-
 
     <program language="r" xml:id="prog-ch7-cutpoint95-val">
       <code>
