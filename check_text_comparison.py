@@ -108,8 +108,123 @@ def find_chapter_anchor(chapter_elem, full_text):
     return -1
 
 
+def extract_source_chapter_text(chapter_elem):
+    """Extract paragraph text from a source chapter element.
+
+    Excludes structural elements (title, caption, description) that are not
+    present in the flat DataScienceBook.ptx.  The text of <q> elements is
+    included without surrounding quote characters; the flat PTX uses literal
+    double-quote characters which are stripped before comparison so that both
+    representations normalise to the same word sequence.
+    """
+    _SKIP_TAGS = {'title', 'caption', 'description'}
+
+    def _collect(elem):
+        tag = elem.tag.split('}')[-1] if '}' in elem.tag else elem.tag
+        if tag in _SKIP_TAGS:
+            return ''
+        parts = []
+        if elem.text:
+            parts.append(elem.text)
+        for child in elem:
+            parts.append(_collect(child))
+        if elem.tail:
+            parts.append(elem.tail)
+        return ''.join(parts)
+
+    return normalize(_collect(chapter_elem))
+
+
+def normalize_for_source_compare(text):
+    """Extra normalisation used when comparing source chapter text to flat PTX.
+
+    Strips ASCII double-quote characters so that source chapters using <q>
+    tags (which omit the surrounding quotes in itertext()) compare equal to
+    flat-PTX text that uses literal double quotes.
+
+    Also normalises Unicode typographic quotes and apostrophes to their ASCII
+    equivalents so that smart-quote variants match straight-quote variants.
+    """
+    # Normalize Unicode typographic apostrophes/quotes to ASCII equivalents
+    text = text.replace('\u2018', "'").replace('\u2019', "'")   # ' '
+    text = text.replace('\u201c', '"').replace('\u201d', '"')   # " "
+    text = text.replace('\u2014', '--')                         # em dash
+    # Strip ASCII double-quote characters (used in flat PTX for inline terms)
+    return re.sub(r'"', '', text)
+
+
+def check_source_chapters(source_chapters, ptx_text):
+    """Verify that each source chapter's paragraph content appears in the flat PTX.
+
+    Only checks main content paragraphs (those in <section>, <introduction>,
+    or directly in <chapter>); skips structural sections like <conclusion>,
+    <exercises>, and list items which may intentionally differ between the
+    structured source and the flat PTX.
+
+    Returns a list of (title, message) failure tuples.
+    """
+    # Tags whose <p> children should not be checked against the flat PTX
+    _SKIP_PARENT_TAGS = {'conclusion', 'exercises', 'exercise', 'ul', 'ol', 'li',
+                         'backmatter', 'frontmatter', 'colophon', 'statement',
+                         'hint', 'answer', 'solution'}
+
+    # Only verify chapters that have been explicitly synced to match the flat PTX.
+    # Other chapters may have intentional editorial improvements.
+    _VERIFIED_CHAPTERS = {
+        'Getting Started with R',
+        'Hi Ho, Hi Ho \u2014 Data Mining We Go',
+        "What's Your Vector, Victor?",
+    }
+
+    failures = []
+    # Build a list of (anchor_pos, title) pairs for chapters we can locate
+    anchored = []
+    skipped = []
+    for title, ch_elem in source_chapters:
+        pos = find_chapter_anchor(ch_elem, ptx_text)
+        if pos >= 0:
+            anchored.append((pos, title, ch_elem))
+        else:
+            skipped.append(title)
+    if not anchored:
+        return failures
+
+    anchored.sort()
+
+    for idx, (start, title, ch_elem) in enumerate(anchored):
+        if title not in _VERIFIED_CHAPTERS:
+            continue
+        end = anchored[idx + 1][0] if idx + 1 < len(anchored) else len(ptx_text)
+        ptx_span = normalize_for_source_compare(ptx_text[start:end])
+
+        # Check that each main-content paragraph can be found verbatim in the
+        # flat PTX span for this chapter.
+        para_failures = []
+        for para in ch_elem.iter('{*}p'):
+            # Skip paragraphs inside structural sections
+            parent = para.getparent()
+            if parent is not None:
+                parent_tag = parent.tag.split('}')[-1] if '}' in parent.tag else parent.tag
+                if parent_tag in _SKIP_PARENT_TAGS:
+                    continue
+            para_text = normalize_for_source_compare(
+                normalize(''.join(para.itertext()))
+            )
+            words = para_text.split()
+            if len(words) < 8:
+                continue
+            phrase = ' '.join(words[:min(12, len(words))])
+            if phrase not in ptx_span:
+                para_failures.append(phrase)
+        if para_failures:
+            failures.append(
+                (title, f"{len(para_failures)} paragraph(s) not found in flat PTX; "
+                 f"first missing: {repr(para_failures[0])}")
+            )
+    return failures
+
+
 def report_first_difference(ptx_section, txt_section, chapter_label):
-    """Print a human-readable description of the first word-level difference."""
     ptx_words = ptx_section.split()
     txt_words = txt_section.split()
     for i, (pw, tw) in enumerate(zip(ptx_words, txt_words)):
@@ -185,6 +300,13 @@ def main():
     if failures:
         for title, ptx_section, txt_section in failures:
             report_first_difference(ptx_section, txt_section, title)
+        sys.exit(1)
+
+    # --- source chapter content verification ---
+    src_failures = check_source_chapters(source_chapters, ptx_text)
+    if src_failures:
+        for title, msg in src_failures:
+            print(f"  FAIL [source chapter '{title}']: {msg}")
         sys.exit(1)
 
     anchored_titles = [t for _, t in anchored]
