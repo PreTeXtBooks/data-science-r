@@ -517,6 +517,13 @@ hist(created, breaks=15, freq=TRUE)
       </code>
     </program>
 
+    <figure xml:id="fig-ch10-hist-created">
+      <caption>Histogram of tweet creation times, showing frequency of tweets posted during each roughly 16-minute interval from about 4:20 AM to 10:10 AM.</caption>
+      <image source="ch10-hist-created.png" width="75%">
+        <description>A histogram titled "Histogram of created." The x-axis is labeled "created" with tick marks at 04:20, 05:10, 06:00, 06:50, 07:40, 08:30, 09:20, and 10:10. The y-axis is labeled "Frequency" and ranges from 0 to 35. The bars show varying tweet frequencies across the time span, with the tallest bar reaching about 35 near 09:20.</description>
+      </image>
+    </figure>
+
     <p>This command yields a histogram. If we look along the x-axis (the horizontal), this string of tweets starts at about 4:20 AM and goes until about 10:10 AM, a span of roughly six hours. There are 22 different bars so each bar represents about 16 minutes — for casual purposes we’ll call it a quarter of an hour. It looks like there are something like 20 tweets per bar, so we are looking at roughly 80 tweets per hour with the hashtag “#climate.” This is obviously a pretty popular topic. This distribution does not really have a discernible shape, although it seems like there might be a bit of a growth trend as time goes on, particularly starting at about 7:40 AM.</p>
 
     <p>Take note of something very important about these data: It doesn’t make much sense to work with a measure of central tendency. Remember a couple of chapters ago when we were looking at the number of people who resided in different U.S. states? In that case it made sense to say that if State A had one million people and State B had three million people, then the average of these two states was two million people. When you’re working with time stamps, it doesn’t make a whole lot of sense to say that one tweet arrived at 7 AM and another arrived at 9 AM so the average is 8 AM. Fortunately, there’s a whole area of statistics concerned with “arrival” times and similar phenomena, dating back to a famous study by Ladislaus von Bortkiewicz of horsemen who died after being kicked by their horses. von Bortkiewicz studied each of 14 cavalry corps over a period of 20 years, noting when horsemen died each year. The distribution of the “arrival” of kick-deaths turns out to have many similarities to other arrival time data, such as the arrival of buses or subway cars at a station, the arrival of customers at a cash register, or the occurrence of telephone calls at a particular exchange. All of these kinds of events fit what is known as a “Poisson Distribution” (named after Simeon Denis Poisson, who published it about half a century before von Bortkiewicz found a use for it). Let’s find out if the arrival times of tweets comprise a Poisson distribution.</p>
@@ -567,6 +574,13 @@ hist(as.integer(diff(created)))
       </code>
     </program>
 
+    <figure xml:id="fig-ch10-hist-diff-created">
+      <caption>Histogram of time differences (in seconds) between consecutive tweets, showing a right-skewed distribution typical of Poisson arrival times.</caption>
+      <image source="ch10-hist-diff-created.png" width="75%">
+        <description>A histogram titled "Histogram of as.integer(diff(created))." The x-axis is labeled "as.integer(diff(created))" with tick marks at 0, 100, 200, 300, and 400. The y-axis is labeled "Frequency" and ranges from 0 to 350. The distribution is strongly right-skewed, with the tallest bar (around 350) near zero seconds and rapidly decreasing bars for longer time intervals.</description>
+      </image>
+    </figure>
+
     <p>As with earlier commands, we use <c>as.integer()</c> to coerce the time differences into plain numbers, otherwise <c>hist()</c> does not know how to handle the time differences. This histogram shows that the majority of tweets in this group come within 50 seconds or less of the previous tweets. A much smaller number of tweets arrive within somewhere between 50 and 100 seconds, and so on down the line. This is typical of a Poisson arrival time distribution. Unlike the raw arrival time data, we could calculate a mean on the time differences:</p>
 
     <pre>
@@ -608,6 +622,13 @@ hist(as.integer(diff(created)))
     </pre>
 
     <p>You could also think of these as ratios, for example 145/500 = 0.29. And where we have a ratio, we often can think about it as a probability: There is a 29% probability that the next tweet will arrive in 10 seconds or less. You could make a function to create a whole list of these probabilities. Some sample code for such a function appears at the end of the chapter. Some new scripting skills that we have not yet covered (for example, the “for loop”) appear in this function, but try making sense out of it to stretch your brain. Output from this function created the plot that appears below.</p>
+
+    <figure xml:id="fig-ch10-plist-plot">
+      <caption>Cumulative probability that the next tweet will arrive within a given number of 10-second intervals, based on the sample data.</caption>
+      <image source="ch10-plist-plot.png" width="75%">
+        <description>A scatter plot with open circles. The x-axis is labeled “Index” and ranges from 0 to about 25, representing 10-second intervals. The y-axis is labeled “plist” and ranges from about 0.3 to 1.0. The points follow a concave-upward curve starting near 0.29 at index 1 and approaching 1.0 by index 23, illustrating the cumulative Poisson arrival probability.</description>
+      </image>
+    </figure>
 
     <p>This is a classic Poisson distribution of arrival probabilities. The x-axis contains 10 second intervals (so by the time you see the number 5 on the x-axis, we are already up to 50 seconds). This is called a cumulative probability plot and you read it by talking about the probability that the next tweet will arrive in the amount of time indicated on the x-axis or less. For example, the number five on the x-axis corresponds to about a 60% probability on the y-axis, so there is a 60% probability that the next tweet will arrive in 50 seconds or less. Remember that this estimate applies only to the data in this sample!</p>
 
