@@ -72,7 +72,7 @@ return(myVector)
     </p>
 
     <p>
-      A couple of other things to note: The first is the “myVector” in parentheses on the first line of our function.  This is the “argument” or input to the function. We have seen arguments before when we called functions like <c>mean()</c> and <c>median()</c>. Next, note the curly braces that are used on the second and final lines. These curly braces hold together all of the code that goes in our function. Finally, look at the <c>return()</c> right near the end of our function. This <c>return()</c> is where we send back the result of what our function accomplished. Later on when we “call” our new function from the R console, the result that we get back will be whatever is in the parentheses in the <c>return()</c>.
+      A couple of other things to note: The first is the “myVector” in parentheses on the first line of our function.  This is the “argument” or input to the function. We have seen arguments before when we called functions like <c>mean()</c> and <c>median()</c>. Next, note the curly braces that are used on the second and final lines. These curly braces hold together all of the code that goes in our function. Finally, look at the <c><c>return()</c></c> right near the end of our function. This <c><c>return()</c></c> is where we send back the result of what our function accomplished. Later on when we “call” our new function from the R console, the result that we get back will be whatever is in the parentheses in the <c><c>return()</c></c>.
     </p>
 
     <p>
@@ -143,7 +143,7 @@ MyMode(tinyData)
     </pre>
 
     <p>
-      Pretty easy to see what the new code does, right? We called the <c>unique()</c> function, and that returned a list of unique values that appeared in <c>tinyData</c>. Basically, <c>unique()</c> took out all of the redundancies in the vector that we passed to it. Now let’s build a little more:
+      Pretty easy to see what the new code does, right? We called the <c><c>unique()</c></c> function, and that returned a list of unique values that appeared in <c>tinyData</c>. Basically, <c><c>unique()</c></c> took out all of the redundancies in the vector that we passed to it. Now let’s build a little more:
     </p>
 
     <program language="r" xml:id="prog-ch9-mymode-v3">
@@ -320,7 +320,7 @@ tabulate(tinyData)
     </pre>
 
     <p>
-      In the first line, we stuck a bunch of nines on the end of tinyData. Remember that we had no sixes, sevens, or eights. Now when we run <c>MyMode()</c> it says “NA,” which is R’s way of saying that something went wrong and you are getting back an empty value. It is probably not obvious why things went whacky until we look at the last command above, <c>tabulate(tinyData)</c>. Here we can see what happened: when it was run inside of the <c>MyMode()</c> function, <c>tabulate()</c> generated a longer list than we were expecting, because it added zeroes to cover the sixes, sevens, and eights that were not there. The maximum value, out at the end is 7, and this refers to the number of nines in <c>tinyData</c>. But look at what the <c>unique()</c> function produces:
+      In the first line, we stuck a bunch of nines on the end of tinyData. Remember that we had no sixes, sevens, or eights. Now when we run <c>MyMode()</c> it says “NA,” which is R’s way of saying that something went wrong and you are getting back an empty value. It is probably not obvious why things went whacky until we look at the last command above, <c>tabulate(tinyData)</c>. Here we can see what happened: when it was run inside of the <c>MyMode()</c> function, <c><c>tabulate()</c></c> generated a longer list than we were expecting, because it added zeroes to cover the sixes, sevens, and eights that were not there. The maximum value, out at the end is 7, and this refers to the number of nines in <c>tinyData</c>. But look at what the <c><c>unique()</c></c> function produces:
     </p>
 
     <program language="r">
@@ -333,7 +333,7 @@ unique(tinyData)
     </pre>
 
     <p>
-      There are only six elements in this list, so it doesn’t match up as it should (take another look at the table on the previous page and imagine if the bottom row stuck out further than the row just above it). We can fix this with the addition of the <c>match()</c> function to our code:
+      There are only six elements in this list, so it doesn’t match up as it should (take another look at the table on the previous page and imagine if the bottom row stuck out further than the row just above it). We can fix this with the addition of the <c><c>match()</c></c> function to our code:
     </p>
 
     <program language="r" xml:id="prog-ch9-mymode-v5">
@@ -370,7 +370,7 @@ MyMode(tinyData)
     </p>
 
     <p>
-      A couple of other points deserve attention. First, notice that when we created our own function, we had to do some testing and repairs to make sure it ran the way we wanted it to. This is a common situation when working on anything related to computers, including spreadsheets, macros, and pretty much anything else that requires precision and accuracy. Second, we introduced at least four new functions in this exercise, including <c>unique()</c>, <c>tabulate()</c>, <c>match()</c>, and <c>which.max()</c>. Where did these come from and how did we know? R has so many functions that it is very difficult to memorize them all. There’s almost always more than one way to do something, as well. So it can be quite confusing to create a new function, if you don’t know all of the ingredients and there’s no one way to solve a particular problem. This is where the community comes in. Search online and you will find dozens of instances where people have tried to solve similar problems to the one you are solving, and you will also find that they have posted the R code for their solutions. These code fragments are free to borrow and test. In fact, learning from other people’s examples is a great way to expand your horizons and learn new techniques.
+      A couple of other points deserve attention. First, notice that when we created our own function, we had to do some testing and repairs to make sure it ran the way we wanted it to. This is a common situation when working on anything related to computers, including spreadsheets, macros, and pretty much anything else that requires precision and accuracy. Second, we introduced at least four new functions in this exercise, including <c><c>unique()</c></c>, <c><c>tabulate()</c></c>, <c><c>match()</c></c>, and <c>which.max()</c>. Where did these come from and how did we know? R has so many functions that it is very difficult to memorize them all. There’s almost always more than one way to do something, as well. So it can be quite confusing to create a new function, if you don’t know all of the ingredients and there’s no one way to solve a particular problem. This is where the community comes in. Search online and you will find dozens of instances where people have tried to solve similar problems to the one you are solving, and you will also find that they have posted the R code for their solutions. These code fragments are free to borrow and test. In fact, learning from other people’s examples is a great way to expand your horizons and learn new techniques.
     </p>
 
     <figure xml:id="fig-ch09-rstudio-mymode">
@@ -390,7 +390,7 @@ MyMode(tinyData)
     </p>
 
     <p>
-      Let’s try out the <c>mfv()</c> function. This function returns the “most frequent value” in a vector, which is generally what we want in a mode function:
+      Let’s try out the <c><c>mfv()</c></c> function. This function returns the “most frequent value” in a vector, which is generally what we want in a mode function:
     </p>
 
     <program language="r">
@@ -420,7 +420,7 @@ return(as.numeric(levels(f)[tf == max(tf)]))
 &lt;environment: namespace:modeest&gt;</pre>
 
     <p>
-      This is one of the great things about an open source program: you can easily look under the hood to see how things work. Notice that this is quite different from how we built <c>MyMode()</c>, although it too uses the <c>tabulate()</c> function. The final line, that begins with the word “environment” has importance for more complex feats of programming, as it indicates which variable names <c>mfv()</c> can refer to when it is working. The other aspect of this function which is probably not so obvious is that it will correctly return a list of multiple modes when one exists in the data you send to it:
+      This is one of the great things about an open source program: you can easily look under the hood to see how things work. Notice that this is quite different from how we built <c>MyMode()</c>, although it too uses the <c><c>tabulate()</c></c> function. The final line, that begins with the word “environment” has importance for more complex feats of programming, as it indicates which variable names <c><c>mfv()</c></c> can refer to when it is working. The other aspect of this function which is probably not so obvious is that it will correctly return a list of multiple modes when one exists in the data you send to it:
     </p>
 
     <program language="r">
@@ -442,7 +442,7 @@ MyMode(multiData)
     </pre>
 
     <p>
-      In the first command line above, we made a small new vector that contains two modes, 7 and 9.  Each of these numbers occurs twice, while the other numbers occur only once. When we run <c>mfv()</c> on this vector it correctly reports both 7 and 9 as modes. When we use our function, <c>MyMode()</c>, it only reports the first of the two modes.
+      In the first command line above, we made a small new vector that contains two modes, 7 and 9.  Each of these numbers occurs twice, while the other numbers occur only once. When we run <c><c>mfv()</c></c> on this vector it correctly reports both 7 and 9 as modes. When we use our function, <c>MyMode()</c>, it only reports the first of the two modes.
     </p>
 
     <p>
@@ -478,12 +478,12 @@ MyMode(multiData)
 
     <p>R Commands Used in this Chapter</p>
 
-    <p>function() - Creates a new function</p>
-    <p>return() - Completes a function by returning a value</p>
-    <p>tabulate() - Counts occurrences of integer-valued data in a vector</p>
-    <p>unique() - Creates a list of unique values in a vector</p>
-    <p>match() - Takes two lists and returns values that are in each</p>
-    <p>mfv() - Most frequent value (from the modeest package)</p>
+    <p><c>function()</c> - Creates a new function</p>
+    <p><c>return()</c> - Completes a function by returning a value</p>
+    <p><c>tabulate()</c> - Counts occurrences of integer-valued data in a vector</p>
+    <p><c>unique()</c> - Creates a list of unique values in a vector</p>
+    <p><c>match()</c> - Takes two lists and returns values that are in each</p>
+    <p><c>mfv()</c> - Most frequent value (from the modeest package)</p>
 
   </conclusion>
 
