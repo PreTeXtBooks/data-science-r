@@ -16,21 +16,46 @@
     <title>Supervised vs. Unsupervised Learning</title>
 
     <p>
-      From the previous chapter you may remember that data mining techniques fall into two
-      large categories: supervised learning techniques and unsupervised learning techniques.
-      The association rules mining examined in the previous chapter was an unsupervised
-      technique&#x2014;there was no particular criterion that we were trying to predict;
-      rather, we were looking for patterns that would emerge from the data naturally.
-    </p>
-
-    <p>
-      In the present chapter we will examine a <term>supervised learning</term> technique
-      called <term>support vector machines</term>. The reason this is considered a
-      supervised learning technique is that we <q>train</q> the algorithm on an initial set
-      of data (the <q>supervised</q> phase) and then we test it out on a brand new set of
-      data. If the training we accomplished worked well, then the algorithm should be able
-      to predict the right outcome most of the time in the test data.
-    </p>
+From the previous chapter you may remember that data mining
+techniques fall into two large categories: supervised learning techniques
+and unsupervised learning techniques. The association
+rules mining examined in the previous chapter was an unsupervised
+technique. This means that there was no particular criterion
+that we were trying to predict, rather we were just looking for patterns
+that would emerge from the data naturally.
+</p><p>
+In the present chapter we will examine a supervised learning technique
+called "support vector machines." Why the technique is
+called this we will examine shortly. The reason this is considered a
+supervised learning technique is that we "train" the algorithm on
+an initial set of data (the "supervised" phase) and then we test it
+out on a brand new set of data. If the training we accomplished
+worked well, then the algorithm should be able to predict the right
+outcome most of the time in the test data.
+</p><p>
+Take the weather as a simple example. Some days are cloudy, some
+are sunny. The barometer rises some days and fall others. The
+wind may be strong or weak and it may come from various directions.
+If we collect data on a bunch of days and use those data to
+train a machine learning algorithm, the algorithm may find that
+cloudy days with a falling barometer and the wind from the east
+may signal that it is likely to rain. Next, we can collect more data
+on some other days and see how well our algorithm does at predicting
+rain on those days. The algorithm will make mistakes. The
+percentage of mistakes is the error rate, and we would like the error
+rate to be as low as possible.
+</p><p>
+This is the basic strategy of supervised machine learning: Have a
+substantial number of training cases that the algorithm can use to
+discover and mimic the underlying pattern and then use the results
+of that process on a test data set in order to find out how well
+the algorithm and parameters perform in a "cross validation."
+Cross validation, in this instance, refers to the process of verifying
+that the trained algorithm can carry out is prediction or classification
+task accurately on novel data.
+</p>
+<p>In this chapter, we will develop a "support vector machine" (SVM)
+to classify emails into spam or not spam.</p>
 
   </section>
 
@@ -38,72 +63,254 @@
     <title>How Support Vector Machines Work</title>
 
     <p>
-      An SVM maps a low dimensional problem into a higher dimensional space with the goal
-      of being able to describe geometric boundaries between different regions. A simple
-      2D-3D mapping example illustrates how this works:
-    </p>
-
-    <p>
-      Imagine looking at a photograph of a snow-capped mountain photographed from high
-      above the earth such that the mountain looks like a small, white circle completely
-      surrounded by a region of green trees. Using a pair of scissors, there is no way of
-      cutting the photo on a straight line so that all of the white snow is on one side of
-      the cut and all of the green trees are on the other.
-    </p>
-
-    <p>
-      Next, instead of a piece of paper, think about a realistic three-dimensional clay
-      model of the mountain. Now all the white points occupy a cone at the peak of the
-      mountain and all of the green points lie at the base of the mountain. Imagine
-      inserting a sheet of cardboard through the clay model in a way that divides the
-      snow-capped peak from the green-tree-covered base. It is much easier to do now
-      because the white points are sticking up into the high altitude and the green points
-      are all on the base of the mountain. A support vector machine analysis would take the
-      original two-dimensional point data and search for a projection into three dimensions
-      that would maximize the spacing between the two classes of points.
-    </p>
-
+      An SVM maps a low dimensional
+problem into a higher dimensional space with the goal
+of being able to describe geometric boundaries between different
+regions. The input data (the independent variables) from a given
+case are processed through a "mapping" algorithm called a kernel
+(the kernel is simply a formula that is run on each case’s vector of
+input data), and the resulting kernel output determines the position
+of that case in multidimensional space.
+</p><p>
+A simple 2D-3D mapping example illustrates how this works:
+Imagine looking at a photograph of a snow-capped mountain photographed
+from high above the earth such that the mountain looks
+like a small, white circle completely surrounded by a region of
+green trees. Using a pair of scissors, there is no way of cutting the
+photo on a straight line so that all of the white snow is on one side
+of the cut and all of the green trees are on the other. In other words
+there is no simple linear separation function that could correctly
+separate or classify the white and green points given their 2D position
+on the photograph.
+</p><p>
+Next, instead of a piece of paper, think about a realistic threedimensional
+clay model of the mountain. Now all the white points
+occupy a cone at the peak of the mountain and all of the green
+points lie at the base of the mountain. Imagine inserting a sheet of
+cardboard through the clay model in a way that divides the snowcapped
+peak from the green-tree-covered base. It is much easier to
+do now because the white points are sticking up into the high altitude
+and the green points are all on the base of the mountain.
+</p><p>
+The position of that piece of cardboard is the planar separation
+function that divides white points from green points. A support
+vector machine analysis of this scenario would take the original
+two dimensional point data and search for a projection into three
+dimensions that would maximize the spacing between green
+points and white points. The result of the analysis would be a
+mathematical description of the position and orientation of the
+cardboard plane. Given inputs describing a novel data point, the
+SVM could then map the data into the higher dimensional space
+and then report whether the point was above the cardboard (a
+white point) or below the cardboard (a green point). The so called
+support vectors contain the coefficients that map the input data for
+each case into the high dimensional space.
+</p>
   </section>
 
   <section xml:id="sec-spam-svm">
     <title>Classifying Spam Email with kernlab</title>
 
-    <p>
-      To get started with support vector machines, we can load the <c>kernlab</c> package:
+<p>
+To get started with support vector machines, we can load one of
+the R packages that supports this technique. We will use the "kernlab"
+package. Use the commands below:
     </p>
 
     <program language="r" xml:id="prog-ch18-kernlab">
       <code>
 install.packages("kernlab")
 library(kernlab)
+     </code>
+    </program>
+
+<p>I found that it was important to use the double quotes in the first
+command, but not in the second command. The data set that we
+want to use is built into this package. The data comes from a study
+of spam emails received by employees at the Hewlett-Packard company.
+Load the data with the following command:</p>
+
+    <program language="r" xml:id="prog-ch18-kernlab">
+      <code>
 data(spam)
-str(spam)
-dim(spam)
-table(spam$type)
       </code>
     </program>
 
-    <p>
-      The <c>spam</c> dataset comes from a study of spam emails received by employees at
-      the Hewlett-Packard company. It contains 4601 rows and 58 variables. The last
-      variable, <c>type</c>, indicates whether a human expert classified each email as
-      spam or not spam. There are 2788 non-spam messages and 1813 spam messages.
-    </p>
+<p>This command does not produce any output. We can now inspect
+the "spam" dataset with the <c>str</c> command:</p>
+
+    <program language="r" xml:id="prog-ch18-kernlab">
+      <code>
+str(spam)
+      </code>
+    </program>
+
+<pre>
+'data.frame': 4601 obs. of 58 variables:
+$ make         : num  0 0.21 0.06 0 0 0 0 0 0.15 0.06 ...
+$ address      : num  0.64 0.28 0 0 0 0 0 0 0 0.12 ...
+$ all          : num  0.64 0.5 0.71 0 0 0 0 0 0.46 0.77 ...
+$ num3d        : num  0 0 0 0 0 0 0 0 0 0 ...
+.
+.
+.
+$ charDollar   : num  0 0.18 0.184 0 0 0 0.054 0 0.203 0.081 ...
+$ charHash     : num  0 0.048 0.01 0 0 0 0 0 0.022 0 ...
+$ capitalAve   : num  3.76 5.11 9.82 3.54 3.54 ...
+$ capitalLong  : num  61 101 485 40 40 15 4 11 445 43 ...
+$ capitalTotal : num  278 1028 2259 191 191 ...
+$ type         : Factor w/ 2 levels "nonspam","spam": 2 2 2 2 2 2 2 2 2 2 ...
+</pre>
+<p>
+Some of the lines of output have been elided from the material
+above. You can also use the <c>dim</c> function to get a quick overview
+of the data structure:
+</p>
+    <program language="r" xml:id="prog-ch18-kernlab">
+      <code>
+dim(spam)
+      </code>
+    </program>
+<pre>
+[1] 4601 58
+</pre>
+<p>
+The <c>dim</c> function shows the "dimensions" of the data structure.
+The output of this <c>dim</c> function shows that the spam data 
+structure has 4601 rows and 58 columns. If you inspect a few of the column
+names that emerged from the <c>str</c> command, you may see
+that each email is coded with respect to its contents. There is lots of
+information available about the data set here:
+http://archive.ics.uci.edu/ml/datasets/Spambase
+</p><p>
+For example, just before "type" at the end of the output of the <c>str</c>
+command on the previous page, we see a variable called "capitalTotal."
+This is the total number of capital letters in the whole email.
+Right after that is the criterion variable, "type," that indicates
+whether an email was classified as spam by human experts. Let’s
+explore this variable a bit more:
+</p>
+    <program language="r" xml:id="prog-ch18-kernlab">
+      <code>
+table(spam$type)
+      </code>
+    </program>
+<pre>
+nonspam   spam
+   2788   1813
+</pre>
 
     <p>
-      To make the analysis work we need to divide the dataset into a training set and a
-      test set. As a rule of thumb, use two thirds of the dataset to train and the
-      remainder to test:
+      We use the table function because type is a factor rather than a numeric
+variable. The output shows us that there are 2788 messages
+that were classified by human experts as not spam, and 1813 messages
+that were classified as spam. What a great dataset!
+</p><p>
+To make the analysis work we need to divide the dataset into a
+training set and a test set. There is no universal way to do this, but
+as a rule of thumb, you can use two thirds of the data set to train
+and the remainder to test. Let’s first generate a randomized index
+that will let us choose cases for our training and test sets. In the following
+command, we create a new list/vector variable that samples
+at random from a list of numbers ranging from 1 to the final
+element index of the spam data (4601).
     </p>
 
     <program language="r" xml:id="prog-ch18-split">
       <code>
 randIndex &lt;- sample(1:dim(spam)[1])
+summary(randIndex)
+</code>
+</program>
+
+<pre>
+  Min. 1st Qu. Median Mean 3rd Qu. Max.
+     1    1151   2301 2301    3451 4601
+</pre>
+
+    <program language="r" xml:id="prog-ch18-split">
+      <code>
+length(randIndex)
+</code>
+</program>
+<pre>4601</pre>
+
+<p>
+The output of the <c>summary()</c> and <c>length()</c> commands above show
+that we have successfully created a list of indices ranging from 1 to
+4601 and that the total length of our index list is the same as the
+number of rows in the spam dataset: 4601. We can confirm that the
+indices are randomized by looking at the first few cases:
+</p>
+
+    <program language="r" xml:id="prog-ch18-split">
+      <code>
+ head(randIndex)
+</code>
+</program>
+<pre>
+  [1] 2073 769 4565 955 3541 3357
+</pre>
+<p>It is important to randomize your selection of cases for the training
+and test sets in order to ensure that there is no systematic bias in
+the selection of cases. We have no way of knowing how the original
+dataset was sorted (if at all) - in case it was sorted on some variable
+of interest we do not just want to take the first 2/3rds of the
+cases as the training set.
+</p><p>Next, let’s calculate the "cut point" that would divide the spam dataset
+into a two thirds training set and a one third test set:
+</p>
+    <program language="r" xml:id="prog-ch18-split">
+      <code>
 cutPoint2_3 &lt;- floor(2 * dim(spam)[1] / 3)
+cutPoint2_3
+</code>
+</program>
+<pre>
+  [1] 3067
+</pre>
+<p>
+The first command in this group calculates the two-thirds cut point
+based on the number of rows in spam (the expression
+dim(spam)[1] gives the number of rows in the spam dataset). The
+second command reveals that that cut point is 3067 rows into the
+data set, which seems very sensible given that there are 4601 rows
+in total. Note that the <c>floor()</c> function chops off any decimal part of
+the calculation. We want to get rid of any decimal because an index
+variable needs to be an integer.
+</p><p>
+Now we are ready to generate our test and training sets from the
+original spam dataset. First we will build our training set from the
+first 3067 rows:
+</p>
+
+    <program language="r" xml:id="prog-ch18-split">
+      <code>
 trainData &lt;- spam[randIndex[1:cutPoint2_3],]
+      </code>
+    </program>
+
+<p>
+We make the new data set, called trainData, using the randomized
+set of indices that we created in the randIndex list, but only using
+the first 3067 elements of randIndex (The inner expression in
+square brackets, 1:cutPoint2_3, does the job of selecting the first
+3067 elements. From here you should be able to imagine the command
+for creating the test set:
+</p>
+
+    <program language="r" xml:id="prog-ch18-split">
+      <code>
 testData &lt;- spam[randIndex[(cutPoint2_3+1):dim(spam)[1]],]
       </code>
     </program>
+
+<p>
+The inner expression now selects the rows from 3068 all the way
+up to 4601 for a total of 1534 rows. So now we have two separate
+data sets, representing a two-thirds training and one third test
+breakdown of the original data. 
+</p>
 
   </section>
 
@@ -111,9 +318,9 @@ testData &lt;- spam[randIndex[(cutPoint2_3+1):dim(spam)[1]],]
     <title>Training and Evaluating the SVM</title>
 
     <p>
-      Now we can train an SVM on the training data. The <c>ksvm()</c> function in the
-      <c>kernlab</c> package implements support vector machines with built-in
-      cross-validation:
+We are now in good shape to train
+our support vector model. The following command generates a
+model based on the training data set:
     </p>
 
     <program language="r" xml:id="prog-ch18-train">
@@ -124,38 +331,369 @@ svmOutput &lt;- ksvm(type ~ ., data=trainData,
 svmOutput
       </code>
     </program>
+<pre>
+Using automatic sigma estimation (sigest) for RBF
+or laplace kernel
+</pre>
 
     <p>
-      The real acid test for our support vector model will be to use the support vectors
-      we generated through training to predict the outcomes in a novel dataset. The
-      following commands produce a <term>confusion matrix</term>:
+     Let’s examine this command in some detail. The first argument,
+"type ~ .", specifies the model we want to test. Using the word
+"type" in this expression means that we want to have the "type"
+variable (i.e., whether the message is spam or non-spam) as the outcome
+variable that our model predicts. The tilde character ("~") in
+an R expression simply separates the left hand side of the expression
+from the right hand side. Finally, the dot character (".") is a
+shorthand that tell R to us all of the other variables in the dataframe
+to try to predict "type."
+</p><p>
+The "data" parameter let’s us specify which dataframe to use in the
+analysis, In this case, we have specified that the procedure should
+use the trainData training set that we developed.
+</p><p>
+The next parameter is an interesting one: kernel="rbfdot". You will
+remember from the earlier discussion that the kernel is the customizable
+part of the SVM algorithm that lets us project the low dimensional
+problem into higher dimensional space. In this case, the
+rbfdot designation refers to the "radial basis function." One simple
+way of thinking about the radial basis function is that if you think
+of a point on a regular x,y coordinate system the distance from the
+origin to the point is like a radius of a circle. The "dot" in the name
+refers to the mathematical idea of a "dot product," which is a way
+of multiplying vectors together to come up with a single number
+such as a distance value. In simplified terms, the radial basis 
+function kernel takes the set of inputs from each row in a dataset and
+calculates a distance value based on the combination of the many
+variables in the row. The weighting of the different variables in the
+row is adjusted by the algorithm in order to get the maximum separation
+of distance between the spam cases and the non-spam cases.
+</p><p>
+The "kpar" argument refers to a variety of parameters that can be
+used to control the operation of the radial basis function kernel. In
+this case we are depending on the good will of the designers of this
+algorithm by specifying "automatic." The designers came up with
+some "heuristics" (guesses) to establish the appropriate parameters
+without user intervention.
+</p><p>
+The C argument refers to the so called "cost of constraints." Remember
+back to our example of the the white top on the green mountain?
+When we put the piece of cardboard (the planar separation
+function) through the mountain, what if we happen to get one
+green point on the white side or one white point on the green side?
+This is a kind of mistake that influences how the algorithm places
+the piece of cardboard. We can force these mistakes to be more or
+less "costly," and thus to have more influence on the position of our
+piece of cardboard and the margin of separation that it defines. We
+can get a large margin of separation - but possibly with a few mistakes
+- by specifying a small value of C. If we specify a large value
+of C we may possibly get fewer mistakes, but on at the cost of having
+the cardboard cut a very close margin between the green and
+white points - the cardboard might get stuck into the mountain at a
+very weird angle just to make sure that all of the green points and
+white points are separated. On the other hand if we have a low
+value of C we will get a generalizable model, but one that makes
+more classification mistakes.
+</p><p>
+In the next argument, we have specified "cross=3." Cross refers to
+the cross validation model that the algorithm uses. In this case, our
+choice of the final parameter, "prob.model=TRUE," dictates that we
+use a so called three-fold cross validation in order to generate the
+probabilities associate with whether a message is or isn’t a spam
+message. Cross validation is important for avoiding the problem of
+overfitting. In theory, many of the algorithms used in data mining
+can be pushed to the point where they essentially memorize the input
+data and can perfectly replicate the outcome data in the training
+set. The only problem with this is that the model base don the
+memorization of the training data will almost never generalize to
+other data sets. In effect, if we push the algorithm too hard, it will
+become too specialized to the training data and we won’t be able to
+use it anywhere else. By using k-fold (in this case three fold) crossvalidation,
+we can rein in the fitting function so that it does not
+work so hard and so that it does creat a model that is more likely to
+generalize to other data.
+</p><p>
+Let’s have a look at what our output structure contains:
     </p>
 
-    <program language="r" xml:id="prog-ch18-predict">
+    <program language="r" >
       <code>
-svmPred &lt;- predict(svmOutput, testData, type="votes")
-compTable &lt;- data.frame(testData[,58], svmPred[1,])
-table(compTable)
+svmOutput
+</code>
+</program>
+
+<pre>
+Support Vector Machine object of class "ksvm"
+
+SV type: C-svc (classification)
+ parameter : cost C = 5
+
+Gaussian Radial Basis kernel function.
+ Hyperparameter : sigma =  0.0287825580201687
+
+Number of Support Vectors : 953
+
+Objective Function Value : -1750.51
+Training error : 0.027388
+Cross validation error : 0.076296
+Probability model included.
+</pre>
+<p>
+Most of this is technical detail that will not necessarily affect how
+we use the SVM output, but a few things are worth pointing out.
+First, the sigma parameter mentioned was estimated for us by the
+algorithm because we used the "automatic" option. Thank goodness
+for that as it would have taken a lot of experimentation to
+choose a reasonable value without the help of the algorithm. Next,
+note the large number of support vectors. These are the lists of
+weights that help to project the variables in each row into a higher
+dimensional space. The "training error" at about 2.7% is quite low.
+Naturally, the cross-validation error is higher, as a set of parameters
+never perform as well on subsequent data sets as they do with
+the original training set. Even so, a 7.6% cross validation error rate
+is pretty good for a variety of prediction purposes.
+</p><p>We can take a closer look at these support vectors with the following
+command:
+</p>
+
+    <program language="r" >
+      <code>
+hist(alpha(svmOutput)[[1]])
       </code>
     </program>
 
-    <p>
-      Along the main diagonal of the confusion matrix we see the correctly classified
-      cases&#x2014;non-spam emails classified as non-spam, and spam emails classified as
-      spam. On the off-diagonal, we see the erroneous classifications: cases that were not
-      spam but were classified as spam, and spam cases that were classified as non-spam.
-      A simple accuracy calculation sums the errors and divides by the total number of
-      test cases. For many runs of this analysis,
-      the total error rate is around 7&#x2013;8%.
-    </p>
+<p>
+The <c>alpha()</c> accessor reveals the values of the support vectors. Note
+that these are stored in a nested list, hence the need for the [[1]] expression
+to access the first list in the list of lists. Because the particular
+dataset we are using only has two classes (spam or not spam),
+we only need one set of support vectors. If the "type" criterion variable
+had more than two levels (e.g., spam, not sure, and not spam),
+we would need additional support vectors to be able to classify the
+cases into more than two groups. The histogram output reveals the
+range of the support vectors from 0 to 5:
+</p>
+<p>
+The maximum value of the support vector is equal to the cost parameter
+that we discussed earlier. We can see that about half of the
+support vectors are at this maximum value while the rest cluster
+around zero. Those support vectors at the maximum represent the
+most difficult cases to classify. WIth respect to our mountain metaphor,
+these are the white points that are below the piece of cardboard
+and the green points that are above it.
+</p>
+<p>If we increase the cost parameter we can get fewer of these problem
+points, but at only at the cost of increasing our cross validation
+error:</p>
 
-    <p>
-      An important practical question: Which is worse, an email that gets mistakenly
-      quarantined because it is not really spam, or a spam email that gets through to
-      someone's inbox? It really depends on the situation, but you can see that you might
-      want to give more consideration to minimizing one particular kind of error.
-    </p>
+    <program language="r" xml:id="prog-ch18-train">
+      <code>
+svmOutput &lt;- ksvm(type ~ ., data=trainData,
+kernel="rbfdot",kpar="automatic",C=50,cross=3,pro
+b.model=TRUE)
+svmOutput
+      </code>
+     </program>
+<pre>
+Support Vector Machine object of class "ksvm"
 
+SV type: C-svc (classification)
+ parameter : cost C = 50
+
+Gaussian Radial Basis kernel function.
+ Hyperparameter : sigma = 0.0299992970259353
+
+Number of Support Vectors : 850
+
+Objective Function Value : -6894.635
+Training error : 0.008803
+Cross validation error : 0.085424
+Probability model included.
+</pre>
+<p>In the first command above, the C=50 is bolded to show what we
+changed from the earlier command. The output here shows that
+our training error went way down, to 0.88%, but that our crossvalidation
+error went up from 7.6% in our earlier model to 8.5% in
+this model. We can again get a histogram of the support vectors to
+show what has happened:</p>
+
+<p>Now there are only about 100 cases where the support vector is at
+the maxed out value (in this case 50, because we set C=50 in the
+svm command). Again, these are the hard cases that the model
+could not get to be on the right side of the cardboard (or that were
+right on the cardboard). Meanwhile, the many cases with the support
+vector value near zero represent the combinations of parameters
+that make a case lie very far from the piece of cardboard. These
+cases were so easy to classify that they really made no contribution
+to "positioning" the hyperplane that separates the spam cases from
+the non-spam cases.
+</p><p>
+We can poke out way into this a little more deeply by looking at a
+couple of instructive cases. First, let’s find the index numbers of a
+few of the support vectors that were near zero:
+</p>
+
+    <program language="r" >
+      <code>
+alphaindex(svmOutput)[[1]][alpha(svmOutput)[[1]]<0.05]
+      </code>
+     </program>
+
+<pre>
+[1] 90 98 289 497 634 745 1055 1479 1530 1544
+1646 1830 1948 2520 2754
+</pre>
+<p>
+This monster of a command is not as bad as it looks. We are tapping
+into a new part of the svmOutput object, this time using the
+<c>alphaindex()</c> accessor function. Remember that we have 850 support
+vectors in this output. Now imagine two lists of 850 right next
+to each other: the first is the list of support vectors themselves, we
+get at that list with the <c>alpha()</c> accessor function. The second list,
+lined right up next to the first list, is a set of indices into the original
+training dataset, trainData. The left hand part of the expression
+in the command above let’s us access these indices. The right hand
+part of the expression, where it says alpha(svmOutput)[[1]]<0.05,
+is a conditional expression that let’s us pick from the index list just
+those cases with a very small support vector value. You can see the
+output above, just underneat the command: about 15 indices were
+returned. Just pick off the first one, 90, and take a look at the individual
+case it refers to:
+</p>
+
+    <program language="r" >
+      <code>
+trainData[90,]
+      </code>
+     </program>
+
+<pre>
+make address all num3d our over remove
+  0     0     0    0    0    0     0
+
+internet order mail receive will
+     0    0    0        0    0
+.
+.
+.
+charExclamation charDollar charHash capitalAve
+    1.123           0         0         2.6
+
+capitalLong capitalTotal
+  16            26
+
+type
+nonspam
+</pre>
+<p>
+The command requested row 90 from the trainData training set. A
+few of the lines of the output were left off for ease of reading and
+almost all of the variables thus left out were zero. Note the very
+last two lines of the output, where this record is identified as a
+non-spam email. So this was a very easy case to classify because it
+has virtually none of the markers that a spam email usually has
+(for example, as shown above, no mention of internet, order, or
+mail). You can contrast this case with one of the hard cases by running
+this command:
+</p>
+
+    <program language="r" >
+      <code>
+alphaindex(svmOutput)[[1]][alpha(svmOutput)[[1]]==50]
+      </code>
+     </program>
+<p>
+You will get a list of the 92 indices of cases where the support vector
+was "maxed out" to the level of the cost function (remember
+C=50 from the latest run of the <c>svm()</c> command). Pick any of those
+cases and display it, like this:
+</p>
+
+    <program language="r" >
+      <code>
+trainData[11,]
+      </code>
+     </program>
+<p>
+This particular record did not have many suspicious keywords, but
+it did have long strings of capital letters that made it hard to classify
+(it was a non-spam case, by the way). You can check out a few
+of them to see if you can spot why each case may have been difficult
+for the classifier to place.
+</p><p>
+The real acid test for our support vector model, however, will be to
+use the support vectors we generated through this training process
+to predict the outcomes in a novel data set. Fortunately, because
+we prepared carefully, we have the testData training set ready to
+go. The following commands with give us some output known as a
+"confusion matrix:"
+</p>
+
+<program language="r" >
+      <code>
+svmPred &lt;- predict(svmOutput, testData,
+type="votes")
+ compTable &lt;- data.frame(testData[,58],svmPred[1,])
+ table(compTable)
+      </code>
+     </program>
+
+<pre>
+              svmPred.1...
+testData...58.   0   1
+nonspam         38 854
+spam           574  68
+</pre>
+<p>
+The first command in the block above uses our model output from
+before, namely svmOutput, as the parameters for prediction. It
+uses the "testData," which the support vectors have never seen before,
+to generate predictions, and it requests "votes" from the prediction
+process. We could also look at probabilities and other types
+of model output, but for a simple analysis of whether the svm is
+generating good predictions, votes will make our lives easier.
+</p><p>
+The output from the <c>predict()</c> command is a two dimensional list.
+You should use the <c>str</c> command to examine its structure. basically
+there are two lists of "vote" values side by side. Both lists are
+1534 elements long, corresponding to the 1534 cases in our testData
+object. The lefthand list has one for a non-spam vote and zero for a
+spam vote. Because this is a two-class problem, the other list has
+just the opposite. We can use either one because they are mirror images
+of each other.
+</p><p>
+In the second command above, we make a little dataframe, called
+compTable, with two variables in it: The first variable is the 58th
+column in the test data, which is the last column containing the
+"type" variable (a factor indicating spam or non-spam). Remember
+that this type variable is the human judgments from the original
+dataset , so it is our ground truth. The second variable is the first
+column in our votes data structure (svmPred), so it contains ones
+for non-spam predictions and zeros for spam predictions.
+</p><p>
+Finally, applying the <c>table()</c> command to our new dataframe
+(compTable) gives us the confusion matrix as output. Along the
+main diagonal we see the erroneous classifications - 38 cases that
+were not spam, but were classified as spam by the support vector
+matrix and 68 cases that were spam, but were classified as non-
+spam by the support vector matrix. On the counter-diagonal, we
+see 854 cases that were correctly classified as non-spam and 574
+cases that were correctly classified as spam.
+</p><p>
+Overall, it looks like we did a pretty good job. There are a bunch of
+different ways of calculating the accuracy of the prediction, depending
+upon what you are most interested in. The simplest way
+is to sum the 68 + 38 = 106 error cases and divided by the 1534 total
+cases for an total error rate of about 6.9%. Interestingly, that is a tad
+better than the 8.5% error rate we got from the k-fold crossvalidation
+in the run of <c>svm()</c> that created the model we are testing.
+Keep in mind, though, that we may be more interested in certain
+kinds of error than other kinds. For example, consider which is
+worse, an email that gets mistakenly quarantined because it is not
+really spam, or a spam email that gets through to someone’s inbox?
+It really depend on the situation, but you can see that you might
+want to give more consideration to either the 68 misclassification
+errors or the other set of 38 misclassification errors
+</p>
   </section>
 
   <exercises xml:id="exercises-ch18">
@@ -174,7 +712,7 @@ table(compTable)
       <statement>
         <p>
           For a super challenge, try using another dataset with the <c>kernlab</c>
-          <c>ksvm()</c> technology. There is a dataset called <c>promotergene</c> that is
+          <c>k<c>svm()</c></c> technology. There is a dataset called <c>promotergene</c> that is
           built into the <c>kernlab</c> package. You could also load your own dataset and
           try creating an SVM model from that.
         </p>
@@ -186,9 +724,11 @@ table(compTable)
     <title>Sources</title>
     <p>
       <ul>
+        <li><p><url href="http://cbio.ensmp.fr/~jvert/svn/tutorials/practical/svmbasic/svmbasic_notes.pdf">Bio-Information Centre</url></p></li>
         <li><p><url href="http://cran.r-project.org/web/packages/kernlab/kernlab.pdf">kernlab package documentation</url></p></li>
         <li><p><url href="http://en.wikipedia.org/wiki/Confusion_matrix">Wikipedia: Confusion matrix</url></p></li>
-        <li><p><url href="http://archive.ics.uci.edu/ml/datasets/Spambase">UCI ML Repository: Spambase</url></p></li>
+        <li><p><url href="http://stackoverflow.com/questions/9480605/what-is-the-relation-between-the-number-of-support-vectors-and-training-data-and">Stack Overflow</url></p></li>
+        <li><p><url href="http://www.louisaslett.com/Courses/Data_Mining/ST4003-Lab7-Introduction_to_Support_Vector_Machines.pdf">Lab Notes</url></p></li>
         <li><p><url href="http://www.jstatsoft.org/v11/i09/paper">kernlab: An S4 Package for Kernel Methods in R</url></p></li>
       </ul>
     </p>
