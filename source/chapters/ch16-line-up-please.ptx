@@ -51,6 +51,16 @@ as understanding the line itself.</p>
 an input variable – on the horizontal x axis – relates to the output
 values on the y axis.</p>
 
+    <figure xml:id="fig-ch16-xy-scatter">
+      <caption>A line of best fit through five data points using the least squares method.</caption>
+      <image source="ch16-xy-scatter.png" width="70%">
+        <description>A scatter plot of five data points with x values ranging from about 1.2 to 4.6
+        and y values ranging from about -0.1 to 8.5. A straight regression line is fitted through
+        the points using the least squares method, with approximately equal numbers of points
+        above and below the line.</description>
+      </image>
+    </figure>
+
 <p>The original ideas behind linear regression were developed by
 some of the usual suspects behind many of the ideas we’ve seen already,
 such as Laplace, Gauss, Galton, and Pearson. The biggest individual
@@ -152,7 +162,7 @@ After downloading the data set from OzDasl into your R working
 directory, read the data set into R as follows:
  </p>
 
-    <program language="r" xml:id="prog-ch16-read">
+    <program language="r" xml:id="prog-ch16-read-data">
       <code>
 attend &lt;- read.delim("afl.txt", header=TRUE)
 attach(attend)
@@ -179,6 +189,17 @@ plot(MCG ~ Members,
   ylab="MCG Match Day Attendance")
       </code>
     </program>
+
+    <figure xml:id="fig-ch16-mcg-scatter">
+      <caption>MCG match day attendance vs. combined membership of teams playing.</caption>
+      <image source="ch16-mcg-scatter.png" width="70%">
+        <description>A scatter plot showing MCG match day attendance (y axis, in thousands)
+        versus combined membership of the two teams playing (x axis, in thousands). There
+        is a general upward trend, with most points clustered between 10 and 35 on the
+        x axis and 20 to 85 on the y axis. A small group of points on the right side of
+        the plot (high combined membership) do not follow the overall trend.</description>
+      </image>
+    </figure>
 
 <p>We see evidence of a trend in the points on the left hand side of the
 graph, and a small group of points representing games with very
@@ -280,11 +301,21 @@ model to the x-y plot of MCG attendance against total team membership
 with this command:
     </p>
 
-    <program language="r" xml:id="prog-ch16-lm1">
+    <program language="r" xml:id="prog-ch16-abline">
       <code>
 abline(model1)
       </code>
     </program>
+
+    <figure xml:id="fig-ch16-mcg-scatter-abline">
+      <caption>MCG match day attendance vs. combined membership with regression line from <c>model1</c>.</caption>
+      <image source="ch16-mcg-scatter-abline.png" width="70%">
+        <description>A scatter plot of MCG match day attendance versus combined membership of
+        teams playing, with a straight regression line added through the origin. The line
+        fits the cluster of points in the middle of the plot reasonably well, but several
+        points in the lower right and upper portion of the graph are far from the line.</description>
+      </image>
+    </figure>
 
 <p>While the line of best fit seems to fit the points in the middle, the
 points on the lower right hand side and also some points towards
