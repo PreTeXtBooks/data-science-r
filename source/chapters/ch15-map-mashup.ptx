@@ -55,7 +55,7 @@ plotPolys(usShape)
 
       <figure xml:id="fig-ch15-plotpolys-usshape">
         <caption>Plot of the U.S. shapefile using <c>plotPolys(usShape)</c>, showing all states including Alaska and Hawaii.</caption>
-        <image source="https://github.com/user-attachments/assets/af2ec2d6-ab53-44a8-8c96-b34b11213978" width="80%">
+        <image source="ch15-plotpolys-usshape.png" width="80%">
           <description>A map plot showing the U.S. state outlines from the shapefile. The continental U.S. appears squashed in the center-left due to Alaska's Aleutian islands crossing the 180 degree longitude line. The Y axis ranges from about 20 to 70 and the X axis from about -180 to 180.</description>
         </image>
       </figure>
@@ -70,7 +70,7 @@ plotPolys(usShape,       xlim=c(-130,-60),ylim=c(20,50))
 
       <figure xml:id="fig-ch15-plotpolys-continental">
         <caption>Plot of the continental U.S. using <c>plotPolys(usShape, xlim=c(-130,-60), ylim=c(20,50))</c>, showing state boundaries in their typical proportions.</caption>
-        <image source="https://github.com/user-attachments/assets/53a8e529-d455-44ed-af6e-9c675be28113" width="80%">
+        <image source="ch15-plotpolys-continental-us.png" width="80%">
           <description>A map plot showing the continental United States with state boundaries. The X axis ranges from about -120 to -70 (longitude) and the Y axis from about 25 to 48 (latitude). Individual state outlines are clearly visible.</description>
         </image>
       </figure>
@@ -92,7 +92,7 @@ addPoints(eventData,col="red",cex=.5)
 
       <figure xml:id="fig-ch15-addpoints-texas">
         <caption>Map of the continental U.S. with a single red point added in southern Texas using <c>addPoints()</c>.</caption>
-        <image source="https://github.com/user-attachments/assets/c1743022-caec-43f4-b106-cfae4d3d14a6" width="80%">
+        <image source="ch15-addpoints-texas.png" width="80%">
           <description>A map plot of the continental United States with state boundaries. A single small red circle is visible in southern Texas, representing the manually created point at longitude -100, latitude 30.</description>
         </image>
       </figure>
@@ -295,7 +295,7 @@ addPoints(eventData,col="red",cex=.5)
 
       <figure xml:id="fig-ch15-dhhs-contracts-map">
         <caption>Map of the continental U.S. showing the locations of companies with DHHS contracts, geocoded using the Google API.</caption>
-        <image source="https://github.com/user-attachments/assets/d85d5771-b2bd-47e3-aba7-f651f84195d4" width="80%">
+        <image source="ch15-dhhs-contracts-map.png" width="80%">
           <description>A map of the continental United States with state boundaries. Numerous red circles represent the locations of companies with DHHS contracts. The points are heavily concentrated in the northeastern states and the Washington DC area, with scattered points elsewhere across the country.</description>
         </image>
       </figure>
