@@ -72,6 +72,21 @@
         in any transaction.</p></li>
     </ul>
 
+    <figure xml:id="fig-ch17-association-rules-diagram">
+      <caption>A conceptual diagram of association rules mining: each customer has a
+      cart of items from the store inventory, and the algorithm finds associations
+      between items across all transactions.</caption>
+      <image source="ch17-association-rules-diagram.png" width="80%">
+        <description>A diagram with three columns: Customers (Customer 1, Customer 2,
+        Customer 3), Carts (boxes listing items each customer has selected), and Store
+        Inventory (a list of products such as Baby Wipes, Beer, Bread, Cheddar, Chips,
+        Corn Flakes, Diapers, Lettuce, Mayonnaise, Milk, Peanut Butter, Salami, Shampoo,
+        Sponges, Tomatoes, and Toothpaste). Lines connect items in each cart to the
+        corresponding products in the store inventory, illustrating the transaction data
+        used in association rules mining.</description>
+      </image>
+    </figure>
+
     <p>
       We can get started with association rules mining very easily using the R package
       known as <c>arules</c>:
@@ -91,6 +106,28 @@ summary(Groceries)
       transactions with 169 items. The most frequent items include whole milk, other
       vegetables, rolls/buns, and soda.
     </p>
+
+    <program language="r" xml:id="prog-ch17-itemfreq">
+      <code>
+itemFrequencyPlot(Groceries, topN=8)
+      </code>
+    </program>
+
+    <p>
+      This command produces the following plot:
+    </p>
+
+    <figure xml:id="fig-ch17-itemfreq-plot">
+      <caption>A bar chart showing the relative item frequency for the eight most common
+      items in the Groceries dataset.</caption>
+      <image source="ch17-itemfreq-plot.png" width="70%">
+        <description>A bar chart with the y-axis labeled "item frequency (relative)"
+        ranging from 0.00 to 0.25, and eight items on the x-axis: tropical fruit, root
+        vegetables, other vegetables, whole milk, yogurt, rolls/buns, bottled water, and
+        soda. Whole milk has the tallest bar at around 0.25, followed by other vegetables
+        at about 0.19.</description>
+      </image>
+    </figure>
 
   </section>
 
@@ -127,6 +164,20 @@ goodrules &lt;- ruleset[quality(ruleset)$lift > 3.5]
 inspect(goodrules)
       </code>
     </program>
+
+    <figure xml:id="fig-ch17-rules-scatter-plot">
+      <caption>The output of <c>plot(ruleset)</c>: a scatter plot of 357 association
+      rules with support on the x-axis, confidence on the y-axis, and lift shown by
+      the shade of each point.</caption>
+      <image source="ch17-rules-scatter-plot.png" width="70%">
+        <description>A scatter plot titled "Scatter plot for 357 rules". The x-axis
+        shows support values from 0.01 to 0.07, and the y-axis shows confidence values
+        from 0.35 to 0.70. Each rule is represented by a small square whose shade
+        indicates lift, with a legend on the right side ranging from 1.5 (light) to 4
+        (dark). Most rules are clustered at low support values near 0.01, with confidence
+        spread across the full range.</description>
+      </image>
+    </figure>
 
     <p>
       The visualization plot shows support on the X-axis, confidence on the Y-axis, and
