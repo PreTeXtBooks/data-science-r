@@ -566,7 +566,7 @@ get at that list with the <c>alpha()</c> accessor function. The second list,
 lined right up next to the first list, is a set of indices into the original
 training dataset, trainData. The left hand part of the expression
 in the command above let’s us access these indices. The right hand
-part of the expression, where it says alpha(svmOutput)[[1]]<0.05,
+part of the expression, where it says alpha(svmOutput)[[1]] &lt; 0.05,
 is a conditional expression that let’s us pick from the index list just
 those cases with a very small support vector value. You can see the
 output above, just underneat the command: about 15 indices were
