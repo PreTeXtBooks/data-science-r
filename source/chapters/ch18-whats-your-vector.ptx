@@ -117,7 +117,7 @@ the R packages that supports this technique. We will use the "kernlab"
 package. Use the commands below:
     </p>
 
-    <program language="r" xml:id="prog-ch18-kernlab">
+    <program language="r">
       <code>
 install.packages("kernlab")
 library(kernlab)
@@ -130,7 +130,7 @@ want to use is built into this package. The data comes from a study
 of spam emails received by employees at the Hewlett-Packard company.
 Load the data with the following command:</p>
 
-    <program language="r" xml:id="prog-ch18-kernlab">
+    <program language="r">
       <code>
 data(spam)
       </code>
@@ -139,7 +139,7 @@ data(spam)
 <p>This command does not produce any output. We can now inspect
 the "spam" dataset with the <c>str</c> command:</p>
 
-    <program language="r" xml:id="prog-ch18-kernlab">
+    <program language="r">
       <code>
 str(spam)
       </code>
@@ -166,7 +166,7 @@ Some of the lines of output have been elided from the material
 above. You can also use the <c>dim</c> function to get a quick overview
 of the data structure:
 </p>
-    <program language="r" xml:id="prog-ch18-kernlab">
+    <program language="r">
       <code>
 dim(spam)
       </code>
@@ -190,7 +190,7 @@ Right after that is the criterion variable, "type," that indicates
 whether an email was classified as spam by human experts. Let’s
 explore this variable a bit more:
 </p>
-    <program language="r" xml:id="prog-ch18-kernlab">
+    <program language="r">
       <code>
 table(spam$type)
       </code>
@@ -216,7 +216,7 @@ at random from a list of numbers ranging from 1 to the final
 element index of the spam data (4601).
     </p>
 
-    <program language="r" xml:id="prog-ch18-split">
+    <program language="r">
       <code>
 randIndex &lt;- sample(1:dim(spam)[1])
 summary(randIndex)
@@ -228,7 +228,7 @@ summary(randIndex)
      1    1151   2301 2301    3451 4601
 </pre>
 
-    <program language="r" xml:id="prog-ch18-split">
+    <program language="r">
       <code>
 length(randIndex)
 </code>
@@ -243,7 +243,7 @@ number of rows in the spam dataset: 4601. We can confirm that the
 indices are randomized by looking at the first few cases:
 </p>
 
-    <program language="r" xml:id="prog-ch18-split">
+    <program language="r">
       <code>
  head(randIndex)
 </code>
@@ -260,7 +260,7 @@ cases as the training set.
 </p><p>Next, let’s calculate the "cut point" that would divide the spam dataset
 into a two thirds training set and a one third test set:
 </p>
-    <program language="r" xml:id="prog-ch18-split">
+    <program language="r">
       <code>
 cutPoint2_3 &lt;- floor(2 * dim(spam)[1] / 3)
 cutPoint2_3
@@ -284,7 +284,7 @@ original spam dataset. First we will build our training set from the
 first 3067 rows:
 </p>
 
-    <program language="r" xml:id="prog-ch18-split">
+    <program language="r">
       <code>
 trainData &lt;- spam[randIndex[1:cutPoint2_3],]
       </code>
@@ -299,7 +299,7 @@ square brackets, 1:cutPoint2_3, does the job of selecting the first
 for creating the test set:
 </p>
 
-    <program language="r" xml:id="prog-ch18-split">
+    <program language="r">
       <code>
 testData &lt;- spam[randIndex[(cutPoint2_3+1):dim(spam)[1]],]
       </code>
@@ -323,7 +323,7 @@ our support vector model. The following command generates a
 model based on the training data set:
     </p>
 
-    <program language="r" xml:id="prog-ch18-train">
+    <program language="r">
       <code>
 svmOutput &lt;- ksvm(type ~ ., data=trainData,
   kernel="rbfdot", kpar="automatic",
@@ -492,7 +492,7 @@ and the green points that are above it.
 points, but at only at the cost of increasing our cross validation
 error:</p>
 
-    <program language="r" xml:id="prog-ch18-train">
+    <program language="r">
       <code>
 svmOutput &lt;- ksvm(type ~ ., data=trainData,
 kernel="rbfdot",kpar="automatic",C=50,cross=3,pro
