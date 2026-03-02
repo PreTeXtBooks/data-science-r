@@ -107,30 +107,9 @@ rule in reconfiguring the displays in the store.
   <section xml:id="sec-association-rules">
     <title>Association Rules Mining</title>
 
-    <p>
-<<<<<<< copilot/add-images-to-chapter
-      The technique we will use in this chapter is called <term>association rules
-      mining</term> (also sometimes called affinity analysis). It is the strategy that was
-      used to find the diapers and beer association described earlier.
-    </p>
-
-    <p>
-      The association rules algorithm tries out many different propositions, such as <q>if
-      diapers are purchased, then beer is also purchased.</q> The algorithm uses a dataset
-      of transactions (individual shopping carts) to evaluate a long list of these rules
-      for two quantities:
-    </p>
-
-    <ul>
-      <li><p><term>Support</term>: The proportion of times that a particular pairing
-        occurs across all transactions.</p></li>
-      <li><p><term>Confidence</term>: How frequently a particular pair occurs among all
-        the times when the first item is present.</p></li>
-      <li><p><term>Lift</term>: A measure of interestingness, calculated as the ratio of
-        the rule's confidence to the baseline probability of the consequent item appearing
-        in any transaction.</p></li>
-    </ul>
-
+    <p>Let’s begin by talking a little bit about association rules. Take a
+look at the figure with all of the boxes and arrows. 
+</p>
     <figure xml:id="fig-ch17-association-rules-diagram">
       <caption>A conceptual diagram of association rules mining: each customer has a
       cart of items from the store inventory, and the algorithm finds associations
@@ -145,16 +124,6 @@ rule in reconfiguring the displays in the store.
         used in association rules mining.</description>
       </image>
     </figure>
-
-    <p>
-      We can get started with association rules mining very easily using the R package
-      known as <c>arules</c>:
-    </p>
-
-=======
-      Let’s begin by talking a little bit about association rules. Take a
-look at the figure with all of the boxes and arrows. 
-</p>
 <p>
 From the figure you can see that each supermarket customer has a
 grocery cart that contains several items from the larger set of items
@@ -179,7 +148,6 @@ could use to guide pricing, coupon offers, or advertising strategies.
 We can get started with association rules mining very easily using
 the R package known as "arules." In R-Studio, you can get the
 arules package ready using the following commands:</p>
->>>>>>> master
     <program language="r" xml:id="prog-ch17-arules">
       <code>
 install.packages("arules")
@@ -223,30 +191,6 @@ yogurt       (Other)
 
 element (itemset/transaction) length distribution:
 
-<<<<<<< copilot/add-images-to-chapter
-    <program language="r" xml:id="prog-ch17-itemfreq">
-      <code>
-itemFrequencyPlot(Groceries, topN=8)
-      </code>
-    </program>
-
-    <p>
-      This command produces the following plot:
-    </p>
-
-    <figure xml:id="fig-ch17-itemfreq-plot">
-      <caption>A bar chart showing the relative item frequency for the eight most common
-      items in the Groceries dataset.</caption>
-      <image source="ch17-itemfreq-plot.png" width="70%">
-        <description>A bar chart with the y-axis labeled "item frequency (relative)"
-        ranging from 0.00 to 0.25, and eight items on the x-axis: tropical fruit, root
-        vegetables, other vegetables, whole milk, yogurt, rolls/buns, bottled water, and
-        soda. Whole milk has the tallest bar at around 0.25, followed by other vegetables
-        at about 0.19.</description>
-      </image>
-    </figure>
-
-=======
 sizes
   1 2 3 4 5 6 7 8 9 10
 11 12 13 14 15 16
@@ -323,7 +267,17 @@ itemFrequencyPlot(Groceries,support=0.1)
     </program>
 
 <p>This command produces the following plot:</p>
-
+    <figure xml:id="fig-ch17-itemfreq-plot">
+      <caption>A bar chart showing the relative item frequency for the eight most common
+      items in the Groceries dataset.</caption>
+      <image source="ch17-itemfreq-plot.png" width="70%">
+        <description>A bar chart with the y-axis labeled "item frequency (relative)"
+        ranging from 0.00 to 0.25, and eight items on the x-axis: tropical fruit, root
+        vegetables, other vegetables, whole milk, yogurt, rolls/buns, bottled water, and
+        soda. Whole milk has the tallest bar at around 0.25, followed by other vegetables
+        at about 0.19.</description>
+      </image>
+    </figure>
 <p>We can see that yogurt is right around 14% as expected and we
 also see a few other items not mentioned in the summary such as
 bottled water and tropical fruit.
@@ -360,7 +314,6 @@ or half a percent, or something somewhat larger or smaller
 will depend on the size of the data set and the intended application
 of the rules.
 </p>
->>>>>>> master
   </section>
 
   <section xml:id="sec-apriori">
@@ -623,7 +576,7 @@ ruleset &lt;- apriori(Groceries,
 down to 35%. When you run this command you should find that
 you now generate 357 rules. That is way too many rules to examine
 manually, so let’s use the arulesViz package to see what we
-have. We will use the plot() command that we have also used earlier
+have. We will use the <c>plot()</c> command that we have also used earlier
 in the book. You may ask yourself why we needed to library
 the arulesViz package if we are simply going to use an old command.
 The answer to this conundrum is that arulesViz has put
@@ -631,7 +584,7 @@ some plumbing into place so that when plot runs across a data object
 of type "rules" (as generated by apriori) it will use some of the
 code that is built into arulesViz to do the work. So by installing
 arulesViz we have put some custom visualization code in place
-that can be used by the generic plot() command. The command is
+that can be used by the generic <c>plot()</c> command. The command is
 very simple:</p>
 
     <program language="r" xml:id="prog-ch17-viz">
@@ -640,7 +593,6 @@ plot(ruleset)
       </code>
     </program>
 
-<<<<<<< copilot/add-images-to-chapter
     <figure xml:id="fig-ch17-rules-scatter-plot">
       <caption>The output of <c>plot(ruleset)</c>: a scatter plot of 357 association
       rules with support on the x-axis, confidence on the y-axis, and lift shown by
@@ -654,7 +606,6 @@ plot(ruleset)
         spread across the full range.</description>
       </image>
     </figure>
-=======
 <p>
 Even though we see a two dimensional plot, we actually have
 three variables represented here. Support is on the X-axis and confidence
@@ -721,7 +672,6 @@ inspect(goodrules)
    other vegetables,
    whole milk}         => {root vegetables} 0.007015760  0.4107143 3.768074
 </pre>
->>>>>>> master
 
     <p>
       There we go again with the microscopic font size. When you look
