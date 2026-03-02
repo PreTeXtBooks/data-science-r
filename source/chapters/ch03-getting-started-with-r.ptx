@@ -2,6 +2,12 @@
 
 <chapter xml:id="ch03-getting-started-with-r" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Getting Started with R</title>
+  <introduction>
+   <p>"R" is an open source software program, developed by volunteers as a service to the community of
+scientists, researchers, and data analysts who use it. R is free to download and use. Lots of advice and
+guidance is available online to help users learn R, which is good because it is a powerful and complex
+program, in reality a full featured programming language dedicated to data.</p>
+  </introduction>
 
   <section xml:id="sec-r-open-source">
     <title>Why Use R?</title>
@@ -126,11 +132,12 @@
     <p>
       Remember the list of ages of family members from the last chapter? No? Well,
       here it is again: 43, 42, 12, 8, 5, for dad, mom, sis, bro, and the dog, respectively.
-      The previous chapter mentioned that this was a list of items, all of the same mode,
-      namely <q>integer.</q> Remember that you can tell that they are OK to be integers because
-      there are no decimal points and therefore nothing after the decimal point. We can
-      create a vector of integers in r using the <q>c()</q> command.
-      Take a look at the next screenshot:
+We mentioned that this was a list
+of items, all of the same mode, namely "integer." Remember that
+you can tell that they are OK to be integers because there are no
+decimal points and therefore nothing after the decimal point. We
+can create a vector of integers in r using the <c>c()</c> command. Take a
+look at the screen shot just below.
     </p>
 
     <figure xml:id="fig-ch03-r-console-family-ages">
