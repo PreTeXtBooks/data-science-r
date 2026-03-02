@@ -53,6 +53,13 @@ plotPolys(usShape)
       </program>
       <p>This last command gives us a simple plot of the 90,696 shapes that our shapefile contains. Here is the plot:</p>
 
+      <figure xml:id="fig-ch15-plotpolys-usshape">
+        <caption>Plot of the U.S. shapefile using <c>plotPolys(usShape)</c>, showing all states including Alaska and Hawaii.</caption>
+        <image source="https://github.com/user-attachments/assets/af2ec2d6-ab53-44a8-8c96-b34b11213978" width="80%">
+          <description>A map plot showing the U.S. state outlines from the shapefile. The continental U.S. appears squashed in the center-left due to Alaska's Aleutian islands crossing the 180 degree longitude line. The Y axis ranges from about 20 to 70 and the X axis from about -180 to 180.</description>
+        </image>
+      </figure>
+
       <p>This is funny looking! The ranges output from the summary() command gives us a hint as to why. The longitude of the elements in our map range from -179 to nearly 180: this covers pretty much the whole of the planet. The reason is that the map contains shapes for Hawaii and Alaska. Both states have far western longitudes, but the Aleutian peninsula in Alaska extends so far that it crosses over the longitude line where -180 and 180 meet in the Pacific Ocean. As a result, the continental U.S. is super squashed. We can specify a more limited area of the map to consider by using the xlim and ylim parameters. The following command:</p>
 
       <program language="r">
@@ -60,6 +67,14 @@ plotPolys(usShape)
 plotPolys(usShape,       xlim=c(-130,-60),ylim=c(20,50))
         </code>
       </program>
+
+      <figure xml:id="fig-ch15-plotpolys-continental">
+        <caption>Plot of the continental U.S. using <c>plotPolys(usShape, xlim=c(-130,-60), ylim=c(20,50))</c>, showing state boundaries in their typical proportions.</caption>
+        <image source="https://github.com/user-attachments/assets/53a8e529-d455-44ed-af6e-9c675be28113" width="80%">
+          <description>A map plot showing the continental United States with state boundaries. The X axis ranges from about -120 to -70 (longitude) and the Y axis from about 25 to 48 (latitude). Individual state outlines are clearly visible.</description>
+        </image>
+      </figure>
+
       <p>...gives a plot that shows the continental U.S. more in its typical proportions.</p>
 
       <p>So now we have some map data stored away and ready to use. The PBSmapping package gives us the capability of adding points to an existing map. For now, let’s demonstrate this with a made up point somewhere in Texas:</p>
@@ -74,6 +89,14 @@ eventData &lt;- as.EventData(               pointData,projection=NA)
 addPoints(eventData,col="red",cex=.5)
         </code>
       </program>
+
+      <figure xml:id="fig-ch15-addpoints-texas">
+        <caption>Map of the continental U.S. with a single red point added in southern Texas using <c>addPoints()</c>.</caption>
+        <image source="https://github.com/user-attachments/assets/c1743022-caec-43f4-b106-cfae4d3d14a6" width="80%">
+          <description>A map plot of the continental United States with state boundaries. A single small red circle is visible in southern Texas, representing the manually created point at longitude -100, latitude 30.</description>
+        </image>
+      </figure>
+
       <p>You have to look carefully, but in southern Texas there is now a little red dot. We began by manually creating a single point - specified by X (longitude), Y (latitude), and EID (an identification number) - and sticking it into a dataframe. Then we converted the data in that dataframe into an EventData object. This is a custom class of object specified by the PBSmapping package. The final command above adds the EventData to the plot.</p>
 
       <p>The idea of EventData is a little confusing, but if you remember that this package was developed by biologists at the Pacific Biology Station to map sightings of fish and other natural phenomena it makes more sense. In their lingo, an event was some observation of interest that occurred at a particular day, time, and location. The “event id” or EID &lt;- 1 that we stuck in the data frame was just saying that this was the first point in our list that we wanted to plot. For us it is not an event so much as a location of something we wanted to see on the map.</p>
@@ -269,6 +292,13 @@ addPoints(eventData,col="red",cex=.5)
         </code>
       </program>
       <p>The second command above is the only one of the four that may seem unfamiliar. The <c>as.EventData()</c> coercion is picky and will not process the dataframe if there are any fields that are NA. To get rid of those rows that do not have complete latitude and longitude data, we use is.na() to test whether the X value on a given row is NA. We use the ! (not) operator to reverse the sense of this test. So the only rows that will survive this step are those where X is not NA. The plot below shows the results.</p>
+
+      <figure xml:id="fig-ch15-dhhs-contracts-map">
+        <caption>Map of the continental U.S. showing the locations of companies with DHHS contracts, geocoded using the Google API.</caption>
+        <image source="https://github.com/user-attachments/assets/d85d5771-b2bd-47e3-aba7-f651f84195d4" width="80%">
+          <description>A map of the continental United States with state boundaries. Numerous red circles represent the locations of companies with DHHS contracts. The points are heavily concentrated in the northeastern states and the Washington DC area, with scattered points elsewhere across the country.</description>
+        </image>
+      </figure>
 
       <p>If you like conspiracy theories, there is some support in this graph: The vast majority of the companies that have contracts with DHHS are in the Washington, DC area, with a little trickle of additional companies heading up the eastern seaboard as far as Boston and southern New Hampshire. Elsewhere in the country there are a few companies here and there, particularly near the large cities of the east and south east.</p>
 
