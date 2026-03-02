@@ -548,7 +548,7 @@ few of the support vectors that were near zero:
 
     <program language="r" >
       <code>
-alphaindex(svmOutput)[[1]][alpha(svmOutput)[[1]]<0.05]
+alphaindex(svmOutput)[[1]][alpha(svmOutput)[[1]] &lt; 0.05]
       </code>
      </program>
 
