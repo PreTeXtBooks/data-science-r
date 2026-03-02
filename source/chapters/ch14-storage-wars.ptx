@@ -38,6 +38,13 @@ R. In this chapter, we examine various ways that data are stored, and how to acc
       The first and easiest strategy for getting data into R is to use the data import dialog in R-Studio. In the upper right hand pane of R-Studio, the &#x201c;Workspace&#x201d; tab gives views of currently available data objects, but also has a set of buttons at the top for managing the work space. One of the choices there is the &#x201c;Import Dataset&#x201d; button: This enables a drop down menu where one choice is to import, &#x201c;From Text File...&#x201d; If you click this option and choose an appropriate file you will get a screen like this:
     </p>
 
+    <figure xml:id="fig-ch14-import-dataset">
+      <caption>The R-Studio Import Dataset dialog showing options for importing a tab-delimited text file, with a preview of the raw data and the resulting data frame.</caption>
+      <image source="ch14-import-dataset-dialog.png" width="80%">
+        <description>A screenshot of the R-Studio Import Dataset dialog box. The left side shows fields for Name (SpaceTabDelim), Heading (Yes selected), Separator (Tab), Decimal (Period), and Quote (Double quote). The right side shows an Input File preview with raw tab-delimited data and a Data Frame preview below showing the parsed columns and rows.</description>
+      </image>
+    </figure>
+
     <p>
       The most important stuff is on the left side. Heading controls whether or not the first line of the text file is treated as containing variable names. The separator drop down gives a choice of different characters that separate the fields/columns in the data. R-Studio tries to guess the appropriate choice here based on a scan of the data. In this case it guessed right by choosing &#x201c;tab-delimited.&#x201d; As mentioned above, tab-delimited and comma-delimited are the two most common formats used for interchange between data programs.The next drop down is for &#x201c;Decimal&#x201d; and this option accounts for the fact the a dot is used in the U.S. while a comma may be used for the decimal point in Europe and elsewhere. Finally, the &#x201c;Quote&#x201d; drop down controls which character is used to contain quoted string/text data. The most common method is double quotes.
     </p>
