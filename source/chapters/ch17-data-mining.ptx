@@ -17,39 +17,98 @@
     <title>What Is Data Mining?</title>
 
     <p>
-      Data mining is a term that refers to the use of algorithms and computers to discover
-      novel and interesting patterns within data. One famous example is the supermarket
-      that analyzed patterns of purchasing behavior and found that diapers and beer were
-      often purchased together. The supermarket manager decided to put a beer display close
-      to the diaper aisle and supposedly sold more of both products as a result.
+      Data mining is a term that refers to the use of algorithms and computers
+to discover novel and interesting patterns within data. One
+famous example that gets mentioned quite frequently is the supermarket
+that analyzed patterns of purchasing behavior and found
+that diapers and beer were often purchased together. The supermarket
+manager decided to put a beer display close to the diaper
+aisle and supposedly sold more of both products as a result. Another
+familiar example comes from online merchant sites that say
+things like, "people who bought that book were also interested in
+this book." By using an algorithm to look at purchasing patterns,
+vendors are able to create automatic systems that make these kinds
+of recommendations.
+    </p><p>
+Over recent decades, statisticians and computer scientists have developed
+many different algorithms that can search for patterns in
+different kinds of data. As computers get faster and the researchers
+do additional work on making these algorithms more efficient it
+becomes possible to look through larger and larger data sets looking
+for promising patterns. Today we have software that can search
+through massive data haystacks looking for lots of interesting and
+usable needles.
+    </p><p>
+Some people refer to this area of research as machine learning. Machine
+learning focuses on creating computer algorithms that can
+use pre-existing inputs to refine and improve their own capabilities
+for dealing with future inputs. MAchine learning is very different
+from human learning. When we think of human learning, like
+learning the alphabet or learning a foreign language, humans can
+develop flexible and adaptable skills and knowledge that are applicable
+to a range of different contexts and problems. Machine learning
+is more about figuring out patterns of incoming information
+that correspond to a specific result. For example, given lots of examples
+like this - input: 3, 5, 10; output: 150 - a machine learning algorithm
+could figure out on its own that multiplying the input values
+together produces the output value.
+    </p><p>
+Machine learning is not exactly the same thing as data mining and
+vice versa. Not all data mining techniques rely on what researchers
+would consider machine learning. Likewise, machine learning is
+used in areas like robotics that we don’t commonly think of when
+we are thinking of data mining as such.
+    </p><p>
+Data mining typically consists of four processes: 1) data preparation,
+2) exploratory data analysis, 3) model development, and 4) interpretation
+of results. Although this sounds like a neat, linear set
+of steps, there is often a lot of back and forth through these processes,
+and especially among the first three. The other point that is
+interesting about these four steps is that Steps 3 and 4 seem like the
+most fun, but Step 1 usually takes the most amount of time. Step 1
+involves making sure that the data are organized in the right way,
+that missing data fields are filled in, that inaccurate data are located
+and repaired or deleted, and that data are "recoded" as necessary
+to make them amenable to the kind of analysis we have in
+mind.
+    </p><p>
+Step 2 is very similar to activities we have done in prior chapters of
+this book: getting to know the data using histograms and other
+visualization tools, and looking for preliminary hints that will
+guide our model choice. The exploration process also involves figuring
+out the right values for key parameters. We will see some of
+that activity in this chapter.
+    </p><p>
+Step 3 - choosing and developing a model - is by far the most complex
+and most interesting of the activities of a data miner. It is here
+where you test out a selection of the most appropriate data mining
+techniques. Depending upon the structure of a dataset, there may
+be dozens of options, and choosing the most promising one has as
+much art in it as science.
+    </p><p>
+For the current chapter we are going to focus on just one data mining
+technique, albeit one that is quite powerful and applicable to a
+range of very practical problems. So we will not really have to do
+Step 3, because we will not have two or more different mining techniques
+to compare. The technique we will use in this chapter is
+called "association rules mining" and it is the strategy that was
+used to find the diapers and beer association described earlier.
+Step 4 - the interpretation of results - focuses on making sense out
+of what the data mining algorithm has produced. This is the most
+important step from the perspective of the data user, because this
+is where an actionable conclusion is formed. When we discussed
+the example of beer and diapers, the interpretation of the association
+rules that were derived from the grocery purchasing data is
+what led to the discover of the beer-diapers rule and the use of that
+rule in reconfiguring the displays in the store.
     </p>
-
-    <p>
-      Some people refer to this area of research as <term>machine learning</term>. Machine
-      learning focuses on creating computer algorithms that can use pre-existing inputs to
-      refine and improve their own capabilities for dealing with future inputs. Data mining
-      typically consists of four processes:
-    </p>
-
-    <ol>
-      <li><p><em>Data preparation</em>&#x2014;making sure that the data are organized in
-        the right way, filling in missing data fields, locating and repairing inaccurate
-        data, and recoding data as necessary.</p></li>
-      <li><p><em>Exploratory data analysis</em>&#x2014;getting to know the data using
-        histograms and other visualization tools, and looking for preliminary hints that
-        will guide model choice.</p></li>
-      <li><p><em>Model development</em>&#x2014;the most complex and interesting activity:
-        testing out a selection of the most appropriate data mining techniques.</p></li>
-      <li><p><em>Interpretation of results</em>&#x2014;the most important step from the
-        perspective of the data user, where an actionable conclusion is formed.</p></li>
-    </ol>
-
   </section>
 
   <section xml:id="sec-association-rules">
     <title>Association Rules Mining</title>
 
     <p>
+<<<<<<< copilot/add-images-to-chapter
       The technique we will use in this chapter is called <term>association rules
       mining</term> (also sometimes called affinity analysis). It is the strategy that was
       used to find the diapers and beer association described earlier.
@@ -92,21 +151,79 @@
       known as <c>arules</c>:
     </p>
 
+=======
+      Let’s begin by talking a little bit about association rules. Take a
+look at the figure with all of the boxes and arrows. 
+</p>
+<p>
+From the figure you can see that each supermarket customer has a
+grocery cart that contains several items from the larger set of items
+that the grocery store stocks. The association rules algorithm (also
+sometimes called affinity analysis) tries out many different propositions,
+such as "if diapers are purchased, then beer is also purchased."
+The algorithm uses a dataset of transactions (in the example
+above, these are the individual carts) to evaluate a long list of
+these rules for a value called "support." Support is the proportion
+of times that a particular pairing occurs across all shopping carts.
+The algorithm also evaluates another quantity called "confidence",
+which is how frequently a particular pair occurs among all the
+times when the first item is present. If you look back at the figure
+again, we had support of 0.67 (the diapers-beer association occurred
+in two out of the three carts) and confidence of 1.0 ("beer"
+occurred 100% of the time with "diapers"). In practice, both support
+and confidence are generally much lower than in this example,
+but even a rule with low support and smallish confidence
+might reveal purchasing patterns that grocery store managers
+could use to guide pricing, coupon offers, or advertising strategies.
+</p><p>
+We can get started with association rules mining very easily using
+the R package known as "arules." In R-Studio, you can get the
+arules package ready using the following commands:</p>
+>>>>>>> master
     <program language="r" xml:id="prog-ch17-arules">
       <code>
 install.packages("arules")
 library(arules)
+      </code>
+    </program>
+<p>We will begin our exploration of association rules mining using a
+dataset that is built into the arules package. For the sake of familiarity,
+we will use the Groceries dataset. Note that by using the Groceries
+data set, we have relieved ourselves of the burden of data preparation,
+as the authors of the arules package have generously made
+sure that Groceries is ready to be analyzed. So we are skipping
+right to Step 2 in our four step process - exploratory data analysis.
+You can make the Groceries data set ready with this command:
+</p>
+    <program language="r" xml:id="prog-ch17-arules">
+      <code>
 data(Groceries)
+      </code>
+    </program>
+<p>Next, lets run the <c>summary()</c> function on Groceries so that we can
+see what is in there:</p>
+    <program language="r" xml:id="prog-ch17-arules">
+      <code>
 summary(Groceries)
       </code>
     </program>
 
-    <p>
-      The <c>Groceries</c> dataset built into the <c>arules</c> package contains 9,835
-      transactions with 169 items. The most frequent items include whole milk, other
-      vegetables, rolls/buns, and soda.
-    </p>
+<pre>
+transactions as itemMatrix in sparse format with
+ 9835 rows (elements/itemsets/transactions) and
+ 169 columns (items) and a density of 0.02609146
 
+most frequent items:
+
+soda      whole milk   other vegetables   rolls/buns
+1715            2513               1903         1809
+
+yogurt       (Other)
+  1372         34055
+
+element (itemset/transaction) length distribution:
+
+<<<<<<< copilot/add-images-to-chapter
     <program language="r" xml:id="prog-ch17-itemfreq">
       <code>
 itemFrequencyPlot(Groceries, topN=8)
@@ -129,42 +246,401 @@ itemFrequencyPlot(Groceries, topN=8)
       </image>
     </figure>
 
+=======
+sizes
+  1 2 3 4 5 6 7 8 9 10
+11 12 13 14 15 16
+2159 1643 1299 1005 855 645 545 438 350 246
+182 117 78 77 55 46
+17 18 19 20 21 22 23 24 26 27
+28 29 32
+29 14 14 9 11 4 6 1 1 1
+1 3 1
+
+ Min.   1st Qu.   Median   Mean  3rd Qu.    Max.
+1.000     2.000    3.000  4.409    6.000  32.000
+
+includes extended item information - examples:
+       labels  level2           level1
+1 frankfurter sausage meet and sausage
+2     sausage sausage meet and sausage
+3  liver loaf sausage meet and sausage
+</pre>
+
+<p>Right after the summary command line we see that Groceries is an
+itemMatrix object in sparse format. So what we have is a nice, rectangular
+data structure with 9835 rows and 169 columns, where
+each row is a list of items that might appear in a grocery cart. The
+word "matrix" in this case, is just referring to this rectangular data
+structure. The columns are the individual items. A little later in the
+output we see that there are 169 columns, which means that there
+are 169 items. The reason the matrix is called "sparse" is that very
+few of these items exist in any given grocery basket. By the way,
+when an item appears in a basket, its cell contains a one, while if
+an item is not in a basket, its cell contains a zero. So in any given
+row, most of the cells are zero and very few are one and this is
+what is meant by sparse. We can see from the Min, Median, Mean,
+and Max output that every cart has at least one item, half the carts
+have more than three items, the average number of items in a cart
+is 4.4 and the maximum number of items in a cart is 32.
+</p><p>
+The output also shows us which items occur in grocery baskets
+most frequently. If you like working with spreadsheets, you could
+imagine going to the very bottom of the column that is marked
+"whole milk" and putting in a formula to sum up all of the ones in
+that column. You would come up with 2513, indicating that there
+are 2513 grocery baskets that contain whole milk. Remember that
+every row/basket that has a one in the whole milk column has
+whole milk in that basket, whereas a zero would appear if the basket
+did not contain whole milk. You might wonder what the data
+field would look like if a grocery cart contained two gallons of
+whole milk. For the present data mining exercise we can ignore
+that problem by assuming that any non-zero amount of whole milk
+is represented by a one. Other data mining techniques could take
+advantage of knowing the exact amount of a product, but association
+rules does not need to know that amount - just whether the
+product is present or absent.
+</p><p>
+Another way of inspecting our sparse matrix is with the <c>itemFrequencyPlot()</c>
+function. This produces a bar graph that is similar in
+concept to a histogram: it shows the relative frequency of occurrence
+of different items in the matrix. When using the <c>itemFrequencyPlot()</c>
+function, you must specify the minimum level of "support"
+needed to include an item in the plot. Remember the mention
+of support earlier in the chapter - in this case it simply refers to the
+relative frequency of occurrence of something. We can make a
+guess as to what level of support to choose based on the results of
+the <c>summary()</c> function we ran earlier in the chapter. For example,
+the item "yogurt" appeared in 1372 out of 9835 rows or about 14%
+of cases. So we can set the support parameter to somewhere
+around 10%-15% in order to get a manageable number of items:
+</p>
+
+    <program language="r" xml:id="prog-ch17-apriori">
+      <code>
+itemFrequencyPlot(Groceries,support=0.1)
+      </code>
+    </program>
+
+<p>This command produces the following plot:</p>
+
+<p>We can see that yogurt is right around 14% as expected and we
+also see a few other items not mentioned in the summary such as
+bottled water and tropical fruit.
+</p><p>
+You should experiment with using different levels of support, just
+so that you can get a sense of the other common items in the data
+set. If you show more than about ten items, you will find that the
+labels on the X-axis start to overlap and obscure one another. Use
+the "cex.names" parameter to turn down the font size on the labels.
+This will keep the labels from overlapping at the expense of making
+the font size much smaller. Here’s an example:
+</p>
+    <program language="r" xml:id="prog-ch17-apriori">
+      <code>
+ itemFrequencyPlot(Groceries,support=0.05,cex.names=0.5)
+      </code>
+    </program>
+<p>
+This command yields about 25 items on the X-axis. Without worrying
+too much about the labels, you can also experiment with lower
+values of support, just to get a feel for how many items appear at
+the lower frequencies. We need to guess at a minimum level of support
+that will give us quite a substantial number of items that can
+potentially be part of a rule. Nonetheless, it should also be obvious
+that an item that occurs only very rarely in the grocery baskets is
+unlikely to be of much use to us in terms of creating meaningful
+rules. Let’s pretend, for example, that the item "Venezuelan Beaver
+Cheese" only occurred once in the whole set of 9835 carts. Even if
+we did end up with a rule about this item, it won’t apply very often,
+and is therefore unlikely to be useful to store managers or others.
+So we want to focus our attention on items that occur with
+some meaningful frequency in the dataset. Whether this is one percent
+or half a percent, or something somewhat larger or smaller
+will depend on the size of the data set and the intended application
+of the rules.
+</p>
+>>>>>>> master
   </section>
 
   <section xml:id="sec-apriori">
     <title>Running the Apriori Algorithm</title>
+<p>
+Now we can prepare to generate some rules with the <c>apriori()</c> command.
+The term "apriori" refers to the specific algorithm that R will
+use to scan the data set for appropriate rules. Apriori is a very commonly
+used alrgorithm and it is quite efficient at finding rules in
+transaction data. Rules are in the form of "if LHS then RHS." The
+acronym LHS means "left hand side" and, naturally, RHS means
+"right hand side." So each rule states that when the thing or things
+on the left hand side of the equation occur(s), the thing on the right
+hand side occurs a certain percentage of the time. To reiterate a
+definition provided earlier in the chapter, support for a rule refers to
+the frequency of co-occurrence of both members of the pair, i.e.,
+LHS and RHS together. The confidence of a rule refers to the proportion
+of the time that LHS and RHS occur together versus the total
+number of appearances of LHS. For example, if Milk and Butter
+occur together in 10% of the grocery carts (that is "support"), and
+Milk (by itself, ignoring Butter) occurs in 25% of the carts, then the
+confidence of the Milk/Butter rule is 0.10/0.25 = 0.40.
+</p><p>
+There are a couple of other measures that can help us zero in on
+good association rules - such as "lift"and "conviction" - but we will
+put off discussing these until a little later.
+One last note before we start using <c>apriori()</c>: For most of the work
+the data miners do with association rules, the RHS part of the equation
+contains just one item, like "Butter." On the other hand, LHS
+can and will contain multiple items. A simple rule might just have
+Milk in LHS and Butter in RHS, but a more complex rule might
+have Milk and Bread together in LHS with Butter in RHS.
+</p><p>
+In the spirit of experimentation, we can try out some different parameter
+values for using the <c>apriori()</c> command, just to see what
+we will get:
+</p>
 
-    <p>
-      The main function in the <c>arules</c> package is <c>apriori()</c>. We can pass it
-      the grocery transaction data and specify minimum support and confidence thresholds:
-    </p>
+    <program language="r" xml:id="prog-ch17-apriori">
+      <code>
+apriori(Groceries,parameter=list(support=0.005,+
+confidence=0.5))
+</code>
+</program>
+
+<pre>
+
+parameter specification:
+
+confidence minval smax arem  aval
+       0.5    0.1    1 none FALSE
+
+originalSupport support minlen maxlen target   ext
+           TRUE   0.005      1     10  rules FALSE
+
+
+algorithmic control:
+
+filter tree heap memopt load sort verbose
+   0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+
+apriori - find association rules with the apriori algorithm
+
+version 4.21 (2004.05.09) (c) 1996-2004 Christian
+Borgelt
+
+set item appearances ...[0 item(s)] done [0.00s].
+
+set transactions ...[169 item(s), 9835 transaction(s)] done [0.00s].
+
+sorting and recoding items ... [120 item(s)] done [0.00s].
+
+creating transaction tree ... done [0.01s].
+
+checking subsets of size 1 2 3 4 done [0.01s].
+
+writing ... [120 rule(s)] done [0.00s].
+
+creating S4 object ... done [0.00s].
+
+set of 120 rules
+</pre>
+
+<p>We set up the <c>apriori()</c> command to use a support of 0.005 (half a
+percent) and confidence of 0.5 (50%) as the minimums. These values
+are confirmed in the first few lines of output. Some other confirmations,
+such as the value of "minval" and "smax" are not relevant
+to us right now - they have sensible defaults provided by the <c>apriori()</c>
+implementation. The "minlen" and "maxlen" parameters also
+have sensible defaults: these refer to the minimum and maximum
+length of item set that will be considered in generating rules. Obviously
+you can’t generate a rule unless you have at least one item in
+an item set, and setting maxlen to 10 ensures that we will not have
+any rules that contain more than 10 items. If you recall from earlier
+in the chapter, the average cart only has 4.4 items, so we are not
+likely to produce rules involving more than 10 items.
+</p><p>
+In fact, a little later in the <c>apriori()</c> output above, we see that the
+<c>apriori()</c> algorithm only had to examine "subsets of size" one, two
+three, and four. Apparently no rule in this output contains more
+than four items. At the very end of the output we see that 120 rules
+were generated. Later on we will examine ways of making sense
+out of a large number of rules, but for now let’s agree that 120 is
+too many rules to examine. Let’s move our support to one percent
+and rerun <c>apriori()</c>. This time we will store the resulting rules in a
+data structure called ruleset:
+</p>
+TODO FROM HERE
 
     <program language="r" xml:id="prog-ch17-apriori">
       <code>
 ruleset &lt;- apriori(Groceries,
   parameter=list(support=0.01, confidence=0.5))
-inspect(ruleset)
       </code>
     </program>
 
     <p>
-      To explore a broader set of rules, we can be more lenient in our minimum support
-      and confidence parameters, and then use the <c>arulesViz</c> package to visualize
-      the results:
+If you examine the output from this command, you should find
+that we have slimmed down to 15 rules, quite a manageable number
+to examine one by one. We can get a preliminary look at the
+rules using the summary function, like this:
     </p>
+
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
+summary(ruleset)
+</code>
+</program>
+
+<pre>
+set of 15 rules
+
+rule length distribution (lhs + rhs):sizes
+ 3
+15
+
+Min. 1st Qu. Median Mean 3rd Qu. Max.
+   3       3      3    3       3    3
+
+summary of quality measures:
+
+  support          confidence         lift
+Min.   :0.01007   Min.   :0.5000  Min.   :1.984
+1st Qu.:0.01174   1st Qu.:0.5151  1st Qu.:2.036
+Median :0.01230   Median :0.5245  Median :2.203
+Mean   :0.01316   Mean   :0.5411  Mean   :2.299
+3rd Qu.:0.01403   3rd Qu.:0.5718  3rd Qu.:2.432
+Max.   :0.02227   Max.   :0.5862  Max.   :3.030
+
+mining info:
+      data ntransactions support confidence
+ Groceries          9835    0.01        0.5
+</pre>
+
+<p>Looking through this output, we can see that there are 15 rules in
+total. Under "rule length distribution" it shows that all 15 of the
+rules have exactly three elements (counting both the LHS and the
+RHS). Then, under "summary of quality measures," we have an
+overview of the distributions of support, confidence, and a new parameter
+called "lift."
+</p><p>
+Researchers have done a lot of work trying to come up with ways
+of measuring how "interesting" a rule is. A more interesting rule
+may be a more useful rule because it is more novel or unexpected.
+Lift is one such measure. Without getting into the math, lift takes
+into account the support for a rule, but also gives more weight to
+rules where the LHS and/or the RHS occur less frequently. In other
+words, lift favors situations where LHS and RHS are not abundant
+but where the relatively few occurrences always happen together.
+</p><p>
+The larger the value of lift, the more "interesting" the rule may be.
+Now we are ready to take a closer look at the rules we generated.
+The <c>inspect()</c> command gives us the detailed contents of the dta object
+generated by <c>apriori()</c>:
+</p>
+
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
+inspect(ruleset)
+</code>
+</program>
+
+<pre>
+  lhs                    rhs                  support  confidence     lift
+1 {curd,
+  yogurt}              => {whole milk}       0.01006609 0.5823529 2.279125
+2 {other vegetables, 
+   butter}             => {whole milk}       0.01148958 0.5736041 2.244885
+3 {other vegetables,
+   domestic eggs}      => {whole milk}       0.01230300 0.5525114 2.162336
+4 {yogurt,
+   whipped/sour cream} => {whole milk}       0.01087951 0.5245098 2.052747
+5 {other vegetables,
+   whipped/sour cream} => {whole milk}       0.01464159 0.5070423 1.984385
+6 {pip fruit,
+   other vegetables}   => {whole milk}       0.01352313 0.5175097 2.025351
+7 {citrus fruit,
+   root vegetables}    => {other vegetables} 0.01037112 0.5862069 3.029608
+8 {tropical fruit,
+   root vegetables}    => {other vegetables} 0.01230300 0.5845411 3.020999
+9 {tropical fruit,
+   root vegetables}    => {whole milk}       0.01199797 0.5700483 2.230969
+10 {tropical fruit,
+    yogurt}            => {whole milk}       0.01514997 0.5173611 2.024770
+11 {root vegetables,
+    yogurt}            => {other vegetables} 0.01291307 0.5000000 2.584078
+12 {root vegetables,
+    yogurt}            => {whole milk}       0.01453991 0.5629921 2.203354
+13 {root vegetables,
+    rolls/buns}        => {other vegetables} 0.01220132 0.5020921 2.594890
+14 {root vegetables,
+    rolls/buns}        => {whole milk}       0.01270971 0.5230126 2.046888
+15 {other vegetables,
+    yogurt}            => {whole milk}       0.02226741 0.5128806 2.007235
+</pre>
+
+<p>You can see that each of the 15
+rules shows the LHS, the RHS, the support, the confidence, and the
+lift. Rules 7 and 8 have the highest level of lift: the fruits and vegetables
+involved in these two rules have a relatively low frequency of
+occurrence, but their support and confidence are both relatively
+high. Contrast these two rules with Rule 1, which also has high confidence,
+but which has low support. The reason for this is that milk
+is a frequently occurring item, so there is not much novelty to that
+rule. On the other hand, the combination of fruits, root vegetables,
+and other vegetables suggest a need to find out more about customers
+whose carts may contain only vegetarian or vegan items.
+</p><p>
+Now it is possible that we have set our parameters for confidence
+and support too stringently and as a result have missed some truly
+novel combinations that might lead us to better insights. We can
+use a data visualization package to help explore this possibility.
+The R package called arulesViz has methods of visualizing the rule
+sets generated by <c>apriori()</c> that can help us examine a larger set of
+rules. First, install and library the arulesViz package:
+</p>
 
     <program language="r" xml:id="prog-ch17-viz">
       <code>
 install.packages("arulesViz")
 library(arulesViz)
+      </code>
+    </program>
+<p>These commands will give the usual raft of status and progress
+messages. When you run the second command you may find that
+three or four data objects are "masked." As before, these warnings
+generally will not compromise the operation of the package.
+</p><p>
+Now lets return to our <c>apriori()</c> command, but we will be much
+more lenient this time in our minimum support and confidence parameters:</p>
+
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
 ruleset &lt;- apriori(Groceries,
   parameter=list(support=0.005, confidence=0.35))
-plot(ruleset)
-goodrules &lt;- ruleset[quality(ruleset)$lift > 3.5]
-inspect(goodrules)
       </code>
     </program>
 
+<p>We brought support back to half of one percent and confidence
+down to 35%. When you run this command you should find that
+you now generate 357 rules. That is way too many rules to examine
+manually, so let’s use the arulesViz package to see what we
+have. We will use the plot() command that we have also used earlier
+in the book. You may ask yourself why we needed to library
+the arulesViz package if we are simply going to use an old command.
+The answer to this conundrum is that arulesViz has put
+some plumbing into place so that when plot runs across a data object
+of type "rules" (as generated by apriori) it will use some of the
+code that is built into arulesViz to do the work. So by installing
+arulesViz we have put some custom visualization code in place
+that can be used by the generic plot() command. The command is
+very simple:</p>
+
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
+plot(ruleset)
+      </code>
+    </program>
+
+<<<<<<< copilot/add-images-to-chapter
     <figure xml:id="fig-ch17-rules-scatter-plot">
       <caption>The output of <c>plot(ruleset)</c>: a scatter plot of 357 association
       rules with support on the x-axis, confidence on the y-axis, and lift shown by
@@ -178,12 +654,93 @@ inspect(goodrules)
         spread across the full range.</description>
       </image>
     </figure>
+=======
+<p>
+Even though we see a two dimensional plot, we actually have
+three variables represented here. Support is on the X-axis and confidence
+is on the Y-axis. All else being equal we would like to have
+rules that have high support and high confidence. We know, however,
+that lift serves as a measure of interestingness, and we are
+also interested in the rules with the highest lift. On this plot, the lift
+is shown by the darkness of a dot that appears on the plot. The
+darker the dot, the close the lift of that rule is to 4.0, which appears
+to be the highest lift value among these 357 rules.
+</p><p>
+The other thing we can see from this plot is that while the support
+of rules ranges from somewhere below 1% all the way up above
+7%, all of the rules with high lift seem to have support below 1%.
+On the other hand, there are rules with high lift and high confidence,
+which sounds quite positive.
+</p><p>
+Based on this evidence, lets focus on a smaller set of rules that only
+have the very highest levels of lift. The following command makes
+a subset of the larger set of rules by choosing only those rules that
+have lift higher than 3.5:
+</p>
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
+goodrules &lt;- ruleset[quality(ruleset)$lift > 3.5]
+</code>
+</program>
+<p>
+Note that the use of the square braces with our data structure ruleset
+allows us to index only those elements of the data object that
+meet our criteria. In this case, we use the expression quality(ruleset)$
+lift to tap into the lift parameter for each rule. The inequality
+test > 3.5 gives us just those rules with the highest lift. When you
+run this line of code you should find that goodrules contins just
+nine rules. Let’s inspect those nine rules:
+</p>
+    <program language="r" xml:id="prog-ch17-viz">
+      <code>
+inspect(goodrules)
+</code>
+</program>
+
+<pre>
+  lhs                     rhs                   support confidence     lift
+1 {herbs}              => {root vegetables} 0.007015760  0.4312500 3.956477
+2 {onions,
+   other vegetables}   => {root vegetables} 0.005693950  0.4000000 3.669776
+3 {beef,
+   other vegetables}   => {root vegetables} 0.007930859  0.4020619 3.688692
+4 {tropical fruit,
+   curd}               => {yogurt}          0.005287239  0.5148515 3.690645
+5 {citrus fruit,
+   pip fruit}          => {tropical fruit}  0.005592272  0.4044118 3.854060
+6 {pip fruit,
+   other vegetables,
+   whole milk}         => {root vegetables} 0.005490595  0.4060150 3.724961
+7 {citrus fruit,
+   other vegetables,
+   whole milk}         => {root vegetables} 0.005795628  0.4453125 4.085493
+8 {root vegetables,
+   whole milk,
+   yogurt}             => {tropical fruit}  0.005693950  0.3916084 3.732043
+9 {tropical fruit,
+   other vegetables,
+   whole milk}         => {root vegetables} 0.007015760  0.4107143 3.768074
+</pre>
+>>>>>>> master
 
     <p>
-      The visualization plot shows support on the X-axis, confidence on the Y-axis, and
-      lift indicated by the darkness of each dot. Focusing on rules with high lift reveals
-      combinations that may correspond to recipes: herbs with root vegetables, or tropical
-      fruit with curd and yogurt.
+      There we go again with the microscopic font size. When you look
+over these rules, it seems evidence that shoppers are purchasing
+particular combinations of items that go together in recipes. The
+first three rules really seem like soup! Rules four and five seem like
+a fruit platter with dip. The other four rules may also connect to a
+recipe, although it is not quite so obvious what.
+</p>
+<p>
+The key takeaway point here is that using a good visualization tool
+to examine the results of a data mining activity can enhance the
+process of sorting through the evidence and making sense of it. If
+we were to present these results to a store manager (and we would
+certainly do a little more digging before formulating our final conclusions)
+we might recommend that recipes could be published
+along with coupons and popular recipes, such as for homemade
+soup, might want to have all of the ingredients group together in
+the store along with signs saying, "Mmmm, homemade soup!"
     </p>
 
   </section>
@@ -202,6 +759,19 @@ inspect(goodrules)
     </exercise>
   </exercises>
 
+ <section xml:id="sec-data-with-rattle">
+    <title>Data Mining with Rattle</title>
+<p>company called Togaware has created a graphical user interface
+(GUI) for R called Rattle. At this writing (working with R version
+3.0.0), one of Rattle’s components has gotten out of date and will
+not work with the latest version of R, particularly on the Mac. It is
+likely, however, that those involved with the Rattle project will
+soon update it to be compatible again. Using Rattle simplifies
+many of the processes described earlier in the chapter. Try going to
+the Togaware site and following the instructions there for installing
+Rattle for your particular operating system.</p>
+</section>
+
   <conclusion xml:id="conclusion-ch17">
     <title>Sources</title>
     <p>
@@ -210,6 +780,27 @@ inspect(goodrules)
         <li><p><url href="http://jmlr.csail.mit.edu/papers/volume12/hahsler11a/hahsler11a.pdf">Hahsler et al.: arules paper</url></p></li>
         <li><p><url href="http://www.statsoft.com/textbook/association-rules/">StatSoft: Association Rules</url></p></li>
         <li><p><url href="http://rattle.togaware.com">Rattle GUI for R</url></p></li>
+      </ul>
+    </p>
+<p> Reference </p>
+<p> Michael Hahsler, Kurt Hornik, and Thomas Reutterer (2006) Implications
+of probabilistic data modeling for mining association rules.
+In M. Spiliopoulou, R. Kruse, C. Borgelt, A. Nuernberger, and W.
+Gaul, editors, From Data and Information Analysis to Knowledge
+Engineering, Studies in Classification, Data Analysis, and Knowledge
+Organization, pages 598–605. Springer-Verlag.</p>
+
+    <p>
+      R Functions Used in this Chapter
+    </p>
+
+    <p>
+      <ul>
+        <li><p><c>apriori()</c> - Uses the algorithm of the same name to analyze a transaction data set and generate rules.</p></li>
+        <li><p><c>itemFrequencyPlot()</c> - Shows the relative frequency of commonly occurring items in the spare occurrence matrix.</p></li>
+        <li><p><c>inspect()</c> - Shows the contents of the data object generated by <c>apriori()</c> that generates the association rules.</p></li>
+        <li><p><c>install.packages()</c> - Loads package from the CRAN respository.</p></li>
+        <li><p><c>summary()</c> - Provides an overview of the contents of a data structure.</p></li>
       </ul>
     </p>
   </conclusion>

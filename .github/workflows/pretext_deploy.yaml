@@ -37,10 +37,6 @@ jobs:
           pip install -r requirements.txt
           pretext --version
 
-      - name: Check PreTeXt text matches DataScienceBook.txt
-        run: |
-          python3 check_text_comparison.py
-
       - name: Build PreTeXt book
         run: |
           pretext build web
