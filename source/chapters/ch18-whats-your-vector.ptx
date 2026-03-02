@@ -461,6 +461,13 @@ hist(alpha(svmOutput)[[1]])
       </code>
     </program>
 
+    <figure xml:id="fig-ch18-hist-alpha-svm-c5">
+      <caption>Histogram of support vector values with cost parameter C=5.</caption>
+      <image source="ch18-hist-alpha-svm-c5.png" width="80%">
+        <description>A histogram titled "Histogram of alpha(svmOutput)[[1]]" showing the distribution of support vector values ranging from 0 to 5. There is a large bar near zero and a large spike at the maximum value of 5, with smaller bars in between.</description>
+      </image>
+    </figure>
+
 <p>
 The <c>alpha()</c> accessor reveals the values of the support vectors. Note
 that these are stored in a nested list, hence the need for the [[1]] expression
@@ -515,6 +522,13 @@ our training error went way down, to 0.88%, but that our crossvalidation
 error went up from 7.6% in our earlier model to 8.5% in
 this model. We can again get a histogram of the support vectors to
 show what has happened:</p>
+
+    <figure xml:id="fig-ch18-hist-alpha-svm-c50">
+      <caption>Histogram of support vector values with cost parameter C=50.</caption>
+      <image source="ch18-hist-alpha-svm-c50.png" width="80%">
+        <description>A histogram titled "Histogram of alpha(svmOutput)[[1]]" showing the distribution of support vector values ranging from 0 to 50. There is a very large bar near zero (frequency around 500) and a smaller spike at the maximum value of 50, with low frequency bars in between.</description>
+      </image>
+    </figure>
 
 <p>Now there are only about 100 cases where the support vector is at
 the maxed out value (in this case 50, because we set C=50 in the
