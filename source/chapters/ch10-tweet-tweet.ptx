@@ -225,7 +225,7 @@ the function calls to twitteR by adding the argument
 cainfo="cacert.pem".</p>
 </section>
 
-  <section xml:id="sec-using-oath-tokens">
+  <section xml:id="sec-using-your-tokens-1">
     <title>Using Your OAuth Tokens</title>
 
 <p>Remember at the beginning of the chapter that we went
