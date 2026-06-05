@@ -1,11 +1,4 @@
-# PreTeXt build output
-output/
-generated-assets/
-logs/
-.error_schema.log
-
-# R artifacts
+.Rproj.user
 .Rhistory
 .RData
-.Rproj.user/
-__pycache__/
+.Ruserdata
