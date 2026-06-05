@@ -30,6 +30,35 @@
           </shortlicense>
         </copyright>
       </colophon>
+
+  <preface xml:id="preface-ptx-version">
+    <title>Note on This PreTeXt Edition</title>
+
+    <p>
+      This is a <url href="https://pretextbook.org/" visual="pretextbook.org">PreTeXt</url>
+      conversion of <em>An Introduction to Data Science</em>, originally written by
+      Jeffrey Stanton (with a contribution by Robert W. De Graaf).
+      The original work is available <url href="https://docs.google.com/file/d/0B6iefdnF22XQeVZDSkxjZ0Z5VUE/edit?pli=1&resourcekey=0-33X9SS3M-FFkztps-3zt2Q">online</url>.
+    </p>
+
+    <p>
+      This PreTeXt edition was prepared by
+      <url href="https://github.com/PreTeXtBooks/data-science-r">the PreTeXtBooks project</url>
+      to make the content available in the PreTeXt format, enabling accessible and structured
+      output in HTML, PDF, and other formats. All prose, code examples, figures, and mathematical content are intended to be 
+  faithful reproductions of the original work, though occasional typographical errors 
+  may have been introduced in the conversion process. Report any issues to our
+  <url href = "https://github.com/PreTeXtBooks/data-science-r/issues">GitHub Issues Page.</url>
+
+    </p>
+
+    <p>
+      The original work by Jeffrey Stanton is licensed under a
+      <url href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons
+      Attribution-NonCommercial-ShareAlike 3.0 License</url>.
+    </p>
+  </preface>
+
     </frontmatter>
 
     <xi:include href="chapters/ch00-data-science-many-skills.ptx" />
