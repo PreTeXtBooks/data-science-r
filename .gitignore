@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+pretext/output/
+pretext/.cache/
+pretext/logs/
+pretext/generated-assets/
