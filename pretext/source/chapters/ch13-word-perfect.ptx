@@ -82,7 +82,8 @@ A corpus with 100 text documents
       <code>
 tweetCorpus&lt;-tm_map(tweetCorpus, tolower)
 tweetCorpus&lt;-tm_map(tweetCorpus, removePunctuation)
-tweetCorpus&lt;-tm_map(tweetCorpus,removeWords,+                                 stopwords('english'))
+tweetCorpus&lt;-tm_map(tweetCorpus,removeWords,+
+                                stopwords('english'))
       </code>
     </program>
     <p>In the first step above , we “coerce” our cleanText vector into a custom “Class” provided by the tm package and called a “Corpus,” storing the result in a new data object called “tweetCorpus.” This is the first time we have directly encountered a “Class.” The term “class” comes from an area of computer science called “object oriented programming.” Although R is different in many ways from object-oriented languages such as Java, it does contain many of the most fundamental features that define an object oriented language. For our purposes here, there are just a few things to know about a class. First, a class is nothing more or less than a definition for the structure of a data object. Second, classes use basic data types, such as numbers, to build up more complex data structures. For example, if we made up a new “Dashboard” class, it could contain one number for “Miles Per Hour,” another number for “RPM,” and perhaps a third one indicating the remaining “Fuel Level.” That brings up another point about Classes: users of R can build their own. In this case, the author of the tm package, Ingo Feinerer, created a new class, called Corpus, as the central data structure for text mining functions. (Feinerer is a computer science professor who works at the Vienna University of Technology in the Database and Artificial Intelligence Group.) Last, and most important for this discussion, a Class not only contains definitions about the structure of data, it also contains references to functions that can work on that Class. In other words, a Class is a data object that carries with it instructions on how to do operations on it, from simple things like add and subtract all the way up to complicated operations such as graphing.</p>
@@ -127,8 +128,10 @@ Weighting          : term frequency (tf)
     <program language="r">
       <code>
 tdMatrix &lt;- as.matrix(tweetTDM)
-sortedMatrix&lt;-sort(rowSums(tdMatrix),+                               decreasing=TRUE)
-cloudFrame&lt;-data.frame( +    word=names(sortedMatrix),freq=sortedMatrix)
+sortedMatrix&lt;-sort(rowSums(tdMatrix),+
+                              decreasing=TRUE)
+cloudFrame&lt;-data.frame( +
+   word=names(sortedMatrix),freq=sortedMatrix)
 wordcloud(cloudFrame$word,cloudFrame$freq)
       </code>
     </program>
@@ -186,7 +189,8 @@ CleanTweets&lt;-function(tweets)
 # Remove redundant spaces
 tweets &lt;- str_replace_all(tweets,"  "," ")
 # Get rid of URLs
-tweets &lt;- str_replace_all(tweets, +                 "http://t.co/[a-z,A-Z,0-9]{8}","")
+tweets &lt;- str_replace_all(tweets, + 
+               "http://t.co/[a-z,A-Z,0-9]{8}","")
 # Take out retweet header, there is only one
 tweets &lt;- str_replace(tweets,"RT @[a-z,A-Z]*: ","")
 # Get rid of hashtags
