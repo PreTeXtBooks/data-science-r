@@ -568,7 +568,8 @@ str_match_all(text,"http://t.co/[a-z,A-Z,0-9]{8}")
 
     <program language="r">
       <code>
-tweetDF$urlist&lt;-str_match_all(text,+                  "http://t.co/[a-z,A-Z,0-9]{8}")
+tweetDF$urlist&lt;-str_match_all(text,+
+                 "http://t.co/[a-z,A-Z,0-9]{8}")
 detach(tweetDF)
 attach(tweetDF)
 head(tweetDF$urlist,2)

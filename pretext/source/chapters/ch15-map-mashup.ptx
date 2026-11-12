@@ -134,7 +134,8 @@ $ X               : logi  NA NA NA NA NA NA ...
 
       <program language="r">
         <code>
-dhhsAddrs$strAddr &lt;- +        as.character(dhhsAddrs$Contractor.Address)
+dhhsAddrs$strAddr &lt;- +
+       as.character(dhhsAddrs$Contractor.Address)
 mode(dhhsAddrs$strAddr)
         </code>
       </program>
@@ -167,7 +168,8 @@ APIs if you disagree with Google’s Terms of Service.</p>
 
       <p><url href="http://maps.googleapis.com/maps/api/geocode/json?address=1600+Pennsylvania+Avenue,+Washington,+DC&amp;sensor=false">http://maps.googleapis.com/maps/api/geocode/json?address=1600+Pennsylvania+Avenue,+Washington,+DC&amp;sensor=false</url></p>
 
-      <p>The first part of this should look familiar: The <url href="http://maps.googleapis.com">http://maps.googleapis.com</url> part of the URL specifies the domain name just like a regular web page. The next part of the URL,  “/maps/api/geocode” tells Google which API we want to use. Then the “json” indicates that we would like to receive our result in “Java Script Object Notation” (JSON) which is a structured, but human readable way of sending back some data. The address appears next, and we are apparently looking for the White House at 1600 Pennsylvania Avenue in Washington, DC. Finally, sensor=false is a required parameter indicating that we are not sending our request from a mobile phone. You can type that whole URL into the address field of any web browser and you should get a sensible result back. The JSON notation is not beautiful, but you will see that it makes sense and provides the names of individual data items along with their values. Here’s a small excerpt that shows the key parts of the data object that we are trying to get our hands on:</p>
+      <p>The first part of this should look familiar: The <url href="http://maps.googleapis.com">http://maps.googleapis.com</url> part of the URL specifies the domain name just like a regular web page. The next part of the URL, 
+“/maps/api/geocode” tells Google which API we want to use. Then the “json” indicates that we would like to receive our result in “Java Script Object Notation” (JSON) which is a structured, but human readable way of sending back some data. The address appears next, and we are apparently looking for the White House at 1600 Pennsylvania Avenue in Washington, DC. Finally, sensor=false is a required parameter indicating that we are not sending our request from a mobile phone. You can type that whole URL into the address field of any web browser and you should get a sensible result back. The JSON notation is not beautiful, but you will see that it makes sense and provides the names of individual data items along with their values. Here’s a small excerpt that shows the key parts of the data object that we are trying to get our hands on:</p>
 
       <pre>
 {
@@ -221,11 +223,14 @@ Addr2latlng &lt;- function(address)
 {
 url &lt;- MakeGeoURL(address)
 apiResult &lt;- getURL(url)
-geoStruct &lt;- fromJSON(apiResult, +                                 simplify = FALSE)
+geoStruct &lt;- fromJSON(apiResult, + 
+                               simplify = FALSE)
 lat &lt;- NA
 lng &lt;- NA
-try(lat &lt;- +     geoStruct$results[[1]]$geometry$location$lat)
-try(lng &lt;- +     geoStruct$results[[1]]$geometry$location$lng)
+try(lat &lt;- +
+    geoStruct$results[[1]]$geometry$location$lat)
+try(lng &lt;- +
+    geoStruct$results[[1]]$geometry$location$lng)
 return(c(lat, lng))
 }
       </code>
@@ -241,7 +246,8 @@ return(c(lat, lng))
 
       <program language="r">
         <code>
-testData &lt;- Addr2latlng( +       "1600 Pennsylvania Avenue, Washington, DC")
+testData &lt;- Addr2latlng( +
+      "1600 Pennsylvania Avenue, Washington, DC")
 str(testData)
         </code>
       </program>

@@ -726,7 +726,7 @@ errors or the other set of 38 misclassification errors
       <statement>
         <p>
           For a super challenge, try using another dataset with the <c>kernlab</c>
-          <c>k<c>svm()</c></c> technology. There is a dataset called <c>promotergene</c> that is
+          <c>ksvm()</c> technology. There is a dataset called <c>promotergene</c> that is
           built into the <c>kernlab</c> package. You could also load your own dataset and
           try creating an SVM model from that.
         </p>
